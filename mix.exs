@@ -1,0 +1,36 @@
+defmodule Futu.MixProject do
+  use Mix.Project
+
+  def project do
+    [
+      app: :futu,
+      version: "1.0.0",
+      elixir: "~> 1.11",
+      start_permanent: Mix.env() == :prod,
+      aliases: [test: "test --no-start"],
+      deps: deps(),
+      elixirc_paths: elixirc_paths(Mix.env())
+    ]
+  end
+
+  defp elixirc_paths(:test), do: ["test/support", "lib"]
+  defp elixirc_paths(_), do: ["lib"]
+
+  # Run "mix help compile.app" to learn about applications.
+  def application do
+    [
+      extra_applications: [:logger, :crypto],
+      mod: {Futu.Application, []}
+    ]
+  end
+
+  # Run "mix help deps" to learn about dependencies.
+  defp deps do
+    [
+      {:jason, "~> 1.2"},
+      {:protobuf, "~> 0.7.1"},
+      {:google_protos, "~> 0.1", only: [:dev]},
+      {:mock, "~> 0.3.0", only: :test}
+    ]
+  end
+end
