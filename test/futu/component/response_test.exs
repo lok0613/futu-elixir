@@ -3,10 +3,18 @@ defmodule Futu.Component.ResponseTest do
   use ExUnit.Case, async: true
   alias Futu.Component.Response
 
+  describe "get_body_size/1" do
+    test "retrieve only body size" do
+      fake_response = <<0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 0, 0, 0, -1>>
+
+      assert 7 = Response.get_body_size(fake_response)
+    end
+  end
+
   describe "parse/1" do
     test "wrong proto_id" do
       fake_incomplete_connect_response =
-        <<70, 84, 233, 0, 0, 0, 0, 0, 71, 60, 237, 38, 47, 0, 0, 0, 203, 83, 108, 72, 70, 13, 88,
+        <<70, 84, 1, 0, 0, 0, 0, 0, 71, 60, 237, 38, 47, 0, 0, 0, 203, 83, 108, 72, 70, 13, 88,
           121, 188, 167, 172, 202, 209, 128, 12, 101, 180, 169, 228, 108, 0, 0, 0, 0, 0, 0, 0, 0,
           8, 255, 255, 255, 255, 255, 255, 255, 255>>
 
