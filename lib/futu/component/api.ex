@@ -34,6 +34,9 @@ defmodule Futu.Component.Api do
     quote generated: true do
       require Logger
 
+      @spec map_s2c(List.t) :: List.t()
+      def map_s2c(opts), do: opts
+
       @spec proto_id() :: integer()
       def proto_id() do
         case @proto_id do
@@ -43,11 +46,11 @@ defmodule Futu.Component.Api do
       end
 
       @doc """
-      Passing to c2s_map/1 and encoding using Protobuf
+      Passing to map_c2s/1 and encoding using Protobuf
       """
       @spec encode(List.t()) :: bitstring()
       def encode(opts \\ []) do
-        c2s = @proto_mod.C2S.new(c2s_map(opts))
+        c2s = @proto_mod.C2S.new(map_c2s(opts))
         request = @proto_mod.Request.new(c2s: c2s)
         @proto_mod.Request.encode(request)
       end
@@ -60,7 +63,7 @@ defmodule Futu.Component.Api do
 
         case response do
           %{retType: 0, s2c: s2c} ->
-            {:ok, s2c}
+            {:ok, map_s2c(s2c)}
 
           %{retType: retType, retMsg: retMsg, errCode: errCode} ->
             # InitConnect retType: -1  retMsg: "Unknown stock HK.02800"  errCode: 0
@@ -73,6 +76,10 @@ defmodule Futu.Component.Api do
             {:error, retMsg}
         end
       end
+
+      defoverridable [
+        map_s2c: 1
+      ]
     end
   end
 end

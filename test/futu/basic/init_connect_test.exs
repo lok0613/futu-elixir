@@ -3,12 +3,12 @@ defmodule Futu.Basic.InitConnectTest do
   use ExUnit.Case, async: true
   alias Futu.Basic.InitConnect
 
-  test "c2s_map/1" do
+  test "map_c2s/1" do
     assert [
              clientVer: 100,
              clientID: "FutuElixir",
              recvNotify: false,
              programmingLanguage: "Elixir"
-           ] = InitConnect.c2s_map()
+           ] = InitConnect.map_c2s()
   end
 end

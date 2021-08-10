@@ -48,14 +48,8 @@ defmodule Futu.Quote.Historical do
   def market(:jp_security), do: Map.get(QotMarket.mapping(), :QotMarket_JP_Security)
   def market(_wtf_is_this), do: Map.get(QotMarket.mapping(), :QotMarket_Unknown)
 
-  # @spec encode(List.t()) :: bitstring()
-  # def encode(opt) do
-  #   request = Request.new(c2s: C2S.new(c2s_map(opt)))
-  #   Request.encode(request)
-  # end
-
-  @spec c2s_map(List.t()) :: List.t()
-  def c2s_map(opts) do
+  @spec map_c2s(List.t()) :: List.t()
+  def map_c2s(opts) do
     security =
       Security.new(
         market: opts[:market],
@@ -89,5 +83,10 @@ defmodule Futu.Quote.Historical do
       end
 
     map
+  end
+
+  def map_s2c(opts) do
+    %Qot_RequestHistoryKL.S2C{klList: quotes} = opts
+    quotes
   end
 end
