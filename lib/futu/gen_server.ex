@@ -19,6 +19,17 @@ defmodule Futu.GenServer do
     {:noreply, new_state}
   end
 
+  def handle_cast({:heartbeat, msg, interval}, state) do
+    :ok = :gen_tcp.send(state.socket, msg)
+    Process.send_after(self(), {:heartbeat, msg, interval}, interval * 1000)
+    {:noreply, state}
+  end
+
+  def handle_info({:heartbeat, _msg, _interval} = payload, state) do
+    GenServer.cast(Futu, payload)
+    {:noreply, state}
+  end
+
   def handle_info({:tcp, _socket, msg}, state) do
     new_state = %{state | msg: state.msg <> msg}
     body_size = Response.get_body_size(new_state.msg)
@@ -36,5 +47,9 @@ defmodule Futu.GenServer do
 
     {:noreply, state}
   end
+
+  # defp sechudle_next_heartbeat() do
+
+  # end
 
 end

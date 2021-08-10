@@ -10,11 +10,40 @@ defmodule Futu do
   }
 
   @doc """
+  Initialize everything
+  """
+  @spec start() :: :ok | {:error, bitstring()}
+  def start() do
+    case init_connect() do
+      {:ok, %{keepAliveInterval: interval}} ->
+        heartbeat(interval)
+        :ok
+
+      {:error, reason} ->
+        {:error, reason}
+    end
+  end
+
+  @doc """
   1001 InitConnect
+  Don't call this directly, go for start/0
   """
   @spec init_connect() :: {:ok, any()} | {:error, bitstring()}
   def init_connect() do
     request(Futu.Basic.InitConnect, [])
+  end
+
+  @doc """
+  1004 KeepAlive
+  Don't call this directly, go for start/0
+  """
+  @spec heartbeat(integer()) :: :ok
+  def heartbeat(interval) do
+    proto_msg = Futu.Basic.Heartbeat.encode()
+    serial_no = SerialNumber.generate()
+    tcp_msg = Request.build(Futu.Basic.Heartbeat.proto_id(), serial_no, proto_msg)
+
+    GenServer.cast(__MODULE__, {:heartbeat, tcp_msg, interval})
   end
 
   @doc """

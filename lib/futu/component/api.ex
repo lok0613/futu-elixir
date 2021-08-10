@@ -46,7 +46,7 @@ defmodule Futu.Component.Api do
       Passing to c2s_map/1 and encoding using Protobuf
       """
       @spec encode(List.t()) :: bitstring()
-      def encode(opts) do
+      def encode(opts \\ []) do
         c2s = @proto_mod.C2S.new(c2s_map(opts))
         request = @proto_mod.Request.new(c2s: c2s)
         @proto_mod.Request.encode(request)
