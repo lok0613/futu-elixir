@@ -12,15 +12,20 @@ defmodule Futu do
   @doc """
   Initialize everything
   """
-  @spec start() :: :ok | {:error, bitstring()}
+  @spec start() :: :ok | :already_started
   def start() do
-    case init_connect() do
-      {:ok, %{keepAliveInterval: interval}} ->
-        heartbeat(interval)
-        :ok
+    if GenServer.call(__MODULE__, :is_started) do
+      # do nothing
+      :already_started
+    else
+      case init_connect() do
+        {:ok, %{keepAliveInterval: interval}} ->
+          heartbeat(interval)
+          :ok
 
-      {:error, reason} ->
-        {:error, reason}
+        {:error, reason} ->
+          raise reason
+      end
     end
   end
 

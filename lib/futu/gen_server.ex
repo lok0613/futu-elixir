@@ -9,7 +9,11 @@ defmodule Futu.GenServer do
 
   def init(host: host, port: port) do
     {:ok, socket} = :gen_tcp.connect(host, port, [:binary, active: true, keepalive: true])
-    {:ok, %{socket: socket, from: nil, msg: ""}}
+    {:ok, %{socket: socket, from: nil, msg: "", heartbeat_started: false}}
+  end
+
+  def handle_call(:is_started, _from, %{heartbeat_started: value} = state) do
+    {:reply, value, state}
   end
 
   def handle_call({:send, msg}, from, state) do
@@ -22,7 +26,8 @@ defmodule Futu.GenServer do
   def handle_cast({:heartbeat, msg, interval}, state) do
     :ok = :gen_tcp.send(state.socket, msg)
     Process.send_after(self(), {:heartbeat, msg, interval}, interval * 1000)
-    {:noreply, state}
+    new_state = %{state | heartbeat_started: true}
+    {:noreply, new_state}
   end
 
   def handle_info({:heartbeat, _msg, _interval} = payload, state) do
