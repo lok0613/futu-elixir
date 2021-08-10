@@ -9,19 +9,24 @@ defmodule Futu do
     SerialNumber
   }
 
+  @doc """
+  1001 InitConnect
+  """
   @spec init_connect() :: {:ok, any()} | {:error, bitstring()}
   def init_connect() do
     request(Futu.Basic.InitConnect, [])
   end
 
   @doc """
+  3103 Qot_RequestHistoryKL
+
   ### Paramters
 
   required:
-  * rehab, checkout Futu.Quote.RequestHistoryKL.rehab/1
-  * period, checkout Futu.Quote.RequestHistoryKL.period/1
-  * market, checkout Futu.Quote.RequestHistoryKL.market/1
-  * code, e.g. "HK.00001"
+  * rehab, checkout Futu.Quote.Historical.rehab/1
+  * period, checkout Futu.Quote.Historical.period/1
+  * market, checkout Futu.Quote.Historical.market/1
+  * code, e.g. "00001"
 
   optional:
   * from, default "1999-01-01"
@@ -30,16 +35,16 @@ defmodule Futu do
   * next_page_key, if it's included from the last response
   * extended_time, boolean, to get the pre-market and after-hours data of US stocks, only supports timeframe of 1-minute
   """
-  @spec request_historical_quotes(List.t()) :: {:ok, any()} | {:error, bitstring()}
-  def request_historical_quotes(list) do
-    request(Futu.Quote.RequestHistoryKL, list)
+  @spec historical(List.t()) :: {:ok, any()} | {:error, bitstring()}
+  def historical(list) do
+    request(Futu.Quote.Historical, list)
   end
 
   @doc """
-  Refer to request_historical_quotes/1, I don't like the function name
+  Refer to historical/1, I don't like the function name
   """
   @spec request_history_kl(List.t()) :: {:ok, any()} | {:error, bitstring()}
-  defdelegate request_history_kl(list), to: __MODULE__, as: :request_historical_quotes
+  defdelegate request_history_kl(list), to: __MODULE__, as: :historical
 
   @doc """
   This is the main function of intereacting Futu TCP client.

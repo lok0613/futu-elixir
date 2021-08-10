@@ -1,4 +1,4 @@
-defmodule Futu.Quote.RequestHistoryKL do
+defmodule Futu.Quote.Historical do
   @moduledoc false
   use Futu.Component.Api
 
@@ -16,7 +16,7 @@ defmodule Futu.Quote.RequestHistoryKL do
   # C2S
   # S2C
 
-  proto_id 3031
+  proto_id 3103
   proto_module Qot_RequestHistoryKL
 
   @spec rehab(atom()) :: integer()

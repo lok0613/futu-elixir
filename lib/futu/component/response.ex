@@ -4,6 +4,8 @@ defmodule Futu.Component.Response do
 
   @reserved <<0, 0, 0, 0, 0, 0, 0, 0>>
 
+  def header_length(), do: 44
+
   @doc """
   Validate all part of the header, return the body string
   """
@@ -18,6 +20,7 @@ defmodule Futu.Component.Response do
     <<body_sha::binary-size(20)>> <> rest = rest
     @reserved <> str_body = rest
 
+    {:ok, str_body}
     with {:ok} <- check_proto_id(proto_id, req_proto_id),
          {:ok} <- check_proto_fmt_type(proto_fmt_type, req_proto_id),
          {:ok} <- check_proto_version(proto_version, req_proto_id),
@@ -28,6 +31,16 @@ defmodule Futu.Component.Response do
       {:error, msg} ->
         {:error, msg}
     end
+  end
+
+  @spec get_body_size(bitstring()) :: integer()
+  def get_body_size(binary) do
+    <<_head::binary-size(12)>> <> <<body_length::binary-size(4)>> <> _rest = binary
+    unpack(body_length, :u32_t)
+  end
+
+  defp check_header() do
+
   end
 
   defp check_proto_id(proto_id, req_proto_id) do

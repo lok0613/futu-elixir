@@ -63,13 +63,14 @@ defmodule Futu.Component.Api do
             {:ok, s2c}
 
           %{retType: retType, retMsg: retMsg, errCode: errCode} ->
+            # InitConnect retType: -1  retMsg: "Unknown stock HK.02800"  errCode: 0
             Logger.debug(
               "InitConnect retType: #{inspect(retType)}  retMsg: #{inspect(retMsg)}  errCode: #{
                 inspect(response.errCode)
               }"
             )
 
-            {:error, "Seems failure."}
+            {:error, retMsg}
         end
       end
     end
