@@ -20,7 +20,6 @@ defmodule Futu.GenServer.TCP do
   end
 
   def handle_cast({:send_heartbeat, msg}, state) do
-    Logger.info("send heartbeat")
     :ok = :gen_tcp.send(state.socket, msg)
     {:noreply, state}
   end

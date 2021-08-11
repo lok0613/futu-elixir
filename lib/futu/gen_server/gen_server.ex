@@ -15,7 +15,6 @@ defmodule Futu.GenServer do
 
   def handle_info({:heartbeat, interval}, state) do
     msg = Futu.heartbeat()
-    Logger.info("create heartbeat")
     GenServer.cast(TCP, {:send_heartbeat, msg})
     schedule_heartbeat(interval)
     {:noreply, state}
