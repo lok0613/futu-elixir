@@ -48,7 +48,7 @@ defmodule Futu do
   * next_page_key, if it's included from the last response
   * extended_time, boolean, to get the pre-market and after-hours data of US stocks, only supports timeframe of 1-minute
   """
-  @spec historical(List.t()) :: {:ok, any()} | {:error, bitstring()}
+  @spec historical(list()) :: {:ok, any()} | {:error, bitstring()}
   def historical(list) do
     request(Futu.Quote.Historical, list)
   end
@@ -56,7 +56,7 @@ defmodule Futu do
   @doc """
   Refer to historical/1, I don't like the function name
   """
-  @spec request_history_kl(List.t()) :: {:ok, any()} | {:error, bitstring()}
+  @spec request_history_kl(list()) :: {:ok, any()} | {:error, bitstring()}
   defdelegate request_history_kl(list), to: Futu, as: :historical
 
   @doc """
@@ -73,7 +73,7 @@ defmodule Futu do
         header failure
 
   """
-  @spec request(Module.t(), List.t()) :: {:ok, any()} | {:error, bitstring()}
+  @spec request(module(), list()) :: {:ok, any()} | {:error, bitstring()}
   def request(module, opts) do
     proto_msg = module.encode(opts)
     serial_no = SerialNumber.generate()
