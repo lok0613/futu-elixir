@@ -2,11 +2,11 @@
 > Futu API in Elixir
 
 ## Document
-Offical documentation: [Futu API 文檔 v5.6](https://openapi.futunn.com/futu-api-doc/)
+Official documentation: [Futu API 文檔 v5.6](https://openapi.futunn.com/futu-api-doc/)
 
 ## Before anything
 Make sure you have FutuOpenD executable downloaded on your machine.
-Checkout the official document if you have no idea about it.
+Checkout the official document if you have no idea about this thing.
 
 ## Configuration
 Default FutuOpenD host and port were setup already.
