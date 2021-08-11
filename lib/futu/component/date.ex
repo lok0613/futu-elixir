@@ -5,7 +5,7 @@ defmodule Futu.Component.Date do
   def today() do
     {{year, month, day}, _time} = :calendar.local_time()
 
-    "#{year}-#{to_lead_zero_string(month)}-#{to_lead_zero_string(day)}"
+    "#{year}-#{to_lead_zero_string(month)}-#{to_lead_zero_string(day)} 23:59:59"
   end
 
   @spec to_lead_zero_string(integer()) :: bitstring()

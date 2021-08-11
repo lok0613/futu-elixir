@@ -60,7 +60,7 @@ defmodule Futu.Quote.Historical do
       rehabType: opts[:rehab] || rehab(:forward),
       klType: opts[:period] || period(:daily),
       security: security,
-      beginTime: opts[:from] || "1999-01-01",
+      beginTime: opts[:from] || "1999-01-01 00:00:00",
       endTime: opts[:to] || today()
     ]
 
