@@ -36,13 +36,13 @@ defmodule Futu do
   ### Paramters
 
   required:
-  * rehab, checkout Futu.Quote.Historical.rehab/1
   * period, checkout Futu.Quote.Historical.period/1
   * market, checkout Futu.Quote.Historical.market/1
-  * code, e.g. "00001"
+  * code, e.g. 1
 
   optional:
-  * from, default "1999-01-01"
+  * rehab, checkout Futu.Quote.Historical.rehab/1
+  * from, default "1999-01-01 00:00:00"
   * to, default now
   * max_rows, integer
   * next_page_key, if it's included from the last response

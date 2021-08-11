@@ -2,7 +2,10 @@ defmodule Futu.Quote.Historical do
   @moduledoc false
   use Futu.Component.Api
 
-  import Futu.Component.Date
+  import Futu.Component.Formatter.{
+    DateTime,
+    Code
+  }
 
   alias Qot_Common.{
     RehabType,
@@ -11,11 +14,6 @@ defmodule Futu.Quote.Historical do
     Security
   }
 
-  # Request,
-  # Response,
-  # C2S
-  # S2C
-
   proto_id 3103
   proto_module Qot_RequestHistoryKL
 
@@ -23,6 +21,7 @@ defmodule Futu.Quote.Historical do
   def rehab(:none), do: Map.get(RehabType.mapping(), :RehabType_None)
   def rehab(:forward), do: Map.get(RehabType.mapping(), :RehabType_Forward)
   def rehab(:backward), do: Map.get(RehabType.mapping(), :RehabType_Backward)
+  def rehab(whatever), do: raise("Unknown rehab \"#{inspect(whatever)}\"")
 
   @spec period(atom()) :: integer()
   def period(:every_1_min), do: Map.get(KLType.mapping(), :KLType_1Min)
@@ -36,7 +35,7 @@ defmodule Futu.Quote.Historical do
   def period(:every_60_min), do: Map.get(KLType.mapping(), :KLType_60Min)
   def period(:every_3_min), do: Map.get(KLType.mapping(), :KLType_3Min)
   def period(:quarterly), do: Map.get(KLType.mapping(), :KLType_Quarter)
-  def period(_wtf_is_this), do: Map.get(KLType.mapping(), :KLType_Unknown)
+  def period(whatever), do: raise("Unknown period \"#{inspect(whatever)}\"")
 
   @spec market(atom()) :: integer()
   def market(:hk_security), do: Map.get(QotMarket.mapping(), :QotMarket_HK_Security)
@@ -46,43 +45,26 @@ defmodule Futu.Quote.Historical do
   def market(:cnsz_security), do: Map.get(QotMarket.mapping(), :QotMarket_CNSZ_Security)
   def market(:sg_security), do: Map.get(QotMarket.mapping(), :QotMarket_SG_Security)
   def market(:jp_security), do: Map.get(QotMarket.mapping(), :QotMarket_JP_Security)
-  def market(_wtf_is_this), do: Map.get(QotMarket.mapping(), :QotMarket_Unknown)
+  def market(whatever), do: raise("Unknown market \"#{inspect(whatever)}\"")
 
   @spec map_c2s(List.t()) :: List.t()
   def map_c2s(opts) do
     security =
       Security.new(
         market: opts[:market],
-        code: opts[:code]
+        code: encode_code(opts[:code])
       )
 
-    map = [
+    [
       rehabType: opts[:rehab] || rehab(:forward),
       klType: opts[:period] || period(:daily),
       security: security,
-      beginTime: opts[:from] || "1999-01-01 00:00:00",
-      endTime: opts[:to] || today()
+      beginTime: opts[:from] || once_a_point_a_time(),
+      endTime: opts[:to] || now(),
+      maxAckKLNum: opts[:max_rows] || nil,
+      nextReqKey: opts[:next_page_key] || nil,
+      extendedTime: opts[:extended_time] || nil
     ]
-
-    map =
-      case opts do
-        [max_rows: max_rows] -> [{:maxAckKLNum, max_rows} | map]
-        _ -> map
-      end
-
-    map =
-      case opts do
-        [next_page_key: next_page_key] -> [{:nextReqKey, next_page_key} | map]
-        _ -> map
-      end
-
-    map =
-      case opts do
-        [extended_time: extended_time] -> [{:extendedTime, extended_time} | map]
-        _ -> map
-      end
-
-    map
   end
 
   def map_s2c(opts) do
