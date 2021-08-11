@@ -10,6 +10,16 @@ defmodule Futu.Component.Formatter.DateTime do
   @spec once_a_point_a_time() :: bitstring()
   def once_a_point_a_time(), do: "1999-01-01 00:00:00"
 
+  @spec encode_datetime(any()) :: bitstring() | nil
+  def encode_datetime(datetime) do
+    cond do
+      is_bitstring(datetime) -> datetime
+      # pass to default value
+      is_nil(datetime) -> nil
+      true -> NaiveDateTime.to_string(datetime)
+    end
+  end
+
   defp lead_zero(x) when is_integer(x) do
     x
     |> Integer.to_string()

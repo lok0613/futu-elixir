@@ -59,8 +59,8 @@ defmodule Futu.Quote.Historical do
       rehabType: opts[:rehab] || rehab(:forward),
       klType: opts[:period] || period(:daily),
       security: security,
-      beginTime: opts[:from] || once_a_point_a_time(),
-      endTime: opts[:to] || now(),
+      beginTime: encode_datetime(opts[:from]) || once_a_point_a_time(),
+      endTime: encode_datetime(opts[:to]) || now(),
       maxAckKLNum: opts[:max_rows] || nil,
       nextReqKey: opts[:next_page_key] || nil,
       extendedTime: opts[:extended_time] || nil

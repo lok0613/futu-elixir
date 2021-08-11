@@ -42,7 +42,7 @@ defmodule Futu do
 
   optional:
   * rehab, checkout Futu.Quote.Historical.rehab/1
-  * from, default "1999-01-01 00:00:00"
+  * from, default ~N[1999-01-01 00:00:00]
   * to, default now
   * max_rows, integer
   * next_page_key, if it's included from the last response
