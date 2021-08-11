@@ -10,28 +10,8 @@ defmodule Futu do
   }
 
   @doc """
-  Initialize everything
-  """
-  @spec start() :: :ok | :already_started
-  def start() do
-    if GenServer.call(__MODULE__, :is_started) do
-      # do nothing
-      :already_started
-    else
-      case init_connect() do
-        {:ok, %{keepAliveInterval: interval}} ->
-          heartbeat(interval)
-          :ok
-
-        {:error, reason} ->
-          raise reason
-      end
-    end
-  end
-
-  @doc """
   1001 InitConnect
-  Don't call this directly, go for start/0
+  This function will execute in Futu.GenServer automatically
   """
   @spec init_connect() :: {:ok, any()} | {:error, bitstring()}
   def init_connect() do
@@ -40,15 +20,14 @@ defmodule Futu do
 
   @doc """
   1004 KeepAlive
-  Don't call this directly, go for start/0
+  Cast for the heartbeat, no reply
+  This function will execute in Futu.GenServer automatically
   """
-  @spec heartbeat(integer()) :: :ok
-  def heartbeat(interval) do
+  @spec heartbeat() :: binary()
+  def heartbeat() do
     proto_msg = Futu.Basic.Heartbeat.encode()
     serial_no = SerialNumber.generate()
-    tcp_msg = Request.build(Futu.Basic.Heartbeat.proto_id(), serial_no, proto_msg)
-
-    GenServer.cast(__MODULE__, {:heartbeat, tcp_msg, interval})
+    Request.build(Futu.Basic.Heartbeat.proto_id(), serial_no, proto_msg)
   end
 
   @doc """
@@ -78,7 +57,7 @@ defmodule Futu do
   Refer to historical/1, I don't like the function name
   """
   @spec request_history_kl(List.t()) :: {:ok, any()} | {:error, bitstring()}
-  defdelegate request_history_kl(list), to: __MODULE__, as: :historical
+  defdelegate request_history_kl(list), to: Futu, as: :historical
 
   @doc """
   This is the main function of intereacting Futu TCP client.
@@ -100,7 +79,7 @@ defmodule Futu do
     serial_no = SerialNumber.generate()
     tcp_msg = Request.build(module.proto_id, serial_no, proto_msg)
 
-    tcp_reply = GenServer.call(__MODULE__, {:send, tcp_msg})
+    tcp_reply = GenServer.call(Futu.GenServer.TCP, {:send, tcp_msg})
 
     case Response.parse(tcp_reply, module.proto_id) do
       {:ok, str_body} -> module.decode(str_body)

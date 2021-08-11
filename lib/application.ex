@@ -3,10 +3,11 @@ defmodule Futu.Application do
 
   def start(_type, _args) do
     children = [
-      {Futu.GenServer, futu_opts()}
+      {Futu.GenServer.TCP, futu_opts()},
+      {Futu.GenServer, []}
     ]
 
-    Supervisor.start_link(children, strategy: :one_for_one)
+    Supervisor.start_link(children, strategy: :one_for_all)
   end
 
   defp futu_opts() do
