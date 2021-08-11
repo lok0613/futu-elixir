@@ -9,7 +9,9 @@ defmodule Futu.MixProject do
       start_permanent: Mix.env() == :prod,
       aliases: [test: "test --no-start"],
       deps: deps(),
-      elixirc_paths: elixirc_paths(Mix.env())
+      elixirc_paths: elixirc_paths(Mix.env()),
+      description: description(),
+      package: package()
     ]
   end
 
@@ -30,7 +32,21 @@ defmodule Futu.MixProject do
       {:jason, "~> 1.2"},
       {:protobuf, "~> 0.7.1"},
       {:google_protos, "~> 0.1", only: [:dev]},
-      {:mock, "~> 0.3.0", only: :test}
+      {:mock, "~> 0.3.0", only: :test},
+      {:ex_doc, ">= 0.0.0", only: :dev, runtime: false}
+    ]
+  end
+
+  defp description() do
+    "Futu API"
+  end
+
+  defp package() do
+    [
+      name: "futu",
+      files: ~w(lib .formatter.exs mix.exs README*),
+      licenses: ["MIT"],
+      links: %{"GitHub" => "https://github.com/lok0613/futu-elixir"}
     ]
   end
 end
