@@ -7,6 +7,19 @@ defmodule Futu.Component.Formatter.DateTime do
     format_datetime(Calendar.local_time())
   end
 
+  def days_ago(days) do
+    {date, time} = Calendar.local_time()
+
+    date =
+      date
+      |> Date.from_erl!()
+      |> Date.add(days * -1)
+      |> Date.to_erl()
+
+    days_ago_calendar = {date, time}
+    format_datetime(days_ago_calendar)
+  end
+
   @spec once_a_point_a_time() :: bitstring()
   def once_a_point_a_time(), do: "1999-01-01 00:00:00"
 
