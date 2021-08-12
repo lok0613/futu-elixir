@@ -20,6 +20,11 @@ defmodule Futu.Component.Formatter.DateTime do
     end
   end
 
+  @spec encode_date(Date.t()) :: bitstring()
+  def encode_date(%{year: year, month: month, day: day}) do
+    "#{year}-#{lead_zero(month)}-#{lead_zero(day)} 00:00:00"
+  end
+
   @spec decode_date(bitstring()) :: Date.t()
   def decode_date(datetime) do
     [date, _time] = String.split(datetime, " ")

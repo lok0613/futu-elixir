@@ -80,7 +80,6 @@ defmodule Futu.Component.Api do
 
       defp post_process_s2c(s2c, opts) do
         mapped_s2c = map_s2c(s2c)
-        IO.inspect(@mapper_module)
 
         case @mapper_module do
           nil -> mapped_s2c
