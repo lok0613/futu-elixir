@@ -20,6 +20,13 @@ defmodule Futu.Component.Formatter.DateTime do
     end
   end
 
+  @spec decode_date(bitstring()) :: Date.t()
+  def decode_date(datetime) do
+    [date, _time] = String.split(datetime, " ")
+    {:ok, date} = Date.from_iso8601(date)
+    date
+  end
+
   defp lead_zero(x) when is_integer(x) do
     x
     |> Integer.to_string()

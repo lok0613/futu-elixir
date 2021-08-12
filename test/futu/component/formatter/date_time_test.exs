@@ -20,4 +20,10 @@ defmodule Futu.Component.Formatter.DateTimeTest do
       assert "2021-08-08 00:00:00" = encode_datetime(~N[2021-08-08 00:00:00])
     end
   end
+
+  describe "decode_date/1" do
+    test "datetime string to date" do
+      assert ~D[2021-08-08] = decode_date("2021-08-08 11:11:00")
+    end
+  end
 end
