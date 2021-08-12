@@ -21,8 +21,7 @@ defmodule Mix.Tasks.PullHistorical do
     opts = [
       market: Futu.Quote.Historical.market(:hk_security),
       code: code_in_string,
-      period: Historical.period(String.to_atom(period_in_string)),
-      from: "2021-03-01 00:00:00"
+      period: Historical.period(String.to_atom(period_in_string))
     ]
 
     {:ok, stocks} = Futu.historical(opts)
