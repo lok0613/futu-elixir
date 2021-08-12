@@ -25,10 +25,10 @@ Retrieve historical stocks data
 ```elixir
 opts = [
   market: Futu.Quote.Historical.market(:hk_security),
-      code: 1,
-      period: Futu.Quote.Historical.period(:daily),
-      from: ~N[2021-08-08 00:00:00],
-      max_rows: 5
+  code: 1,
+  period: Futu.Quote.Historical.period(:daily),
+  from: ~N[2021-08-08 00:00:00],
+  max_rows: 5
 ]
 {:ok, stocks} = Futu.historical(opts) # Protocol ID 3103
 ```

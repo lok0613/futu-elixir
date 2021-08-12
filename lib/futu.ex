@@ -82,7 +82,7 @@ defmodule Futu do
     tcp_reply = GenServer.call(Futu.GenServer.TCP, {:send, tcp_msg})
 
     case Response.parse(tcp_reply, module.proto_id) do
-      {:ok, str_body} -> module.decode(str_body)
+      {:ok, str_body} -> module.decode(str_body, opts)
       {:error, msg} -> {:error, msg}
     end
   end

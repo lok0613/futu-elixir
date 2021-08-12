@@ -13,5 +13,4 @@ defmodule Futu.Basic.Heartbeat do
   end
 
   defp current_timestamp(), do: :os.system_time(:millisecond)
-
 end

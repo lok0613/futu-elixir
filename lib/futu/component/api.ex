@@ -33,8 +33,9 @@ defmodule Futu.Component.Api do
   defmacro __before_compile__(_env) do
     quote generated: true do
       require Logger
+      @mapper_module Application.compile_env(:futu, :mapper_module)
 
-      @spec map_s2c(List.t) :: List.t()
+      @spec map_s2c(list()) :: list()
       def map_s2c(opts), do: opts
 
       @spec proto_id() :: integer()
@@ -48,7 +49,7 @@ defmodule Futu.Component.Api do
       @doc """
       Passing to map_c2s/1 and encoding using Protobuf
       """
-      @spec encode(List.t()) :: bitstring()
+      @spec encode(list()) :: bitstring()
       def encode(opts \\ []) do
         c2s = @proto_mod.C2S.new(map_c2s(opts))
         request = @proto_mod.Request.new(c2s: c2s)
@@ -57,13 +58,13 @@ defmodule Futu.Component.Api do
 
       @doc """
       """
-      @spec decode(bitstring()) :: {:ok, any()} | {:error, bitstring()}
-      def decode(str_body) do
+      @spec decode(bitstring(), list()) :: {:ok, any()} | {:error, bitstring()}
+      def decode(str_body, opts \\ []) do
         response = @proto_mod.Response.decode(str_body)
 
         case response do
           %{retType: 0, s2c: s2c} ->
-            {:ok, map_s2c(s2c)}
+            {:ok, post_process_s2c(s2c, opts)}
 
           %{retType: retType, retMsg: retMsg, errCode: errCode} ->
             # InitConnect retType: -1  retMsg: "Unknown stock HK.02800"  errCode: 0
@@ -77,9 +78,17 @@ defmodule Futu.Component.Api do
         end
       end
 
-      defoverridable [
-        map_s2c: 1
-      ]
+      defp post_process_s2c(s2c, opts) do
+        mapped_s2c = map_s2c(s2c)
+        IO.inspect(@mapper_module)
+
+        case @mapper_module do
+          nil -> mapped_s2c
+          _ -> apply(@mapper_module, :map, [mapped_s2c, opts])
+        end
+      end
+
+      defoverridable map_s2c: 1
     end
   end
 end
