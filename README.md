@@ -1,6 +1,9 @@
 ## futu-elixir
 > Futu API in Elixir
 
+[![CD](https://github.com/lok0613/futu-elixir/actions/workflows/cd.yml/badge.svg)](https://github.com/lok0613/futu-elixir/actions/workflows/cd.yml)
+[![CI](https://github.com/lok0613/futu-elixir/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/lok0613/futu-elixir/actions/workflows/ci.yml)
+
 ## Document
 Official documentation: [Futu API 文檔 v5.6](https://openapi.futunn.com/futu-api-doc/)
 
