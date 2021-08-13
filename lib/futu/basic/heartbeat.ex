@@ -5,8 +5,7 @@ defmodule Futu.Basic.Heartbeat do
   proto_id 1004
   proto_module KeepAlive
 
-  @spec map_c2s(List.t()) :: List.t()
-  def map_c2s(_opts \\ []) do
+  def map_c2s(_opts) do
     [
       time: current_timestamp()
     ]

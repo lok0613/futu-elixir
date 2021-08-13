@@ -10,8 +10,7 @@ defmodule Futu.Basic.InitConnect do
   proto_id 1001
   proto_module InitConnect
 
-  @spec map_c2s(List.t()) :: List.t()
-  def map_c2s(_opts \\ []) do
+  def map_c2s(_opts) do
     [
       clientVer: client_version(),
       clientID: @client_id,

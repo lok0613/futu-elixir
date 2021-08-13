@@ -47,7 +47,6 @@ defmodule Futu.Quote.Historical do
   def market(:jp_security), do: Map.get(QotMarket.mapping(), :QotMarket_JP_Security)
   def market(whatever), do: raise("Unknown market \"#{inspect(whatever)}\"")
 
-  @spec map_c2s(List.t()) :: List.t()
   def map_c2s(opts) do
     security =
       Security.new(
@@ -68,7 +67,7 @@ defmodule Futu.Quote.Historical do
   end
 
   def map_s2c(opts) do
-    %Qot_RequestHistoryKL.S2C{klList: quotes, nextReqKey: nextReqKey} = opts
+    %Qot_RequestHistoryKL.S2C{klList: quotes} = opts
     quotes
   end
 end

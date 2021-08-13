@@ -35,7 +35,11 @@ defmodule Futu.Component.Api do
       require Logger
       @mapper_module Application.compile_env(:futu, :mapper_module)
 
-      @spec map_s2c(list()) :: list()
+      @spec map_c2s(any()) :: list()
+      def map_c2s(opts \\ [])
+      def map_c2s(opts), do: opts
+
+      @spec map_s2c(any()) :: any()
       def map_s2c(opts), do: opts
 
       @spec proto_id() :: integer()
@@ -87,7 +91,8 @@ defmodule Futu.Component.Api do
         end
       end
 
-      defoverridable map_s2c: 1
+      defoverridable map_c2s: 1,
+                     map_s2c: 1
     end
   end
 end
