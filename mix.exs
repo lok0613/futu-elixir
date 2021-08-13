@@ -33,7 +33,8 @@ defmodule Futu.MixProject do
       {:protobuf, "~> 0.7.1"},
       {:google_protos, "~> 0.1", only: [:dev]},
       {:mock, "~> 0.3.0", only: :test},
-      {:ex_doc, ">= 0.0.0", only: :dev, runtime: false}
+      {:ex_doc, ">= 0.0.0", only: :dev, runtime: false},
+      {:credo, "~> 1.5", only: [:dev, :test], runtime: false}
     ]
   end
 
