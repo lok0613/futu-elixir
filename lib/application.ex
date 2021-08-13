@@ -10,7 +10,7 @@ defmodule Futu.Application do
     Supervisor.start_link(children, strategy: :one_for_all)
   end
 
-  defp futu_opts() do
+  def futu_opts() do
     host =
       :futu
       |> Application.get_env(:opend_host)

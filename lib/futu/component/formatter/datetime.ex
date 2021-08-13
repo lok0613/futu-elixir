@@ -7,6 +7,7 @@ defmodule Futu.Component.Formatter.DateTime do
     format_datetime(Calendar.local_time())
   end
 
+  @spec days_ago(integer()) :: bitstring()
   def days_ago(days) do
     {date, time} = Calendar.local_time()
 

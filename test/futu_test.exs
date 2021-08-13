@@ -1,39 +1,32 @@
 defmodule FutuTest do
+  @moduledoc false
   use ExUnit.Case
-  # doctest Futu
-  import Futu.OpenD.Mock
+  @moduletag :opend
 
-  import Mock
+  alias Futu.GenServer.TCP
 
-  test "init_connect/0" do
-    with_mocks([
-      # {GenServer, [],
-      #  [
-      #    call: fn _pid, _val ->
-      #      init_connect_response()
-      #    end
-      #  ]}
-      {GenServer, [], call: fn _pid, _val -> "" end},
-      {Futu.Component.Response, [],
-       fn _reply, _protoid ->
-         {:ok, InitConnect.Response}
-       end}
-    ]) do
-      assert {:ok, %{keepAliveInterval: 10}} = Futu.init_connect()
-    end
+  setup_all do
+    TCP.start_link(Futu.Application.futu_opts())
+    :ok
   end
 
-  @tag :historical
+  test "init_connect/0" do
+    assert {:ok, %{keepAliveInterval: 10}} = Futu.init_connect()
+  end
+
   test "historical/1" do
     opts = [
       market: Futu.Quote.Historical.market(:hk_security),
-      code: "00001",
-      period: Futu.Quote.Historical.period(:every_5_min),
-      from: "2021-08-08 00:00:00",
-      to: "2021-08-09 23:59:59",
-      max_rows: 5
+      code: 1,
+      period: Futu.Quote.Historical.period(:daily),
+      max_rows: 3
     ]
 
-    Futu.historical(opts)
+    assert {:ok, stocks} = Futu.historical(opts)
+    assert length(stocks) == 3
+
+    stock = Enum.at(stocks, 0)
+
+    assert stock.closePrice > 0
   end
 end
