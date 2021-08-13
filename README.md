@@ -11,6 +11,17 @@ Official documentation: [Futu API 文檔 v5.6](https://openapi.futunn.com/futu-a
 Make sure you have FutuOpenD executable downloaded on your machine.
 Checkout the official document if you have no idea about this thing.
 
+If you want to use it in docker container or deployment on cloud instances, [futu-opend-docker](https://github.com/lok0613/futu-opend-docker).
+
+## Installation
+```elixir
+def deps do
+  [
+    {:futu, "~> 1.1.0"}
+  ]
+end
+```
+
 ## Configuration
 Default FutuOpenD host and port were setup already.
 `config/runtime.exs`
