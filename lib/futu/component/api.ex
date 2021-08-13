@@ -15,6 +15,27 @@ defmodule Futu.Component.Api do
       @proto_id nil
 
       @before_compile unquote(__MODULE__)
+
+      @mapper_module Application.compile_env(:futu, :mapper_module)
+
+      @spec map_c2s(any()) :: list()
+      def map_c2s(opts \\ [])
+      def map_c2s(opts), do: opts
+
+      @spec map_s2c(any()) :: any()
+      def map_s2c(opts), do: opts
+
+      defp post_process_s2c(s2c, opts) do
+        mapped_s2c = map_s2c(s2c)
+
+        case @mapper_module do
+          nil -> mapped_s2c
+          _ -> apply(@mapper_module, :map, [mapped_s2c, opts])
+        end
+      end
+
+      defoverridable map_c2s: 1,
+                     map_s2c: 1
     end
   end
 
@@ -33,14 +54,6 @@ defmodule Futu.Component.Api do
   defmacro __before_compile__(_env) do
     quote generated: true do
       require Logger
-      @mapper_module Application.compile_env(:futu, :mapper_module)
-
-      @spec map_c2s(any()) :: list()
-      def map_c2s(opts \\ [])
-      def map_c2s(opts), do: opts
-
-      @spec map_s2c(any()) :: any()
-      def map_s2c(opts), do: opts
 
       @spec proto_id() :: integer()
       def proto_id() do
@@ -70,29 +83,17 @@ defmodule Futu.Component.Api do
           %{retType: 0, s2c: s2c} ->
             {:ok, post_process_s2c(s2c, opts)}
 
-          %{retType: retType, retMsg: retMsg, errCode: errCode} ->
-            # InitConnect retType: -1  retMsg: "Unknown stock HK.02800"  errCode: 0
+          %{retType: ret_type, retMsg: ret_msg, errCode: err_code} ->
+            # InitConnect ret_type: -1  ret_msg: "Unknown stock HK.02800"  err_code: 0
             Logger.debug(
-              "InitConnect retType: #{inspect(retType)}  retMsg: #{inspect(retMsg)}  errCode: #{
-                inspect(response.errCode)
+              "InitConnect ret_type: #{inspect(ret_type)}  ret_msg: #{inspect(ret_msg)}  err_code: #{
+                inspect(response.err_code)
               }"
             )
 
-            {:error, retMsg}
+            {:error, ret_msg}
         end
       end
-
-      defp post_process_s2c(s2c, opts) do
-        mapped_s2c = map_s2c(s2c)
-
-        case @mapper_module do
-          nil -> mapped_s2c
-          _ -> apply(@mapper_module, :map, [mapped_s2c, opts])
-        end
-      end
-
-      defoverridable map_c2s: 1,
-                     map_s2c: 1
     end
   end
 end

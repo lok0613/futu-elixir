@@ -3,6 +3,8 @@ defmodule Futu do
   Futu Elixir API Client
   """
 
+  @tcp_timeout Application.compile_env(:futu, :tcp_timeout)
+
   alias Futu.Component.{
     Request,
     Response,
@@ -79,7 +81,7 @@ defmodule Futu do
     serial_no = SerialNumber.generate()
     tcp_msg = Request.build(module.proto_id, serial_no, proto_msg)
 
-    tcp_reply = GenServer.call(Futu.GenServer.TCP, {:send, tcp_msg}, 20000)
+    tcp_reply = GenServer.call(Futu.GenServer.TCP, {:send, tcp_msg}, @tcp_timeout)
 
     case Response.parse(tcp_reply, module.proto_id) do
       {:ok, str_body} -> module.decode(str_body, opts)
