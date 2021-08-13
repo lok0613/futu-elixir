@@ -1,7 +1,7 @@
 ## futu-elixir
 > Futu API in Elixir
 
-[![CD](https://github.com/lok0613/futu-elixir/actions/workflows/cd.yml/badge.svg)](https://github.com/lok0613/futu-elixir/actions/workflows/cd.yml)
+[![hex](https://img.shields.io/hexpm/v/futu.svg)](https://hex.pm/packages/futu)
 [![CI](https://github.com/lok0613/futu-elixir/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/lok0613/futu-elixir/actions/workflows/ci.yml)
 
 ## Document
