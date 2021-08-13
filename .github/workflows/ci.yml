@@ -1,0 +1,52 @@
+name: CI
+
+on: [push]
+
+jobs:
+  mix-format:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-elixir@v1
+        with:
+          otp-version: '23'
+          elixir-version: '1.11.0'
+          experimental-otp: true
+
+      - run: mix deps.get
+
+      - run: mix format --check-formatted
+
+  credo:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-elixir@v1
+        with:
+          otp-version: '23'
+          elixir-version: '1.11.0'
+          experimental-otp: true
+
+      - run: mix deps.get
+
+      - run: mix credo
+
+  tests:
+    runs-on: ubuntu-latest
+    env:
+      FUTU_HOST: localhost
+      FUTU_PORT: 77777
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-elixir@v1
+        with:
+          otp-version: '23'
+          elixir-version: '1.11.0'
+          experimental-otp: true
+
+      - run: mix deps.get
+
+      - run: mix test
