@@ -31,7 +31,7 @@ jobs:
 
       - run: mix deps.get
 
-      - run: mix credo
+      - run: mix credo --config-name no-protobuf
 
   tests:
     runs-on: ubuntu-latest
