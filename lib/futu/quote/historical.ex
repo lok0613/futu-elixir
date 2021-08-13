@@ -24,16 +24,16 @@ defmodule Futu.Quote.Historical do
   def rehab(whatever), do: raise("Unknown rehab \"#{inspect(whatever)}\"")
 
   @spec period(atom()) :: integer()
-  def period(:every_1_min), do: Map.get(KLType.mapping(), :KLType_1Min)
+  def period(:every_1_mins), do: Map.get(KLType.mapping(), :KLType_1Min)
   def period(:daily), do: Map.get(KLType.mapping(), :KLType_Day)
   def period(:weekly), do: Map.get(KLType.mapping(), :KLType_Week)
   def period(:monthly), do: Map.get(KLType.mapping(), :KLType_Month)
   def period(:yearly), do: Map.get(KLType.mapping(), :KLType_Year)
-  def period(:every_5_min), do: Map.get(KLType.mapping(), :KLType_5Min)
-  def period(:every_15_min), do: Map.get(KLType.mapping(), :KLType_15Min)
-  def period(:every_30_min), do: Map.get(KLType.mapping(), :KLType_30Min)
-  def period(:every_60_min), do: Map.get(KLType.mapping(), :KLType_60Min)
-  def period(:every_3_min), do: Map.get(KLType.mapping(), :KLType_3Min)
+  def period(:every_5_mins), do: Map.get(KLType.mapping(), :KLType_5Min)
+  def period(:every_15_mins), do: Map.get(KLType.mapping(), :KLType_15Min)
+  def period(:every_30_mins), do: Map.get(KLType.mapping(), :KLType_30Min)
+  def period(:every_60_mins), do: Map.get(KLType.mapping(), :KLType_60Min)
+  def period(:every_3_mins), do: Map.get(KLType.mapping(), :KLType_3Min)
   def period(:quarterly), do: Map.get(KLType.mapping(), :KLType_Quarter)
   def period(whatever), do: raise("Unknown period \"#{inspect(whatever)}\"")
 
@@ -68,7 +68,7 @@ defmodule Futu.Quote.Historical do
   end
 
   def map_s2c(opts) do
-    %Qot_RequestHistoryKL.S2C{klList: quotes} = opts
+    %Qot_RequestHistoryKL.S2C{klList: quotes, nextReqKey: nextReqKey} = opts
     quotes
   end
 end
