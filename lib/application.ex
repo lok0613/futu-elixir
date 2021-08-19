@@ -1,10 +1,11 @@
 defmodule Futu.Application do
+  @moduledoc false
   use Application
 
   def start(_type, _args) do
     children = [
       {Futu.GenServer.TCP, futu_opts()},
-      {Futu.GenServer, []}
+      {Futu.GenServer.HeartBeat, []}
     ]
 
     Supervisor.start_link(children, strategy: :one_for_all)

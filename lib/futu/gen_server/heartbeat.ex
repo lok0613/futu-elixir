@@ -1,12 +1,16 @@
-defmodule Futu.GenServer do
+defmodule Futu.HeartBeat do
+  @moduledoc """
+  Manage and send heartbeat to Futu.GenServer.TCP
+  """
   use GenServer
   alias Futu.GenServer.TCP
-  require Logger
 
+  @spec start_link(any()) :: {:ok, pid()}
   def start_link(opts) do
     GenServer.start_link(__MODULE__, opts, name: __MODULE__)
   end
 
+  @spec init(any()) :: {:ok, nil}
   def init(_opts) do
     {:ok, %{keepAliveInterval: interval}} = Futu.init_connect()
     schedule_heartbeat(interval)

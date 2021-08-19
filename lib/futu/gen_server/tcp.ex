@@ -1,12 +1,19 @@
 defmodule Futu.GenServer.TCP do
+  @moduledoc """
+  Handle TCP connction to FutuOpenD
+
+  Stream async data via TCP connection
+  """
   use GenServer
   require Logger
   alias Futu.Component.Response
 
+  @spec start_link(host: charlist(), port: integer()) :: {:ok, pid()}
   def start_link(opts) do
     GenServer.start_link(__MODULE__, opts, name: __MODULE__)
   end
 
+  @spec init(host: charlist(), port: integer()) :: {:ok, map()}
   def init(host: host, port: port) do
     {:ok, socket} = :gen_tcp.connect(host, port, [:binary, active: true, keepalive: true])
     {:ok, %{socket: socket, from: nil, msg: ""}}
@@ -38,7 +45,7 @@ defmodule Futu.GenServer.TCP do
   end
 
   def handle_info({:tcp_closed, _socket}, state) do
-    Logger.info("TCP closed.")
+    Logger.warn("TCP closed.")
 
     {:noreply, state}
   end
