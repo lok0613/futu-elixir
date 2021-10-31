@@ -3,6 +3,8 @@ defmodule Futu do
   Futu Elixir API Client
   """
 
+  use Futu.Api.Trade
+
   @tcp_timeout Application.compile_env(:futu, :tcp_timeout)
 
   alias Futu.Component.{

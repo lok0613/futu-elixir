@@ -8,7 +8,7 @@ defmodule Futu.Component.Api do
   """
 
   defmacro __using__(_opts) do
-    quote do
+    quote location: :keep do
       import unquote(__MODULE__)
       Module.register_attribute(__MODULE__, :proto_id, accumulate: false)
       Module.register_attribute(__MODULE__, :proto_mod, accumulate: false)
@@ -16,7 +16,7 @@ defmodule Futu.Component.Api do
 
       @before_compile unquote(__MODULE__)
 
-      @mapper_module Application.compile_env(:futu, :mapper_module)
+      @mapper_module Application.compile_env(:futu, :mapper_module, nil)
 
       @spec map_c2s(any()) :: list()
       def map_c2s(opts \\ [])
