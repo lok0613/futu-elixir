@@ -4,7 +4,7 @@ defmodule Futu.MixProject do
   def project do
     [
       app: :futu,
-      version: "1.2.2",
+      version: "1.2.3",
       elixir: "~> 1.11",
       start_permanent: Mix.env() == :prod,
       aliases: [test: "test --no-start"],
