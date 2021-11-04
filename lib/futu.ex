@@ -5,7 +5,7 @@ defmodule Futu do
 
   use Futu.Api.Trade
 
-  @tcp_timeout Application.compile_env(:futu, :tcp_timeout)
+  @tcp_timeout Application.compile_env(:futu, :tcp_timeout, 7_000)
 
   alias Futu.Component.{
     Request,
