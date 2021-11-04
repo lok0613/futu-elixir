@@ -5,7 +5,7 @@ defmodule Futu.Basic.InitConnectTest do
 
   test "map_c2s/1" do
     assert [
-             clientVer: 122,
+             clientVer: 123,
              clientID: "FutuElixir",
              recvNotify: false,
              programmingLanguage: "Elixir"
