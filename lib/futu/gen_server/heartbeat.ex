@@ -6,8 +6,8 @@ defmodule Futu.GenServer.HeartBeat do
 
   @type server :: GenServer.server()
 
-  @spec start_link(server()) :: {:ok, pid()}
-  def start_link(tcp_pid) do
+  @spec start_link(%{name: server()}) :: {:ok, pid()}
+  def start_link(%{name: tcp_pid}) do
     GenServer.start_link(__MODULE__, tcp_pid)
   end
 

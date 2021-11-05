@@ -6,13 +6,13 @@ defmodule Futu.GenServer.HeartBeatTest do
   alias Futu.GenServer.HeartBeat
 
   setup_all do
-    {:ok, _pid} = TCP.start_link(%{name: :heat_beat_test})
-    {:ok, name: :heat_beat_test}
+    {:ok, _pid} = TCP.start_link(%{name: :heart_beat_test})
+    {:ok, name: :heart_beat_test}
   end
 
   describe "start_link/1" do
-    test "all default", %{name: name} do
-      assert {:ok, pid} = HeartBeat.start_link(name)
+    test "all default", opts do
+      assert {:ok, pid} = HeartBeat.start_link(opts)
       assert :ok = GenServer.stop(pid)
     end
   end

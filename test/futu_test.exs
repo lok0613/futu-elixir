@@ -5,6 +5,7 @@ defmodule FutuTest do
 
   setup_all do
     {:ok, _pid} = Futu.start(%{name: :for_unit_test})
+    :timer.sleep(2000)
     :ok
   end
 
