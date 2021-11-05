@@ -22,18 +22,12 @@ def deps do
 end
 ```
 
-## Configuration
-Default FutuOpenD host and port were setup already.
-`config/runtime.exs`
-```elixir
-import Config
-
-config :futu,
-  opend_host: System.get_env("FUTU_HOST") || "localhost",
-  opend_port: System.get_env("FUFU_PORT") || 11_111
-```
-
 ## Usage
+
+Start GenServer
+```elixir
+{:ok, _pid} = Futu.start(%{host: "localhost", port: 11_111, name: :futu_client})
+```
 
 Retrieve historical stocks data
 ```elixir
@@ -44,7 +38,7 @@ opts = [
   from: ~N[2021-08-08 00:00:00],
   max_rows: 5
 ]
-{:ok, stocks} = Futu.historical(opts) # Protocol ID 3103
+{:ok, stocks} = Futu.historical(:futu_client, opts) # Protocol ID 3103
 ```
 
 ## About InitConnect and KeepAlive
