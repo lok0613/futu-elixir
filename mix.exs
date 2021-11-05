@@ -7,7 +7,6 @@ defmodule Futu.MixProject do
       version: "1.2.3",
       elixir: "~> 1.11",
       start_permanent: Mix.env() == :prod,
-      aliases: [test: "test --no-start"],
       deps: deps(),
       elixirc_paths: elixirc_paths(Mix.env()),
       description: description(),

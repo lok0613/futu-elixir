@@ -1,2 +1,2 @@
-ExUnit.configure(exclude: [opend: true], seed: 0)
+ExUnit.configure(seed: 0)
 ExUnit.start()
