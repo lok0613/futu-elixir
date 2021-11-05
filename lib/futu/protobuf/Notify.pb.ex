@@ -138,7 +138,9 @@ defmodule Notify.QotRight do
           hasUSOptionQotRight: boolean,
           hkFutureQotRight: integer,
           usFutureQotRight: integer,
-          usOptionQotRight: integer
+          usOptionQotRight: integer,
+          usIndexQotRight: integer,
+          usOtcQotRight: integer
         }
 
   defstruct [
@@ -149,7 +151,9 @@ defmodule Notify.QotRight do
     :hasUSOptionQotRight,
     :hkFutureQotRight,
     :usFutureQotRight,
-    :usOptionQotRight
+    :usOptionQotRight,
+    :usIndexQotRight,
+    :usOtcQotRight
   ]
 
   field :hkQotRight, 4, required: true, type: :int32
@@ -160,6 +164,8 @@ defmodule Notify.QotRight do
   field :hkFutureQotRight, 9, optional: true, type: :int32
   field :usFutureQotRight, 10, optional: true, type: :int32
   field :usOptionQotRight, 11, optional: true, type: :int32
+  field :usIndexQotRight, 12, optional: true, type: :int32
+  field :usOtcQotRight, 13, optional: true, type: :int32
 end
 
 defmodule Notify.APILevel do

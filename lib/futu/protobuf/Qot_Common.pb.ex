@@ -1189,6 +1189,71 @@ defmodule Qot_Common.ExpirationCycle do
   field :ExpirationCycle_Month, 2
 end
 
+defmodule Qot_Common.ExchType do
+  @moduledoc false
+  use Protobuf, enum: true, syntax: :proto2
+
+  @type t ::
+          integer
+          | :ExchType_Unknown
+          | :ExchType_HK_MainBoard
+          | :ExchType_HK_GEMBoard
+          | :ExchType_HK_HKEX
+          | :ExchType_US_NYSE
+          | :ExchType_US_Nasdaq
+          | :ExchType_US_Pink
+          | :ExchType_US_AMEX
+          | :ExchType_US_Option
+          | :ExchType_US_NYMEX
+          | :ExchType_US_COMEX
+          | :ExchType_US_CBOT
+          | :ExchType_US_CME
+          | :ExchType_US_CBOE
+          | :ExchType_CN_SH
+          | :ExchType_CN_SZ
+          | :ExchType_CN_STIB
+          | :ExchType_SG_SGX
+          | :ExchType_JP_OSE
+
+  field :ExchType_Unknown, 0
+
+  field :ExchType_HK_MainBoard, 1
+
+  field :ExchType_HK_GEMBoard, 2
+
+  field :ExchType_HK_HKEX, 3
+
+  field :ExchType_US_NYSE, 4
+
+  field :ExchType_US_Nasdaq, 5
+
+  field :ExchType_US_Pink, 6
+
+  field :ExchType_US_AMEX, 7
+
+  field :ExchType_US_Option, 8
+
+  field :ExchType_US_NYMEX, 9
+
+  field :ExchType_US_COMEX, 10
+
+  field :ExchType_US_CBOT, 11
+
+  field :ExchType_US_CME, 12
+
+  field :ExchType_US_CBOE, 13
+
+  field :ExchType_CN_SH, 14
+
+  field :ExchType_CN_SZ, 15
+
+  field :ExchType_CN_STIB, 16
+
+  field :ExchType_SG_SGX, 17
+
+  field :ExchType_JP_OSE, 18
+end
+
 defmodule Qot_Common.Security do
   @moduledoc false
   use Protobuf, syntax: :proto2
@@ -1525,10 +1590,21 @@ defmodule Qot_Common.SecurityStaticBasic do
           name: String.t(),
           listTime: String.t(),
           delisting: boolean,
-          listTimestamp: float | :infinity | :negative_infinity | :nan
+          listTimestamp: float | :infinity | :negative_infinity | :nan,
+          exchType: integer
         }
 
-  defstruct [:security, :id, :lotSize, :secType, :name, :listTime, :delisting, :listTimestamp]
+  defstruct [
+    :security,
+    :id,
+    :lotSize,
+    :secType,
+    :name,
+    :listTime,
+    :delisting,
+    :listTimestamp,
+    :exchType
+  ]
 
   field :security, 1, required: true, type: Qot_Common.Security
   field :id, 2, required: true, type: :int64
@@ -1538,6 +1614,7 @@ defmodule Qot_Common.SecurityStaticBasic do
   field :listTime, 6, required: true, type: :string
   field :delisting, 7, optional: true, type: :bool
   field :listTimestamp, 8, optional: true, type: :double
+  field :exchType, 9, optional: true, type: :int32
 end
 
 defmodule Qot_Common.WarrantStaticExData do

@@ -73,7 +73,9 @@ defmodule GetUserInfo.S2C do
           usFutureQotRight: integer,
           usOptionQotRight: integer,
           userAttribution: integer,
-          updateWhatsNew: String.t()
+          updateWhatsNew: String.t(),
+          usIndexQotRight: integer,
+          usOtcQotRight: integer
         }
 
   defstruct [
@@ -96,7 +98,9 @@ defmodule GetUserInfo.S2C do
     :usFutureQotRight,
     :usOptionQotRight,
     :userAttribution,
-    :updateWhatsNew
+    :updateWhatsNew,
+    :usIndexQotRight,
+    :usOtcQotRight
   ]
 
   field :nickName, 1, optional: true, type: :string
@@ -119,6 +123,8 @@ defmodule GetUserInfo.S2C do
   field :usOptionQotRight, 17, optional: true, type: :int32
   field :userAttribution, 19, optional: true, type: :int32
   field :updateWhatsNew, 20, optional: true, type: :string
+  field :usIndexQotRight, 21, optional: true, type: :int32
+  field :usOtcQotRight, 22, optional: true, type: :int32
 end
 
 defmodule GetUserInfo.Request do
