@@ -13,7 +13,8 @@ defmodule Futu.GenServer.HeartBeat do
 
   @spec init(server()) :: {:ok, nil}
   def init(tcp_pid) do
-    {:ok, %{keepAliveInterval: interval}} = Futu._init_connect(tcp_pid)
+    {:ok, %{keepAliveInterval: interval, connID: conn_id}} = Futu._init_connect(tcp_pid)
+    GenServer.cast(tcp_pid, {:set_conn_id, conn_id})
     schedule_heartbeat(tcp_pid, interval)
     {:ok, nil}
   end

@@ -30,6 +30,11 @@ defmodule Futu do
     Supervisor.start_link(children, strategy: :one_for_all)
   end
 
+  @spec get_conn_id(server()) :: integer()
+  def get_conn_id(pid) do
+    GenServer.call(pid, :get_conn_id)
+  end
+
   @doc """
   1001 InitConnect
   This function will execute in Futu.GenServer automatically
