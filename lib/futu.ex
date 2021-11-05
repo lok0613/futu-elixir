@@ -13,13 +13,26 @@ defmodule Futu do
     SerialNumber
   }
 
+  @type server :: GenServer.server()
+
+  def start(opts \\ %{})
+
+  def start(opts) do
+    children = [
+      {Futu.GenServer.TCP, opts},
+      {Futu.GenServer.HeartBeat, []}
+    ]
+
+    Supervisor.start_link(children, strategy: :one_for_all)
+  end
+
   @doc """
   1001 InitConnect
   This function will execute in Futu.GenServer automatically
   """
-  @spec init_connect() :: {:ok, any()} | {:error, bitstring()}
-  def init_connect() do
-    request(Futu.Basic.InitConnect, [])
+  @spec _init_connect(server()) :: {:ok, any()} | {:error, bitstring()}
+  def _init_connect(pid) do
+    request(pid, Futu.Basic.InitConnect, [])
   end
 
   @doc """
@@ -27,8 +40,8 @@ defmodule Futu do
   Cast for the heartbeat, no reply
   This function will execute in Futu.GenServer automatically
   """
-  @spec heartbeat() :: binary()
-  def heartbeat() do
+  @spec _heartbeat() :: binary()
+  def _heartbeat() do
     proto_msg = Futu.Basic.Heartbeat.encode()
     serial_no = SerialNumber.generate()
     Request.build(Futu.Basic.Heartbeat.proto_id(), serial_no, proto_msg)
@@ -52,16 +65,17 @@ defmodule Futu do
   * next_page_key, if it's included from the last response
   * extended_time, boolean, to get the pre-market and after-hours data of US stocks, only supports timeframe of 1-minute
   """
-  @spec historical(list()) :: {:ok, any()} | {:error, bitstring()}
-  def historical(list) do
-    request(Futu.Quote.Historical, list)
+
+  @spec historical(server(), list()) :: {:ok, any()} | {:error, bitstring()}
+  def historical(pid, list) do
+    request(pid, Futu.Quote.Historical, list)
   end
 
   @doc """
   Refer to historical/1, I don't like the function name
   """
-  @spec request_history_kl(list()) :: {:ok, any()} | {:error, bitstring()}
-  defdelegate request_history_kl(list), to: Futu, as: :historical
+  @spec request_history_kl(server(), list()) :: {:ok, any()} | {:error, bitstring()}
+  defdelegate request_history_kl(pid, list), to: Futu, as: :historical
 
   @doc """
   This is the main function of intereacting Futu TCP client.
@@ -77,13 +91,13 @@ defmodule Futu do
         header failure
 
   """
-  @spec request(module(), list()) :: {:ok, any()} | {:error, bitstring()}
-  def request(module, opts) do
+  @spec request(server(), module(), list()) :: {:ok, any()} | {:error, bitstring()}
+  def request(pid, module, opts) do
     proto_msg = module.encode(opts)
     serial_no = SerialNumber.generate()
     tcp_msg = Request.build(module.proto_id, serial_no, proto_msg)
 
-    tcp_reply = GenServer.call(Futu.GenServer.TCP, {:send, tcp_msg}, @tcp_timeout)
+    tcp_reply = GenServer.call(pid, {:send, tcp_msg}, @tcp_timeout)
 
     case Response.parse(tcp_reply, module.proto_id) do
       {:ok, str_body} -> module.decode(str_body, opts)

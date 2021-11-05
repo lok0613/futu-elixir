@@ -8,14 +8,24 @@ defmodule Futu.GenServer.TCP do
   require Logger
   alias Futu.Component.Response
 
-  @spec start_link(host: charlist(), port: integer()) :: {:ok, pid()}
+  @default_opts %{host: "localhost", port: 11_111, name: __MODULE__}
+
+  @spec start_link(map()) :: {:ok, pid()}
+  def start_link(opts \\ %{})
+
   def start_link(opts) do
-    GenServer.start_link(__MODULE__, opts, name: __MODULE__)
+    full_opts = Map.merge(@default_opts, opts)
+    {name, init_opts} = Map.pop(full_opts, :name)
+    GenServer.start_link(__MODULE__, init_opts, name: name)
   end
 
-  @spec init(host: charlist(), port: integer()) :: {:ok, map()}
-  def init(host: host, port: port) do
-    {:ok, socket} = :gen_tcp.connect(host, port, [:binary, active: true, keepalive: true])
+  @spec init(map()) :: {:ok, map()}
+  def init(%{host: host, port: port}) do
+    host_charlist = String.to_charlist(host)
+
+    {:ok, socket} =
+      :gen_tcp.connect(host_charlist, port, [:binary, active: true, keepalive: true])
+
     {:ok, %{socket: socket, from: nil, msg: ""}}
   end
 
@@ -47,6 +57,6 @@ defmodule Futu.GenServer.TCP do
   def handle_info({:tcp_closed, _socket}, state) do
     Logger.warn("TCP closed.")
 
-    {:noreply, state}
+    {:stop, :normal, state}
   end
 end

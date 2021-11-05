@@ -10,7 +10,7 @@ defmodule Mix.Tasks.PullHistorical do
 
   def run([code_in_string, period_in_string]) do
     Mix.Task.run("app.config")
-    {:ok, _started} = Application.ensure_all_started(:futu)
+    {:ok, _pid} = Futu.start(%{name: :mix_task})
 
     code =
       case Integer.parse(code_in_string) do
@@ -24,7 +24,7 @@ defmodule Mix.Tasks.PullHistorical do
       period: Historical.period(String.to_atom(period_in_string))
     ]
 
-    {:ok, stocks} = Futu.historical(opts)
+    {:ok, stocks} = Futu.historical(:mix_task, opts)
 
     {:ok, json} =
       stocks

@@ -3,18 +3,12 @@ defmodule FutuTest do
   use ExUnit.Case
   @moduletag :opend
 
-  alias Futu.GenServer.TCP
-
   setup_all do
-    TCP.start_link(Futu.Application.futu_opts())
+    {:ok, _pid} = Futu.start(%{name: :for_unit_test})
     :ok
   end
 
-  test "init_connect/0" do
-    assert {:ok, %{keepAliveInterval: 10}} = Futu.init_connect()
-  end
-
-  test "historical/1" do
+  test "historical/2" do
     opts = [
       market: Futu.Quote.Historical.market(:hk_security),
       code: 1,
@@ -22,7 +16,7 @@ defmodule FutuTest do
       max_rows: 3
     ]
 
-    assert {:ok, stocks} = Futu.historical(opts)
+    assert {:ok, stocks} = Futu.historical(:for_unit_test, opts)
     assert length(stocks) == 3
 
     stock = Enum.at(stocks, 0)
