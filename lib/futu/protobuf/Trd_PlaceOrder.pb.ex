@@ -15,7 +15,11 @@ defmodule Trd_PlaceOrder.C2S do
           secMarket: integer,
           remark: String.t(),
           timeInForce: integer,
-          fillOutsideRTH: boolean
+          fillOutsideRTH: boolean,
+          auxPrice: float | :infinity | :negative_infinity | :nan,
+          trailType: integer,
+          trailValue: float | :infinity | :negative_infinity | :nan,
+          trailSpread: float | :infinity | :negative_infinity | :nan
         }
 
   defstruct [
@@ -31,7 +35,11 @@ defmodule Trd_PlaceOrder.C2S do
     :secMarket,
     :remark,
     :timeInForce,
-    :fillOutsideRTH
+    :fillOutsideRTH,
+    :auxPrice,
+    :trailType,
+    :trailValue,
+    :trailSpread
   ]
 
   field :packetID, 1, required: true, type: Common.PacketID
@@ -47,6 +55,10 @@ defmodule Trd_PlaceOrder.C2S do
   field :remark, 11, optional: true, type: :string
   field :timeInForce, 12, optional: true, type: :int32
   field :fillOutsideRTH, 13, optional: true, type: :bool
+  field :auxPrice, 14, optional: true, type: :double
+  field :trailType, 15, optional: true, type: :int32
+  field :trailValue, 16, optional: true, type: :double
+  field :trailSpread, 17, optional: true, type: :double
 end
 
 defmodule Trd_PlaceOrder.S2C do

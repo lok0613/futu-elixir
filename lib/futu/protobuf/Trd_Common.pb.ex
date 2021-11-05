@@ -100,6 +100,12 @@ defmodule Trd_Common.OrderType do
           | :OrderType_AuctionLimit
           | :OrderType_SpecialLimit
           | :OrderType_SpecialLimit_All
+          | :OrderType_Stop
+          | :OrderType_StopLimit
+          | :OrderType_MarketifTouched
+          | :OrderType_LimitifTouched
+          | :OrderType_TrailingStop
+          | :OrderType_TrailingStopLimit
 
   field :OrderType_Unknown, 0
 
@@ -116,6 +122,30 @@ defmodule Trd_Common.OrderType do
   field :OrderType_SpecialLimit, 8
 
   field :OrderType_SpecialLimit_All, 9
+
+  field :OrderType_Stop, 10
+
+  field :OrderType_StopLimit, 11
+
+  field :OrderType_MarketifTouched, 12
+
+  field :OrderType_LimitifTouched, 13
+
+  field :OrderType_TrailingStop, 14
+
+  field :OrderType_TrailingStopLimit, 15
+end
+
+defmodule Trd_Common.TrailType do
+  @moduledoc false
+  use Protobuf, enum: true, syntax: :proto2
+  @type t :: integer | :TrailType_Unknown | :TrailType_Ratio | :TrailType_Amount
+
+  field :TrailType_Unknown, 0
+
+  field :TrailType_Ratio, 1
+
+  field :TrailType_Amount, 2
 end
 
 defmodule Trd_Common.OrderStatus do
@@ -368,6 +398,22 @@ defmodule Trd_Common.CltRiskStatus do
   field :CltRiskStatus_Level9, 9
 end
 
+defmodule Trd_Common.DTStatus do
+  @moduledoc false
+  use Protobuf, enum: true, syntax: :proto2
+
+  @type t ::
+          integer | :DTStatus_Unknown | :DTStatus_Unlimited | :DTStatus_EMCall | :DTStatus_DTCall
+
+  field :DTStatus_Unknown, 0
+
+  field :DTStatus_Unlimited, 1
+
+  field :DTStatus_EMCall, 2
+
+  field :DTStatus_DTCall, 3
+end
+
 defmodule Trd_Common.AccCashInfo do
   @moduledoc false
   use Protobuf, syntax: :proto2
@@ -454,7 +500,13 @@ defmodule Trd_Common.Funds do
           pendingAsset: float | :infinity | :negative_infinity | :nan,
           maxWithdrawal: float | :infinity | :negative_infinity | :nan,
           riskStatus: integer,
-          marginCallMargin: float | :infinity | :negative_infinity | :nan
+          marginCallMargin: float | :infinity | :negative_infinity | :nan,
+          isPdt: boolean,
+          pdtSeq: String.t(),
+          beginningDTBP: float | :infinity | :negative_infinity | :nan,
+          remainingDTBP: float | :infinity | :negative_infinity | :nan,
+          dtCallAmount: float | :infinity | :negative_infinity | :nan,
+          dtStatus: integer
         }
 
   defstruct [
@@ -480,7 +532,13 @@ defmodule Trd_Common.Funds do
     :pendingAsset,
     :maxWithdrawal,
     :riskStatus,
-    :marginCallMargin
+    :marginCallMargin,
+    :isPdt,
+    :pdtSeq,
+    :beginningDTBP,
+    :remainingDTBP,
+    :dtCallAmount,
+    :dtStatus
   ]
 
   field :power, 1, required: true, type: :double
@@ -506,6 +564,12 @@ defmodule Trd_Common.Funds do
   field :maxWithdrawal, 21, optional: true, type: :double
   field :riskStatus, 22, optional: true, type: :int32
   field :marginCallMargin, 23, optional: true, type: :double
+  field :isPdt, 24, optional: true, type: :bool
+  field :pdtSeq, 25, optional: true, type: :string
+  field :beginningDTBP, 26, optional: true, type: :double
+  field :remainingDTBP, 27, optional: true, type: :double
+  field :dtCallAmount, 28, optional: true, type: :double
+  field :dtStatus, 29, optional: true, type: :int32
 end
 
 defmodule Trd_Common.Position do
@@ -604,7 +668,11 @@ defmodule Trd_Common.Order do
           updateTimestamp: float | :infinity | :negative_infinity | :nan,
           remark: String.t(),
           timeInForce: integer,
-          fillOutsideRTH: boolean
+          fillOutsideRTH: boolean,
+          auxPrice: float | :infinity | :negative_infinity | :nan,
+          trailType: integer,
+          trailValue: float | :infinity | :negative_infinity | :nan,
+          trailSpread: float | :infinity | :negative_infinity | :nan
         }
 
   defstruct [
@@ -627,7 +695,11 @@ defmodule Trd_Common.Order do
     :updateTimestamp,
     :remark,
     :timeInForce,
-    :fillOutsideRTH
+    :fillOutsideRTH,
+    :auxPrice,
+    :trailType,
+    :trailValue,
+    :trailSpread
   ]
 
   field :trdSide, 1, required: true, type: :int32
@@ -650,6 +722,10 @@ defmodule Trd_Common.Order do
   field :remark, 18, optional: true, type: :string
   field :timeInForce, 19, optional: true, type: :int32
   field :fillOutsideRTH, 20, optional: true, type: :bool
+  field :auxPrice, 21, optional: true, type: :double
+  field :trailType, 22, optional: true, type: :int32
+  field :trailValue, 23, optional: true, type: :double
+  field :trailSpread, 24, optional: true, type: :double
 end
 
 defmodule Trd_Common.OrderFill do

@@ -11,7 +11,11 @@ defmodule Trd_ModifyOrder.C2S do
           qty: float | :infinity | :negative_infinity | :nan,
           price: float | :infinity | :negative_infinity | :nan,
           adjustPrice: boolean,
-          adjustSideAndLimit: float | :infinity | :negative_infinity | :nan
+          adjustSideAndLimit: float | :infinity | :negative_infinity | :nan,
+          auxPrice: float | :infinity | :negative_infinity | :nan,
+          trailType: integer,
+          trailValue: float | :infinity | :negative_infinity | :nan,
+          trailSpread: float | :infinity | :negative_infinity | :nan
         }
 
   defstruct [
@@ -23,7 +27,11 @@ defmodule Trd_ModifyOrder.C2S do
     :qty,
     :price,
     :adjustPrice,
-    :adjustSideAndLimit
+    :adjustSideAndLimit,
+    :auxPrice,
+    :trailType,
+    :trailValue,
+    :trailSpread
   ]
 
   field :packetID, 1, required: true, type: Common.PacketID
@@ -35,6 +43,10 @@ defmodule Trd_ModifyOrder.C2S do
   field :price, 9, optional: true, type: :double
   field :adjustPrice, 10, optional: true, type: :bool
   field :adjustSideAndLimit, 11, optional: true, type: :double
+  field :auxPrice, 12, optional: true, type: :double
+  field :trailType, 13, optional: true, type: :int32
+  field :trailValue, 14, optional: true, type: :double
+  field :trailSpread, 15, optional: true, type: :double
 end
 
 defmodule Trd_ModifyOrder.S2C do
