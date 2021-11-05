@@ -15,12 +15,16 @@ defmodule Futu do
 
   @type server :: GenServer.server()
 
+  @doc """
+  Futu client gen server
+  """
+  @spec start(%{host: bitstring(), port: integer(), name: server()} | map()) :: {:ok, pid()}
   def start(opts \\ %{})
 
   def start(opts) do
     children = [
       {Futu.GenServer.TCP, opts},
-      {Futu.GenServer.HeartBeat, []}
+      {Futu.GenServer.HeartBeat, opts}
     ]
 
     Supervisor.start_link(children, strategy: :one_for_all)
