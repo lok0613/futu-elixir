@@ -5,26 +5,28 @@ defmodule Futu.GenServer.HeartBeat do
   use GenServer
   alias Futu.GenServer.TCP
 
-  @spec start_link(any()) :: {:ok, pid()}
-  def start_link(opts) do
-    GenServer.start_link(__MODULE__, opts, name: __MODULE__)
+  @type server :: GenServer.server()
+
+  @spec start_link(server()) :: {:ok, pid()}
+  def start_link(tcp_pid) do
+    GenServer.start_link(__MODULE__, tcp_pid)
   end
 
-  @spec init(any()) :: {:ok, nil}
-  def init(_opts) do
-    {:ok, %{keepAliveInterval: interval}} = Futu.init_connect()
-    schedule_heartbeat(interval)
+  @spec init(server()) :: {:ok, nil}
+  def init(tcp_pid) do
+    {:ok, %{keepAliveInterval: interval}} = Futu._init_connect(tcp_pid)
+    schedule_heartbeat(tcp_pid, interval)
     {:ok, nil}
   end
 
-  def handle_info({:heartbeat, interval}, state) do
-    msg = Futu.heartbeat()
-    GenServer.cast(TCP, {:send_heartbeat, msg})
-    schedule_heartbeat(interval)
+  def handle_info({:heartbeat, tcp_pid, interval}, state) do
+    msg = Futu._heartbeat()
+    GenServer.cast(tcp_pid, {:send_heartbeat, msg})
+    schedule_heartbeat(tcp_pid, interval)
     {:noreply, state}
   end
 
-  defp schedule_heartbeat(interval) do
-    Process.send_after(__MODULE__, {:heartbeat, interval}, interval * 1000)
+  defp schedule_heartbeat(tcp_pid, interval) do
+    Process.send_after(self(), {:heartbeat, tcp_pid, interval}, interval * 1000)
   end
 end
