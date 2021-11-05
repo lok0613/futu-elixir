@@ -36,9 +36,17 @@ defmodule Futu.GenServer.TCP do
     {:noreply, new_state}
   end
 
+  def handle_call(:get_conn_id, _from, state) do
+    {:reply, state.conn_id, state}
+  end
+
   def handle_cast({:send_heartbeat, msg}, state) do
     :ok = :gen_tcp.send(state.socket, msg)
     {:noreply, state}
+  end
+
+  def handle_cast({:set_conn_id, conn_id}, state) do
+    {:noreply, Map.put(state, :conn_id, conn_id)}
   end
 
   def handle_info({:tcp, _socket, msg}, state) do
