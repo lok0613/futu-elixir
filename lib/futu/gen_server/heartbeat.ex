@@ -3,7 +3,6 @@ defmodule Futu.GenServer.HeartBeat do
   Manage and send heartbeat to Futu.GenServer.TCP
   """
   use GenServer
-  alias Futu.GenServer.TCP
 
   @type server :: GenServer.server()
 
