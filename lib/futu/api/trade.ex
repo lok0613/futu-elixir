@@ -25,6 +25,11 @@ defmodule Futu.Api.Trade do
       def position_list(pid, opts) do
         request(pid, Futu.Trade.PositionList, opts)
       end
+
+      @spec max_trade_quantities(server(), list()) :: {:ok, any()} | {:error, bitstring()}
+      def max_trade_quantities(pid, opts) do
+        request(pid, Futu.Trade.MaxTradeQuantities, opts)
+      end
     end
   end
 end
