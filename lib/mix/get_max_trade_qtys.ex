@@ -1,6 +1,6 @@
-defmodule Mix.Tasks.PlaceOrder do
+defmodule Mix.Tasks.GetMaxTradeQuantities do
   @moduledoc """
-  Place an order
+  Get max trade quantities
   """
 
   use Mix.Task
@@ -12,25 +12,18 @@ defmodule Mix.Tasks.PlaceOrder do
     {price, ""} = Float.parse(price_str)
 
     opts = [
-      packetID: [
-        connID: Futu.get_conn_id(:mix_task),
-        serialNo: :os.system_time(:millisecond)
-      ],
       header: [
         trdEnv: 0,
         accID: String.to_integer(acc_id),
-        trdMarket: 1
+        trdMarket: 5
       ],
-      # buy
-      tradeSide: 2,
+      orderType: 2,
       code: code,
-      qty: 1,
       price: price,
-      secMarket: 1,
-      remark: "test"
+      secMarket: 1
     ]
 
-    {:ok, res} = Futu.account_funds(:mix_task, opts)
+    {:ok, res} = Futu.max_trade_quantities(:mix_task, opts)
     IO.inspect(res)
   end
 end
