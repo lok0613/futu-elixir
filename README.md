@@ -41,5 +41,28 @@ opts = [
 {:ok, stocks} = Futu.historical(:futu_client, opts) # Protocol ID 3103
 ```
 
+Connect multiple Futu clients
+```elixir
+{:ok, _pid} = Futu.start(%{host: "localhost", port: 11_111, name: :client_1})
+{:ok, _pid} = Futu.start(%{host: "localhost", port: 55_555, name: :client_2})
+
+{:ok, _res} = Futu.account_list(:client_2, [userID: 0])
+```
+
+Get account funds
+```elixir
+opts = [
+  header: [
+    trdEnv: 1,
+    accID: acc_id,
+    trdMarket: 1
+  ],
+  currency: 1
+]
+{:ok, _res} = Futu.account_funds(:mix_task, opts)
+```
+
+More examples, please checkout [Mix Tasks](https://github.com/lok0613/futu-elixir/tree/master/lib/mix)
+
 ## About InitConnect and KeepAlive
 Both are automatically intiated and supervised in GenServers when the application start, no extra care required for this part.
