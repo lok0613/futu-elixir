@@ -20,6 +20,11 @@ defmodule Futu.Api.Trade do
       def history_order_list(pid, opts) do
         request(pid, Futu.Trade.HistoryOrderList, opts)
       end
+
+      @spec position_list(server(), list()) :: {:ok, any()} | {:error, bitstring()}
+      def position_list(pid, opts) do
+        request(pid, Futu.Trade.PositionList, opts)
+      end
     end
   end
 end
