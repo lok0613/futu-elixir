@@ -1,4 +1,5 @@
 defmodule Futu.Component.Request do
+  @moduledoc false
   import Futu.Component.Binary
 
   @proto_fmt_type 0

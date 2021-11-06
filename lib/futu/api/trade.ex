@@ -1,4 +1,6 @@
 defmodule Futu.Api.Trade do
+  @moduledoc false
+
   defmacro __using__(_opts) do
     quote location: :keep do
       @spec account_funds(server(), list()) :: {:ok, any()} | {:error, bitstring()}
