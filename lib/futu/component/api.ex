@@ -83,14 +83,7 @@ defmodule Futu.Component.Api do
           %{retType: 0, s2c: s2c} ->
             {:ok, post_process_s2c(s2c, opts)}
 
-          %{retType: ret_type, retMsg: ret_msg, errCode: err_code} ->
-            # InitConnect ret_type: -1  ret_msg: "Unknown stock HK.02800"  err_code: 0
-            Logger.debug(
-              "InitConnect ret_type: #{inspect(ret_type)}  ret_msg: #{inspect(ret_msg)}  err_code: #{
-                inspect(response.err_code)
-              }"
-            )
-
+          %{retType: _ret_type, retMsg: ret_msg, errCode: _err_code} ->
             {:error, ret_msg}
         end
       end
