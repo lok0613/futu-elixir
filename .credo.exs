@@ -1,10 +1,14 @@
 %{
   configs: [
     %{
-      name: "no-protobuf",
+      name: "default",
       files: %{
-        excluded: ["lib/futu/protobuf"]
+        included: ["lib/"]
       },
+      checks: [
+        {Credo.Check.Readability.ModuleNames, files: %{excluded: ["lib/futu/protobuf/"]}},
+        {Credo.Check.Warning.IoInspect, files: %{excluded: ["lib/mix/"]}}
+      ]
     }
   ]
 }
