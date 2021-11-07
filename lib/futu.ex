@@ -86,6 +86,10 @@ defmodule Futu do
   @spec request_history_kl(server(), list()) :: {:ok, any()} | {:error, bitstring()}
   defdelegate request_history_kl(pid, list), to: Futu, as: :historical
 
+  def security_snapshot(pid, list) do
+    request(pid, Futu.Quote.SecuritySnapshot, list)
+  end
+
   @doc """
   This is the main function of intereacting Futu TCP client.
   Three steps here:
