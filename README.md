@@ -62,6 +62,53 @@ opts = [
 {:ok, _res} = Futu.account_funds(:mix_task, opts)
 ```
 
+Trade
+```elixir
+trade_env = 0 # simulate
+trade_market = 1 # HK
+account_id =
+md5_password =
+trade_header = header: [
+  trdEnv: trade_env,
+  accID: account_id,
+  trdMarket: trade_market
+]
+
+unlock_opts = [
+  unlock: true,
+  pwdMD5: md5_password,
+  securityFirm: 1 # HK
+]
+Futu.unlock_trade(:futu_client, unlock_opts)
+
+place_order_opts = [
+  packetID: [
+    connID: Futu.get_conn_id(:futu_client),
+    serialNo: 111
+  ],
+  header: trade_header,
+  trdSide: 2, # buy
+  orderType: 1, # 限价单
+  code: code,
+  qty: 1,
+  price: price,
+  secMarket: 1, # HK
+  remark: "test"
+]
+{:ok, place_order_respond} = Futu.place_order(:futu_client, place_order_opts)
+
+order_list_opts = [
+  header: trade_header
+]
+{:ok, order_list_opts_respond} = Futu.order_list(:futu_client, order_list_opts)
+
+position_list_opts = [
+  header: trade_header,
+  refreshCache: true
+]
+{:ok, position_list_respond} = Futu.position_list(:futu_client, position_list_opts)
+```
+
 More examples, please checkout [Mix Tasks](https://github.com/lok0613/futu-elixir/tree/master/lib/mix)
 
 ## About InitConnect and KeepAlive
