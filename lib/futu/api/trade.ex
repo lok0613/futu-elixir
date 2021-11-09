@@ -37,6 +37,11 @@ defmodule Futu.Api.Trade do
       def place_order(pid, opts) do
         request(pid, Futu.Trade.PlaceOrder, opts)
       end
+
+      @spec unlock_trade(server(), list()) :: {:ok, any()} | {:error, bitstring()}
+      def unlock_trade(pid, opts) do
+        request(pid, Futu.Trade.Unlock, opts)
+      end
     end
   end
 end
