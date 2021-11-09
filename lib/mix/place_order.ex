@@ -14,7 +14,7 @@ defmodule Mix.Tasks.PlaceOrder do
     opts = [
       packetID: [
         connID: Futu.get_conn_id(:mix_task),
-        serialNo: :os.system_time(:millisecond)
+        serialNo: 213
       ],
       header: [
         trdEnv: 0,
@@ -22,7 +22,8 @@ defmodule Mix.Tasks.PlaceOrder do
         trdMarket: 1
       ],
       # buy
-      tradeSide: 2,
+      trdSide: 2,
+      orderType: 1,
       code: code,
       qty: 1,
       price: price,
@@ -30,7 +31,7 @@ defmodule Mix.Tasks.PlaceOrder do
       remark: "test"
     ]
 
-    {:ok, res} = Futu.account_funds(:mix_task, opts)
+    {:ok, res} = Futu.place_order(:mix_task, opts)
     IO.inspect(res)
   end
 end

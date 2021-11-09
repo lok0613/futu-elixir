@@ -32,6 +32,11 @@ defmodule Futu.Api.Trade do
       def max_trade_quantities(pid, opts) do
         request(pid, Futu.Trade.MaxTradeQuantities, opts)
       end
+
+      @spec place_order(server(), list()) :: {:ok, any()} | {:error, bitstring()}
+      def place_order(pid, opts) do
+        request(pid, Futu.Trade.PlaceOrder, opts)
+      end
     end
   end
 end
