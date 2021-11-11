@@ -42,6 +42,11 @@ defmodule Futu.Api.Trade do
       def unlock_trade(pid, opts) do
         request(pid, Futu.Trade.Unlock, opts)
       end
+
+      @spec subscription(server(), list()) :: {:ok, any()} | {:error, bitstring()}
+      def subscription(pid, opts) do
+        request(pid, Futu.Trade.Subscription, opts)
+      end
     end
   end
 end
