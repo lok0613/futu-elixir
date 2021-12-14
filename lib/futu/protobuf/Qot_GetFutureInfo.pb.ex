@@ -34,7 +34,8 @@ defmodule Qot_GetFutureInfo.FutureInfo do
           quoteUnit: String.t(),
           tradeTime: [Qot_GetFutureInfo.TradeTime.t()],
           timeZone: String.t(),
-          exchangeFormatUrl: String.t()
+          exchangeFormatUrl: String.t(),
+          origin: Qot_Common.Security.t() | nil
         }
 
   defstruct [
@@ -54,7 +55,8 @@ defmodule Qot_GetFutureInfo.FutureInfo do
     :quoteUnit,
     :tradeTime,
     :timeZone,
-    :exchangeFormatUrl
+    :exchangeFormatUrl,
+    :origin
   ]
 
   field :name, 1, required: true, type: :string
@@ -74,6 +76,7 @@ defmodule Qot_GetFutureInfo.FutureInfo do
   field :tradeTime, 15, repeated: true, type: Qot_GetFutureInfo.TradeTime
   field :timeZone, 16, required: true, type: :string
   field :exchangeFormatUrl, 17, required: true, type: :string
+  field :origin, 18, optional: true, type: Qot_Common.Security
 end
 
 defmodule Qot_GetFutureInfo.C2S do

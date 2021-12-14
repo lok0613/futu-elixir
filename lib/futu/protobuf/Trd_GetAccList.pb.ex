@@ -3,12 +3,16 @@ defmodule Trd_GetAccList.C2S do
   use Protobuf, syntax: :proto2
 
   @type t :: %__MODULE__{
-          userID: non_neg_integer
+          userID: non_neg_integer,
+          trdCategory: integer,
+          needGeneralSecAccount: boolean
         }
 
-  defstruct [:userID]
+  defstruct [:userID, :trdCategory, :needGeneralSecAccount]
 
   field :userID, 1, required: true, type: :uint64
+  field :trdCategory, 2, optional: true, type: :int32
+  field :needGeneralSecAccount, 3, optional: true, type: :bool
 end
 
 defmodule Trd_GetAccList.S2C do
