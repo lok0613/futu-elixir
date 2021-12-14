@@ -8,6 +8,7 @@ defmodule Trd_ModifyOrder.C2S do
           orderID: non_neg_integer,
           modifyOrderOp: integer,
           forAll: boolean,
+          trdMarket: integer,
           qty: float | :infinity | :negative_infinity | :nan,
           price: float | :infinity | :negative_infinity | :nan,
           adjustPrice: boolean,
@@ -24,6 +25,7 @@ defmodule Trd_ModifyOrder.C2S do
     :orderID,
     :modifyOrderOp,
     :forAll,
+    :trdMarket,
     :qty,
     :price,
     :adjustPrice,
@@ -39,6 +41,7 @@ defmodule Trd_ModifyOrder.C2S do
   field :orderID, 3, required: true, type: :uint64
   field :modifyOrderOp, 4, required: true, type: :int32
   field :forAll, 5, optional: true, type: :bool
+  field :trdMarket, 6, optional: true, type: :int32
   field :qty, 8, optional: true, type: :double
   field :price, 9, optional: true, type: :double
   field :adjustPrice, 10, optional: true, type: :bool

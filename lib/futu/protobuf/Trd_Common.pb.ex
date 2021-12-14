@@ -8,6 +8,18 @@ defmodule Trd_Common.TrdEnv do
   field :TrdEnv_Real, 1
 end
 
+defmodule Trd_Common.TrdCategory do
+  @moduledoc false
+  use Protobuf, enum: true, syntax: :proto2
+  @type t :: integer | :TrdCategory_Unknown | :TrdCategory_Security | :TrdCategory_Future
+
+  field :TrdCategory_Unknown, 0
+
+  field :TrdCategory_Security, 1
+
+  field :TrdCategory_Future, 2
+end
+
 defmodule Trd_Common.TrdMarket do
   @moduledoc false
   use Protobuf, enum: true, syntax: :proto2
@@ -20,6 +32,7 @@ defmodule Trd_Common.TrdMarket do
           | :TrdMarket_CN
           | :TrdMarket_HKCC
           | :TrdMarket_Futures
+          | :TrdMarket_SG
 
   field :TrdMarket_Unknown, 0
 
@@ -32,6 +45,8 @@ defmodule Trd_Common.TrdMarket do
   field :TrdMarket_HKCC, 4
 
   field :TrdMarket_Futures, 5
+
+  field :TrdMarket_SG, 6
 end
 
 defmodule Trd_Common.TrdSecMarket do
@@ -280,6 +295,7 @@ defmodule Trd_Common.Currency do
           | :Currency_USD
           | :Currency_CNH
           | :Currency_JPY
+          | :Currency_SGD
 
   field :Currency_Unknown, 0
 
@@ -290,6 +306,8 @@ defmodule Trd_Common.Currency do
   field :Currency_CNH, 3
 
   field :Currency_JPY, 4
+
+  field :Currency_SGD, 5
 end
 
 defmodule Trd_Common.CltRiskLevel do
@@ -596,7 +614,9 @@ defmodule Trd_Common.Position do
           td_sellVal: float | :infinity | :negative_infinity | :nan,
           td_sellQty: float | :infinity | :negative_infinity | :nan,
           unrealizedPL: float | :infinity | :negative_infinity | :nan,
-          realizedPL: float | :infinity | :negative_infinity | :nan
+          realizedPL: float | :infinity | :negative_infinity | :nan,
+          currency: integer,
+          trdMarket: integer
         }
 
   defstruct [
@@ -619,7 +639,9 @@ defmodule Trd_Common.Position do
     :td_sellVal,
     :td_sellQty,
     :unrealizedPL,
-    :realizedPL
+    :realizedPL,
+    :currency,
+    :trdMarket
   ]
 
   field :positionID, 1, required: true, type: :uint64
@@ -642,6 +664,8 @@ defmodule Trd_Common.Position do
   field :td_sellQty, 26, optional: true, type: :double
   field :unrealizedPL, 28, optional: true, type: :double
   field :realizedPL, 29, optional: true, type: :double
+  field :currency, 30, optional: true, type: :int32
+  field :trdMarket, 31, optional: true, type: :int32
 end
 
 defmodule Trd_Common.Order do
@@ -672,7 +696,9 @@ defmodule Trd_Common.Order do
           auxPrice: float | :infinity | :negative_infinity | :nan,
           trailType: integer,
           trailValue: float | :infinity | :negative_infinity | :nan,
-          trailSpread: float | :infinity | :negative_infinity | :nan
+          trailSpread: float | :infinity | :negative_infinity | :nan,
+          currency: integer,
+          trdMarket: integer
         }
 
   defstruct [
@@ -699,7 +725,9 @@ defmodule Trd_Common.Order do
     :auxPrice,
     :trailType,
     :trailValue,
-    :trailSpread
+    :trailSpread,
+    :currency,
+    :trdMarket
   ]
 
   field :trdSide, 1, required: true, type: :int32
@@ -726,6 +754,8 @@ defmodule Trd_Common.Order do
   field :trailType, 22, optional: true, type: :int32
   field :trailValue, 23, optional: true, type: :double
   field :trailSpread, 24, optional: true, type: :double
+  field :currency, 25, optional: true, type: :int32
+  field :trdMarket, 26, optional: true, type: :int32
 end
 
 defmodule Trd_Common.OrderFill do
