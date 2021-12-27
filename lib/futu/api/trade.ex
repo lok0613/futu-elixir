@@ -23,7 +23,8 @@ defmodule Futu.Api.Trade do
         request(pid, Futu.Trade.HistoryOrderList, opts)
       end
 
-      @spec position_list(server(), list()) :: {:ok, any()} | {:error, bitstring()}
+      @spec position_list(server(), list()) ::
+              {:ok, Trd_GetPositionList.S2C} | {:error, bitstring()}
       def position_list(pid, opts) do
         request(pid, Futu.Trade.PositionList, opts)
       end
@@ -33,12 +34,12 @@ defmodule Futu.Api.Trade do
         request(pid, Futu.Trade.MaxTradeQuantities, opts)
       end
 
-      @spec place_order(server(), list()) :: {:ok, any()} | {:error, bitstring()}
+      @spec place_order(server(), list()) :: {:ok, Trd_PlaceOrder.S2C} | {:error, bitstring()}
       def place_order(pid, opts) do
         request(pid, Futu.Trade.PlaceOrder, opts)
       end
 
-      @spec unlock_trade(server(), list()) :: {:ok, any()} | {:error, bitstring()}
+      @spec unlock_trade(server(), list()) :: {:ok, Trd_UnlockTrade.S2C} | {:error, bitstring()}
       def unlock_trade(pid, opts) do
         request(pid, Futu.Trade.Unlock, opts)
       end

@@ -86,6 +86,8 @@ defmodule Futu do
   @spec request_history_kl(server(), list()) :: {:ok, any()} | {:error, bitstring()}
   defdelegate request_history_kl(pid, list), to: Futu, as: :historical
 
+  @spec security_snapshot(server(), list()) ::
+          {:ok, Qot_GetSecuritySnapshot.S2C} | {:error, bitstring()}
   def security_snapshot(pid, list) do
     request(pid, Futu.Quote.SecuritySnapshot, list)
   end
