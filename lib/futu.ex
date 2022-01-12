@@ -4,6 +4,7 @@ defmodule Futu do
   """
 
   use Futu.Api.Trade
+  require Logger
 
   @tcp_timeout Application.compile_env(:futu, :tcp_timeout, 7_000)
 
@@ -112,11 +113,17 @@ defmodule Futu do
     serial_no = SerialNumber.generate()
     tcp_msg = Request.build(module.proto_id, serial_no, proto_msg)
 
-    tcp_reply = GenServer.call(pid, {:send, tcp_msg}, @tcp_timeout)
+    try do
+      tcp_reply = GenServer.call(pid, {:send, tcp_msg}, @tcp_timeout)
 
-    case Response.parse(tcp_reply, module.proto_id) do
-      {:ok, str_body} -> module.decode(str_body, opts)
-      {:error, msg} -> {:error, msg}
+      case Response.parse(tcp_reply, module.proto_id) do
+        {:ok, str_body} -> module.decode(str_body, opts)
+        {:error, msg} -> {:error, msg}
+      end
+    catch
+      :exit, reason ->
+        Logger.warn("TCP timeout, #{inspect(reason)}")
+        GenServer.call(pid, :clear)
     end
   end
 end
