@@ -46,12 +46,14 @@ defmodule Futu.Component.Response do
   end
 
   defp check_proto_id(proto_id, req_proto_id) do
-    case unpack(proto_id, :u32_t) == req_proto_id do
+    unpacked_proto_id = unpack(proto_id, :u32_t)
+
+    case unpacked_proto_id == req_proto_id do
       true ->
         {:ok}
 
       false ->
-        {:error, "check_proto_id/2, req_proto_id: #{req_proto_id}"}
+        {:error, "check_proto_id/2, expected: #{req_proto_id}, actual: #{unpacked_proto_id}"}
     end
   end
 
