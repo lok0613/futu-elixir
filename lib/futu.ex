@@ -123,7 +123,7 @@ defmodule Futu do
     catch
       :exit, reason ->
         Logger.warn("TCP timeout, #{inspect(reason)}")
-        GenServer.call(pid, :clear)
+        GenServer.cast(pid, :clear)
     end
   end
 end
