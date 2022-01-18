@@ -11,6 +11,19 @@ defmodule Futu.Component.Response do
   def header_length(), do: 44
 
   @doc """
+  Get proto id from binary
+  """
+  @spec get_proto_id(bitstring()) :: {:ok, integer()} | {:error, bitstring()}
+  def get_proto_id("FT" <> _rest = binary) do
+    "FT" <> rest = binary
+    <<proto_id::binary-size(4)>> <> _rest = rest
+
+    {:ok, unpack(proto_id, :u32_t)}
+  end
+
+  def get_proto_id(_binary), do: {:error, "non request header"}
+
+  @doc """
   Validate all part of the header, return the body string
   """
   @spec parse(bitstring(), integer()) :: {:ok, bitstring()} | {:error, bitstring()}
