@@ -55,20 +55,26 @@ defmodule Futu.GenServer.TCP do
   end
 
   def handle_info({:tcp, _socket, msg}, state) do
-    new_state = %{state | msg: state.msg <> msg}
-    body_size = Response.get_body_size(new_state.msg)
-    total_msg_size = body_size + Response.header_length()
-    msg_size = byte_size(new_state.msg)
+    case Response.get_proto_id(msg) do
+      {:ok, 1004} ->
+        {:noreply, state}
 
-    if total_msg_size == msg_size do
-      GenServer.reply(new_state.from, new_state.msg)
+      _ ->
+        new_state = %{state | msg: state.msg <> msg}
+        body_size = Response.get_body_size(new_state.msg)
+        total_msg_size = body_size + Response.header_length()
+        msg_size = byte_size(new_state.msg)
+
+        if total_msg_size == msg_size do
+          GenServer.reply(new_state.from, new_state.msg)
+        end
+
+        if msg_size > total_msg_size do
+          Logger.warn("Message size exceed.")
+        end
+
+        {:noreply, new_state}
     end
-
-    if msg_size > total_msg_size do
-      Logger.warn("Message size exceed.")
-    end
-
-    {:noreply, new_state}
   end
 
   def handle_info({:tcp_closed, _socket}, state) do
