@@ -6,7 +6,7 @@ defmodule Futu do
   use Futu.Api.Trade
   require Logger
 
-  @tcp_timeout Application.compile_env(:futu, :tcp_timeout, 7_000)
+  @tcp_timeout Application.compile_env(:futu, :tcp_timeout, 2_000)
 
   alias Futu.Component.{
     Request,
@@ -124,6 +124,7 @@ defmodule Futu do
       :exit, reason ->
         Logger.warn("TCP timeout, #{inspect(reason)}")
         GenServer.cast(pid, :clear)
+        {:error, "TCP timeout, proto_id: #{module.proto_id}"}
     end
   end
 end
