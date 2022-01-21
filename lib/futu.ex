@@ -121,9 +121,7 @@ defmodule Futu do
         {:error, msg} -> {:error, msg}
       end
     catch
-      :exit, reason ->
-        Logger.warn("TCP timeout, #{inspect(reason)}")
-        GenServer.cast(pid, :clear)
+      :exit, {:timeout, {GenServer, _method, _args}} ->
         {:error, "TCP timeout, proto_id: #{module.proto_id}"}
     end
   end
