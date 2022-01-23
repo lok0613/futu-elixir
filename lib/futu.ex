@@ -6,7 +6,7 @@ defmodule Futu do
   use Futu.Api.Trade
   require Logger
 
-  @tcp_timeout Application.compile_env(:futu, :tcp_timeout, 2_000)
+  @tcp_timeout Application.compile_env(:futu, :tcp_timeout, 5_000)
 
   alias Futu.Component.{
     Request,
