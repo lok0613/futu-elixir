@@ -70,7 +70,7 @@ defmodule Futu.GenServer.TCP do
         end
 
         if msg_size > total_msg_size do
-          Logger.warn("Message size exceed.")
+          raise("Message size exceed.")
         end
 
         {:noreply, new_state}
