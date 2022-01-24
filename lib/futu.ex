@@ -114,14 +114,14 @@ defmodule Futu do
     tcp_msg = Request.build(module.proto_id, serial_no, proto_msg)
 
     try do
-      tcp_reply = GenServer.call(pid, {:send, tcp_msg}, @tcp_timeout)
+      {:ok, tcp_reply} = GenServer.call(pid, {:send, tcp_msg}, @tcp_timeout)
 
       case Response.parse(tcp_reply, module.proto_id) do
         {:ok, str_body} -> module.decode(str_body, opts)
         {:error, msg} -> {:error, msg}
       end
     rescue
-      e in RuntimeError ->
+      e in MatchError ->
         {:error, "#{inspect(e.message)}, proto_id: #{module.proto_id}"}
     catch
       :exit, {:timeout, {GenServer, _method, _args}} ->
