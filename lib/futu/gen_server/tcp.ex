@@ -66,11 +66,11 @@ defmodule Futu.GenServer.TCP do
         msg_size = byte_size(new_state.msg)
 
         if total_msg_size == msg_size do
-          GenServer.reply(new_state.from, new_state.msg)
+          GenServer.reply(new_state.from, {:ok, new_state.msg})
         end
 
         if msg_size > total_msg_size do
-          raise("Message size exceed.")
+          {:error, "Message size exceed."}
         end
 
         {:noreply, new_state}
