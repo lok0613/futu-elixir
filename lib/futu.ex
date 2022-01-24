@@ -120,6 +120,9 @@ defmodule Futu do
         {:ok, str_body} -> module.decode(str_body, opts)
         {:error, msg} -> {:error, msg}
       end
+    rescue
+      e in RuntimeError ->
+        {:error, "#{inspect(e.message)}, proto_id: #{module.proto_id}"}
     catch
       :exit, {:timeout, {GenServer, _method, _args}} ->
         {:error, "TCP timeout, proto_id: #{module.proto_id}"}
