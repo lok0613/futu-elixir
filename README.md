@@ -5,7 +5,7 @@
 [![CI](https://github.com/lok0613/futu-elixir/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/lok0613/futu-elixir/actions/workflows/ci.yml)
 
 ## Document
-Official documentation: [Futu API 文檔 v5.9](https://openapi.futunn.com/futu-api-doc/)
+Official documentation: [Futu API 文檔 v5.12](https://openapi.futunn.com/futu-api-doc/)
 
 ## Before anything
 Make sure you have FutuOpenD executable downloaded on your machine.
