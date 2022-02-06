@@ -53,8 +53,6 @@ defmodule Futu do
   @spec _heartbeat() :: binary()
   def _heartbeat() do
     proto_msg = Futu.Basic.Heartbeat.encode()
-    # if the system goes super fast, there will be duplicated serial number.
-    :timer.sleep(1)
     serial_no = SerialNumber.generate()
     Request.build(Futu.Basic.Heartbeat.proto_id(), serial_no, proto_msg)
   end

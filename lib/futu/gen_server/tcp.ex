@@ -23,6 +23,9 @@ defmodule Futu.GenServer.TCP do
   def init(%{host: host, port: port}) do
     host_charlist = String.to_charlist(host)
 
+    # if the system goes super fast, there will be duplicated serial number.
+    :timer.sleep(1)
+
     {:ok, socket} =
       :gen_tcp.connect(host_charlist, port, [:binary, active: true, keepalive: true])
 
