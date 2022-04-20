@@ -29,7 +29,7 @@ defmodule Futu.GenServer.TCP do
     {:ok, socket} =
       :gen_tcp.connect(host_charlist, port, [:binary, active: true, keepalive: true])
 
-    {:ok, %{socket: socket, from: nil, msg: ""}}
+    {:ok, %{socket: socket, from: nil, is_occupied: false, msg: ""}}
   end
 
   def handle_call({:send, msg}, from, state) do
@@ -41,6 +41,10 @@ defmodule Futu.GenServer.TCP do
 
   def handle_call(:get_conn_id, _from, state) do
     {:reply, state.conn_id, state}
+  end
+
+  def handle_call(:is_occupied, _from, state) do
+    {:reply, state.is_occupied, state}
   end
 
   def handle_cast(:clear, state) do
@@ -68,15 +72,21 @@ defmodule Futu.GenServer.TCP do
         total_msg_size = body_size + Response.header_length()
         msg_size = byte_size(new_state.msg)
 
-        if total_msg_size == msg_size do
-          GenServer.reply(new_state.from, {:ok, new_state.msg})
-        end
+        is_occupied =
+          case total_msg_size == msg_size do
+            true ->
+              GenServer.reply(new_state.from, {:ok, new_state.msg})
+              false
+
+            false ->
+              true
+          end
 
         if msg_size > total_msg_size do
           {:error, "Message size exceed."}
         end
 
-        {:noreply, new_state}
+        {:noreply, %{new_state | is_occupied: is_occupied}}
     end
   end
 

@@ -113,6 +113,8 @@ defmodule Futu do
     serial_no = SerialNumber.generate()
     tcp_msg = Request.build(module.proto_id, serial_no, proto_msg)
 
+    wait_until_free(pid)
+
     try do
       {:ok, tcp_reply} = GenServer.call(pid, {:send, tcp_msg}, @tcp_timeout)
 
@@ -138,6 +140,17 @@ defmodule Futu do
     catch
       :exit, {:timeout, {GenServer, _method, _args}} ->
         {:error, "TCP timeout, proto_id: #{module.proto_id}"}
+    end
+  end
+
+  defp wait_until_free(pid) do
+    case GenServer.call(pid, :is_occupied) do
+      true ->
+        :timer.sleep(100)
+        wait_until_free(pid)
+
+      false ->
+        :ok
     end
   end
 end
