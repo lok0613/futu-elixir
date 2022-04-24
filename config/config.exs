@@ -1,6 +1,7 @@
 import Config
 
 config :futu,
+  tcp_debug: false,
   mapper_module: Futu.Component.Mapper.Nothing,
   tcp_timeout: 20_000
 

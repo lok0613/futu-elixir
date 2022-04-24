@@ -9,6 +9,7 @@ defmodule Futu.GenServer.TCP do
   alias Futu.Component.Response
 
   @default_opts %{host: "localhost", port: 11_111, name: __MODULE__}
+  @tcp_debug Application.compile_env(:futu, :tcp_debug)
 
   @spec start_link(map()) :: {:ok, pid()}
   def start_link(opts \\ %{})
@@ -71,6 +72,11 @@ defmodule Futu.GenServer.TCP do
         body_size = Response.get_body_size(new_state.msg)
         total_msg_size = body_size + Response.header_length()
         msg_size = byte_size(new_state.msg)
+
+        if @tcp_debug do
+          percentage = msg_size / total_msg_size * 100
+          Logger.info("#{percentage}%")
+        end
 
         is_occupied =
           case total_msg_size == msg_size do
