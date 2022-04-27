@@ -48,11 +48,6 @@ defmodule Futu.GenServer.TCP do
     {:reply, state.is_occupied, state}
   end
 
-  def handle_cast(:clear, state) do
-    new_state = %{state | msg: ""}
-    {:noreply, new_state}
-  end
-
   def handle_cast({:send_heartbeat, msg}, state) do
     :ok = :gen_tcp.send(state.socket, msg)
     {:noreply, state}
@@ -78,21 +73,18 @@ defmodule Futu.GenServer.TCP do
           Logger.info("#{percentage}%")
         end
 
-        is_occupied =
-          case total_msg_size == msg_size do
-            true ->
-              GenServer.reply(new_state.from, {:ok, new_state.msg})
-              false
+        cond do
+          total_msg_size == msg_size ->
+            GenServer.reply(new_state.from, {:ok, new_state.msg})
+            {:noreply, %{new_state | msg: "", is_occupied: false}}
 
-            false ->
-              true
-          end
+          msg_size > total_msg_size ->
+            GenServer.reply(new_state.from, {:error, "Message size exceed."})
+            {:noreply, %{new_state | msg: "", is_occupied: false}}
 
-        if msg_size > total_msg_size do
-          {:error, "Message size exceed."}
+          true ->
+            {:noreply, %{new_state | is_occupied: true}}
         end
-
-        {:noreply, %{new_state | is_occupied: is_occupied}}
     end
   end
 
