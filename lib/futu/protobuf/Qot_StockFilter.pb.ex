@@ -271,6 +271,17 @@ defmodule Qot_StockFilter.CustomIndicatorField do
           | :CustomIndicatorField_EMA120
           | :CustomIndicatorField_EMA250
           | :CustomIndicatorField_Value
+          | :CustomIndicatorField_MA
+          | :CustomIndicatorField_EMA
+          | :CustomIndicatorField_KDJ_K
+          | :CustomIndicatorField_KDJ_D
+          | :CustomIndicatorField_KDJ_J
+          | :CustomIndicatorField_MACD_DIFF
+          | :CustomIndicatorField_MACD_DEA
+          | :CustomIndicatorField_MACD
+          | :CustomIndicatorField_BOLL_UPPER
+          | :CustomIndicatorField_BOLL_MIDDLER
+          | :CustomIndicatorField_BOLL_LOWER
 
   field :CustomIndicatorField_Unknown, 0
 
@@ -307,6 +318,28 @@ defmodule Qot_StockFilter.CustomIndicatorField do
   field :CustomIndicatorField_EMA250, 16
 
   field :CustomIndicatorField_Value, 17
+
+  field :CustomIndicatorField_MA, 30
+
+  field :CustomIndicatorField_EMA, 40
+
+  field :CustomIndicatorField_KDJ_K, 50
+
+  field :CustomIndicatorField_KDJ_D, 51
+
+  field :CustomIndicatorField_KDJ_J, 52
+
+  field :CustomIndicatorField_MACD_DIFF, 60
+
+  field :CustomIndicatorField_MACD_DEA, 61
+
+  field :CustomIndicatorField_MACD, 62
+
+  field :CustomIndicatorField_BOLL_UPPER, 70
+
+  field :CustomIndicatorField_BOLL_MIDDLER, 71
+
+  field :CustomIndicatorField_BOLL_LOWER, 72
 end
 
 defmodule Qot_StockFilter.PatternField do
@@ -515,14 +548,16 @@ defmodule Qot_StockFilter.PatternFilter do
   @type t :: %__MODULE__{
           fieldName: integer,
           klType: integer,
-          isNoFilter: boolean
+          isNoFilter: boolean,
+          consecutivePeriod: integer
         }
 
-  defstruct [:fieldName, :klType, :isNoFilter]
+  defstruct [:fieldName, :klType, :isNoFilter, :consecutivePeriod]
 
   field :fieldName, 1, required: true, type: :int32
   field :klType, 2, required: true, type: :int32
   field :isNoFilter, 3, optional: true, type: :bool
+  field :consecutivePeriod, 4, optional: true, type: :int32
 end
 
 defmodule Qot_StockFilter.CustomIndicatorFilter do
@@ -535,7 +570,10 @@ defmodule Qot_StockFilter.CustomIndicatorFilter do
           relativePosition: integer,
           fieldValue: float | :infinity | :negative_infinity | :nan,
           klType: integer,
-          isNoFilter: boolean
+          isNoFilter: boolean,
+          firstFieldParaList: [integer],
+          secondFieldParaList: [integer],
+          consecutivePeriod: integer
         }
 
   defstruct [
@@ -544,7 +582,10 @@ defmodule Qot_StockFilter.CustomIndicatorFilter do
     :relativePosition,
     :fieldValue,
     :klType,
-    :isNoFilter
+    :isNoFilter,
+    :firstFieldParaList,
+    :secondFieldParaList,
+    :consecutivePeriod
   ]
 
   field :firstFieldName, 1, required: true, type: :int32
@@ -553,6 +594,9 @@ defmodule Qot_StockFilter.CustomIndicatorFilter do
   field :fieldValue, 4, optional: true, type: :double
   field :klType, 5, required: true, type: :int32
   field :isNoFilter, 6, optional: true, type: :bool
+  field :firstFieldParaList, 7, repeated: true, type: :int32
+  field :secondFieldParaList, 8, repeated: true, type: :int32
+  field :consecutivePeriod, 9, optional: true, type: :int32
 end
 
 defmodule Qot_StockFilter.BaseData do
@@ -611,14 +655,16 @@ defmodule Qot_StockFilter.CustomIndicatorData do
   @type t :: %__MODULE__{
           fieldName: integer,
           value: float | :infinity | :negative_infinity | :nan,
-          klType: integer
+          klType: integer,
+          fieldParaList: [integer]
         }
 
-  defstruct [:fieldName, :value, :klType]
+  defstruct [:fieldName, :value, :klType, :fieldParaList]
 
   field :fieldName, 1, required: true, type: :int32
   field :value, 2, required: true, type: :double
   field :klType, 3, required: true, type: :int32
+  field :fieldParaList, 4, repeated: true, type: :int32
 end
 
 defmodule Qot_StockFilter.StockData do
@@ -630,16 +676,25 @@ defmodule Qot_StockFilter.StockData do
           name: String.t(),
           baseDataList: [Qot_StockFilter.BaseData.t()],
           accumulateDataList: [Qot_StockFilter.AccumulateData.t()],
-          financialDataList: [Qot_StockFilter.FinancialData.t()]
+          financialDataList: [Qot_StockFilter.FinancialData.t()],
+          customIndicatorDataList: [Qot_StockFilter.CustomIndicatorData.t()]
         }
 
-  defstruct [:security, :name, :baseDataList, :accumulateDataList, :financialDataList]
+  defstruct [
+    :security,
+    :name,
+    :baseDataList,
+    :accumulateDataList,
+    :financialDataList,
+    :customIndicatorDataList
+  ]
 
   field :security, 1, required: true, type: Qot_Common.Security
   field :name, 2, required: true, type: :string
   field :baseDataList, 3, repeated: true, type: Qot_StockFilter.BaseData
   field :accumulateDataList, 4, repeated: true, type: Qot_StockFilter.AccumulateData
   field :financialDataList, 5, repeated: true, type: Qot_StockFilter.FinancialData
+  field :customIndicatorDataList, 6, repeated: true, type: Qot_StockFilter.CustomIndicatorData
 end
 
 defmodule Qot_StockFilter.C2S do
