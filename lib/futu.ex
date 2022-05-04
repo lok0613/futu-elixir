@@ -134,6 +134,9 @@ defmodule Futu do
           %{message: "TCP timeout"} ->
             request(pid, module, opts)
 
+          %{term: {:error, message}} ->
+            {:error, "#{inspect(message)}, proto_id: #{module.proto_id}"}
+
           _ ->
             {:error, "#{inspect(e.message)}, proto_id: #{module.proto_id}"}
         end
