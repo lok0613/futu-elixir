@@ -16,23 +16,12 @@ defmodule Futu.Component.Api do
 
       @before_compile unquote(__MODULE__)
 
-      @mapper_module Application.compile_env(:futu, :mapper_module, nil)
-
       @spec map_c2s(any()) :: list()
       def map_c2s(opts \\ [])
       def map_c2s(opts), do: opts
 
       @spec map_s2c(any()) :: any()
       def map_s2c(opts), do: opts
-
-      defp post_process_s2c(s2c, opts) do
-        mapped_s2c = map_s2c(s2c)
-
-        case @mapper_module do
-          nil -> mapped_s2c
-          _ -> apply(@mapper_module, :map, [mapped_s2c, opts])
-        end
-      end
 
       defoverridable map_c2s: 1,
                      map_s2c: 1
@@ -81,7 +70,7 @@ defmodule Futu.Component.Api do
 
         case response do
           %{retType: 0, s2c: s2c} ->
-            {:ok, post_process_s2c(s2c, opts)}
+            {:ok, map_s2c(s2c)}
 
           %{retType: _ret_type, retMsg: ret_msg, errCode: _err_code} ->
             {:error, ret_msg}
