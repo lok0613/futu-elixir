@@ -109,6 +109,17 @@ position_list_opts = [
 {:ok, position_list_respond} = Futu.position_list(:futu_client, position_list_opts)
 ```
 
+Subscription
+```elixir
+# Subscribe event
+acc_id_list = []
+Futu.subscription(:mix_task, %{accIDList: acc_id_list})
+
+# Config
+config :futu,
+  order_update_callback: [Futu.UpdateNotifier, :handle_info]
+```
+
 More examples, please checkout [Mix Tasks](https://github.com/lok0613/futu-elixir/tree/master/lib/mix)
 
 ## About InitConnect and KeepAlive
