@@ -142,6 +142,7 @@ defmodule Futu do
         end
     catch
       :exit, {:timeout, {GenServer, _method, _args}} ->
+        GenServer.stop(pid)
         {:error, "TCP timeout, proto_id: #{module.proto_id}"}
     end
   end
