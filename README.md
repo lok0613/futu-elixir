@@ -17,7 +17,7 @@ If you want to use it in docker container or deployment on cloud instances, [fut
 ```elixir
 def deps do
   [
-    {:futu, "~> 2.8.1"}
+    {:futu, "~> 2.9.0"}
   ]
 end
 ```
