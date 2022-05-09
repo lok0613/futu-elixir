@@ -52,9 +52,7 @@ defmodule Futu.Component.Api do
   end
 
   defmacro __before_compile__(_env) do
-    quote generated: true do
-      require Logger
-
+    quote location: :keep, generated: true do
       @spec proto_id() :: integer()
       def proto_id() do
         case @proto_id do
@@ -68,9 +66,18 @@ defmodule Futu.Component.Api do
       """
       @spec encode(list()) :: bitstring()
       def encode(opts \\ []) do
-        c2s = @proto_mod.C2S.new(map_c2s(opts))
-        request = @proto_mod.Request.new(c2s: c2s)
-        @proto_mod.Request.encode(request)
+        c2s_module = get_c2s_module()
+        request_module = get_request_module()
+
+        case Code.ensure_compiled(c2s_module) do
+          {:module, _module} ->
+            c2s = apply(c2s_module, :new, [map_c2s(opts)])
+            request = apply(request_module, :new, [[c2s: c2s]])
+            apply(request_module, :encode, [request])
+
+          _ ->
+            ""
+        end
       end
 
       @doc """
@@ -87,6 +94,9 @@ defmodule Futu.Component.Api do
             {:error, ret_msg}
         end
       end
+
+      defp get_c2s_module(), do: String.to_existing_atom("#{@proto_mod}.C2S")
+      defp get_request_module(), do: String.to_existing_atom("#{@proto_mod}.Request")
     end
   end
 end
