@@ -8,6 +8,8 @@ defmodule Futu.GenServer.TCP do
   require Logger
   alias Futu.Component.Response
 
+  @order_update_callback Application.compile_env(:futu, :order_update_callback)
+
   @default_opts %{host: "localhost", port: 11_111, name: __MODULE__}
   @tcp_debug Application.compile_env(:futu, :tcp_debug)
 
@@ -57,6 +59,18 @@ defmodule Futu.GenServer.TCP do
   def handle_info({:tcp, _socket, msg}, state) do
     case Response.get_proto_id(msg) do
       {:ok, 1004} ->
+        {:noreply, state}
+
+      {:ok, 2218} ->
+        {:noreply, state}
+
+      {:ok, 2208} ->
+        {:ok, response} = Response.parse(msg, 2208)
+        {:ok, order} = Futu.Trade.UpdateOrder.decode(response)
+
+        [mod, func] = @order_update_callback
+        apply(mod, func, [order])
+
         {:noreply, state}
 
       _ ->
