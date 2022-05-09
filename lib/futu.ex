@@ -116,7 +116,7 @@ defmodule Futu do
     wait_until_free(pid)
 
     try do
-      {:ok, tcp_reply} = GenServer.call(pid, {:send, tcp_msg}, @tcp_timeout)
+      {:ok, tcp_reply} = GenServer.call(pid, {:send, tcp_msg, module.proto_id}, @tcp_timeout)
 
       case Response.parse(tcp_reply, module.proto_id) do
         {:ok, str_body} ->

@@ -29,12 +29,12 @@ defmodule Futu.GenServer.TCP do
     {:ok, socket} =
       :gen_tcp.connect(host_charlist, port, [:binary, active: true, keepalive: true])
 
-    {:ok, %{socket: socket, from: nil, is_occupied: false, msg: ""}}
+    {:ok, %{socket: socket, from: nil, is_occupied: false, msg: "", proto_id: nil}}
   end
 
-  def handle_call({:send, msg}, from, state) do
+  def handle_call({:send, msg, proto_id}, from, state) do
     :ok = :gen_tcp.send(state.socket, msg)
-    new_state = %{state | from: from, msg: ""}
+    new_state = %{state | from: from, msg: "", proto_id: proto_id}
 
     {:noreply, new_state}
   end
@@ -73,7 +73,7 @@ defmodule Futu.GenServer.TCP do
 
         {:noreply, state}
 
-      _ ->
+      proto_res ->
         new_state = %{state | msg: state.msg <> msg}
         body_size = Response.get_body_size(new_state.msg)
         total_msg_size = body_size + Response.header_length()
@@ -84,14 +84,24 @@ defmodule Futu.GenServer.TCP do
           Logger.info("#{percentage}%")
         end
 
+        proto_id =
+          case proto_res do
+            {:ok, proto_id} -> proto_id
+            _ -> nil
+          end
+
         cond do
+          !is_nil(proto_id) and !is_nil(state.proto_id) and proto_id != state.proto_id ->
+            {:stop, "Unmatched proto_id: #{proto_id}, it supposed to be #{state.proto_id}",
+             reset_state(new_state)}
+
           total_msg_size == msg_size ->
             GenServer.reply(new_state.from, {:ok, new_state.msg})
-            {:noreply, %{new_state | msg: "", is_occupied: false}}
+            {:noreply, reset_state(new_state)}
 
           msg_size > total_msg_size ->
             GenServer.reply(new_state.from, {:error, "Message size exceed."})
-            {:noreply, %{new_state | msg: "", is_occupied: false}}
+            {:noreply, reset_state(new_state)}
 
           true ->
             {:noreply, %{new_state | is_occupied: true}}
@@ -103,5 +113,9 @@ defmodule Futu.GenServer.TCP do
     Logger.warn("TCP closed.")
 
     {:stop, :normal, state}
+  end
+
+  defp reset_state(state) do
+    %{state | msg: "", proto_id: nil, is_occupied: false}
   end
 end
