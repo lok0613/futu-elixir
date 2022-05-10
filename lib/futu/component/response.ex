@@ -85,9 +85,16 @@ defmodule Futu.Component.Response do
   end
 
   defp check_body_length(body_length, str_body, proto_id) do
-    case byte_size(str_body) == unpack(body_length, :u32_t) do
-      true -> {:ok}
-      false -> {:error, "check_body_length/3, proto_id: #{proto_id}"}
+    expected = unpack(body_length, :u32_t)
+    actual = byte_size(str_body)
+
+    case expected == actual do
+      true ->
+        {:ok}
+
+      false ->
+        {:error,
+         "check_body_length/3, proto_id: #{proto_id}. Expected: #{expected}, actual: #{actual}"}
     end
   end
 
