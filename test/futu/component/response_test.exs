@@ -28,7 +28,7 @@ defmodule Futu.Component.ResponseTest do
           121, 188, 167, 172, 202, 209, 128, 12, 101, 180, 169, 228, 108, 0, 0, 0, 0, 0, 0, 0, 0,
           8, 255, 255, 255, 255, 255, 255, 255, 255>>
 
-      assert {:error, "check_body_length/3, proto_id: 1001"} =
+      assert {:error, "check_body_length/3, proto_id: 1001. Expected: 47, actual: 9"} =
                Response.parse(fake_incomplete_connect_response, 1001)
     end
 
