@@ -134,6 +134,10 @@ defmodule Futu do
           %{message: "TCP timeout"} ->
             request(pid, module, opts)
 
+          %{term: {:error, "Message size exceed"}} ->
+            GenServer.stop(pid)
+            {:error, "Message size exceed, proto_id: #{module.proto_id}"}
+
           %{term: {:error, message}} ->
             {:error, "#{inspect(message)}, proto_id: #{module.proto_id}"}
 
