@@ -57,6 +57,8 @@ defmodule Futu.GenServer.TCP do
   end
 
   def handle_info({:tcp, _socket, msg}, state) do
+    print_message(msg)
+
     case Response.get_proto_id(msg) do
       {:ok, 1004} ->
         {:noreply, state}
@@ -117,5 +119,33 @@ defmodule Futu.GenServer.TCP do
 
   defp reset_state(state) do
     %{state | msg: "", proto_id: nil, is_occupied: false}
+  end
+
+  defp is_message_head?(packet) do
+    case Response.get_proto_id(packet) do
+      {:ok, _proto_id} -> true
+      _ -> false
+    end
+  end
+
+  defp print_message(message) do
+    payload = inspect(:binary.bin_to_list(message), limit: :infinity)
+    Logger.info("is head?: #{inspect(is_message_head?(message))}")
+    Logger.info("message: #{payload}")
+    Logger.info("length: #{byte_size(message)}")
+
+    case Response.get_proto_id(message) do
+      {:ok, proto_id} ->
+        Logger.info("proto_id: #{proto_id}")
+
+        body_size = Response.get_body_size(message)
+        total_msg_size = body_size + Response.header_length()
+        Logger.info("supposed length: #{total_msg_size}")
+
+      _ ->
+        nil
+    end
+
+    Logger.info("-------------------------------------------------")
   end
 end
