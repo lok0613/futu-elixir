@@ -27,7 +27,12 @@ defmodule Futu.GenServer.TCP do
     host_charlist = String.to_charlist(host)
 
     {:ok, socket} =
-      :gen_tcp.connect(host_charlist, port, [:binary, active: true, keepalive: true])
+      :gen_tcp.connect(host_charlist, port, [
+        :binary,
+        active: true,
+        keepalive: true,
+        buffer: 1024 * 1024
+      ])
 
     {:ok, %{socket: socket, from: nil, is_occupied: false, msg: "", proto_id: nil}}
   end
