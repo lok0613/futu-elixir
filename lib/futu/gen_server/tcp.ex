@@ -39,7 +39,7 @@ defmodule Futu.GenServer.TCP do
 
   def handle_call({:send, msg, proto_id}, from, state) do
     :ok = :gen_tcp.send(state.socket, msg)
-    new_state = %{state | from: from, msg: "", proto_id: proto_id}
+    new_state = %{state | from: from, msg: "", proto_id: proto_id, is_occupied: true}
 
     {:noreply, new_state}
   end
@@ -66,7 +66,7 @@ defmodule Futu.GenServer.TCP do
 
     case Response.get_proto_id(msg) do
       {:ok, 1004} ->
-        {:noreply, state}
+        {:noreply, reset_state(state)}
 
       {:ok, 2218} ->
         {:noreply, state}
@@ -111,7 +111,7 @@ defmodule Futu.GenServer.TCP do
             {:noreply, reset_state(new_state)}
 
           true ->
-            {:noreply, %{new_state | is_occupied: true}}
+            {:noreply, new_state}
         end
     end
   end

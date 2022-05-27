@@ -21,6 +21,7 @@ defmodule Futu.GenServer.HeartBeat do
 
   def handle_info({:heartbeat, tcp_pid, interval}, state) do
     msg = Futu._heartbeat()
+    Futu.wait_until_free(tcp_pid)
     GenServer.cast(tcp_pid, {:send_heartbeat, msg})
     schedule_heartbeat(tcp_pid, interval)
     {:noreply, state}
