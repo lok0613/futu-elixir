@@ -151,7 +151,7 @@ defmodule Futu do
     end
   end
 
-  defp wait_until_free(pid) do
+  def wait_until_free(pid) do
     case GenServer.call(pid, :is_occupied) do
       true ->
         :timer.sleep(100)
