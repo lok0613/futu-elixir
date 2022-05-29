@@ -131,10 +131,11 @@ defmodule Futu do
     rescue
       e in MatchError ->
         case e do
-          %{message: "TCP timeout"} ->
-            request(pid, module, opts)
+          # %{message: "TCP timeout"} ->
+          #   request(pid, module, opts)
 
           %{term: {:error, "Message size exceed"}} ->
+            Logger.warn("Message size exceed")
             GenServer.stop(pid)
             {:error, "Message size exceed, proto_id: #{module.proto_id}"}
 
