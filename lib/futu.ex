@@ -3,7 +3,12 @@ defmodule Futu do
   Futu Elixir API Client
   """
 
-  use Futu.Api.Trade
+  use Futu.Api.{
+    Trade,
+    Basic,
+    Quote
+  }
+
   require Logger
 
   @tcp_timeout Application.compile_env(:futu, :tcp_timeout, 5_000)
@@ -34,63 +39,6 @@ defmodule Futu do
   @spec get_conn_id(server()) :: integer()
   def get_conn_id(pid) do
     GenServer.call(pid, :get_conn_id)
-  end
-
-  @doc """
-  1001 InitConnect
-  This function will execute in Futu.GenServer automatically
-  """
-  @spec _init_connect(server()) :: {:ok, any()} | {:error, bitstring()}
-  def _init_connect(pid) do
-    request(pid, Futu.Basic.InitConnect, [])
-  end
-
-  @doc """
-  1004 KeepAlive
-  Cast for the heartbeat, no reply
-  This function will execute in Futu.GenServer automatically
-  """
-  @spec _heartbeat() :: binary()
-  def _heartbeat() do
-    proto_msg = Futu.Basic.Heartbeat.encode()
-    serial_no = SerialNumber.generate()
-    Request.build(Futu.Basic.Heartbeat.proto_id(), serial_no, proto_msg)
-  end
-
-  @doc """
-  3103 Qot_RequestHistoryKL
-
-  ### Paramters
-
-  required:
-  * period, checkout Futu.Quote.Historical.period/1
-  * market, checkout Futu.Quote.Historical.market/1
-  * code, e.g. 1
-
-  optional:
-  * rehab, checkout Futu.Quote.Historical.rehab/1
-  * from, default ~N[1999-01-01 00:00:00]
-  * to, default now
-  * max_rows, integer
-  * next_page_key, if it's included from the last response
-  * extended_time, boolean, to get the pre-market and after-hours data of US stocks, only supports timeframe of 1-minute
-  """
-
-  @spec historical(server(), list()) :: {:ok, any()} | {:error, bitstring()}
-  def historical(pid, list) do
-    request(pid, Futu.Quote.Historical, list)
-  end
-
-  @doc """
-  Refer to historical/1, I don't like the function name
-  """
-  @spec request_history_kl(server(), list()) :: {:ok, any()} | {:error, bitstring()}
-  defdelegate request_history_kl(pid, list), to: Futu, as: :historical
-
-  @spec security_snapshot(server(), list()) ::
-          {:ok, Qot_GetSecuritySnapshot.S2C.t()} | {:error, bitstring()}
-  def security_snapshot(pid, list) do
-    request(pid, Futu.Quote.SecuritySnapshot, list)
   end
 
   @doc """
