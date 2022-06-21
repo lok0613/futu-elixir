@@ -52,13 +52,14 @@ defmodule Futu do
     Supervisor.start_link(children, strategy: :one_for_all)
   end
 
-  def subscribe(tcp_name) do
-    res = Futu.subscription(tcp_name, [])
+  @spec subscribe(pid(), integer(), {module(), :atom}) :: {:ok, Trd_SubAccPush.S2C.t()}
+  def subscribe(tcp_name, acc_id, {_mod, _func} = handler) do
+    sub_name = String.to_atom("sub_#{tcp_name}")
+    GenServer.cast(sub_name, {:set_handler, handler})
 
-    Logger.info("subscribe: #{inspect(res)}")
-
-    # sub_name = String.to_atom("sub_#{tcp_name}")
-    # GenServer.cast(sub_name, {:subscribe, "MHImain"})
+    Futu.subscription(sub_name,
+      accIDList: [acc_id]
+    )
   end
 
   @spec get_conn_id(server()) :: integer()
