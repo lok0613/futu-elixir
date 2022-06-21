@@ -25,15 +25,40 @@ defmodule Futu do
   Futu client gen server
   """
   @spec start(%{host: bitstring(), port: integer(), name: server()} | map()) :: {:ok, pid()}
-  def start(opts \\ %{})
+  def start(opts \\ %{name: :futu})
 
   def start(opts) do
+    sub_name = String.to_atom("sub_#{opts.name}")
+
     children = [
-      {Futu.GenServer.TCP, opts},
-      {Futu.GenServer.TcpHeartBeat, opts}
+      %{
+        id: Futu.GenServer.TCP,
+        start: {Futu.GenServer.TCP, :start_link, [opts]}
+      },
+      %{
+        id: Futu.GenServer.TcpHeartBeat,
+        start: {Futu.GenServer.TcpHeartBeat, :start_link, [opts]}
+      },
+      %{
+        id: Futu.GenServer.Subscription,
+        start: {Futu.GenServer.Subscription, :start_link, [%{opts | name: sub_name}]}
+      },
+      %{
+        id: Futu.GenServer.SubHeartBeat,
+        start: {Futu.GenServer.TcpHeartBeat, :start_link, [%{opts | name: sub_name}]}
+      }
     ]
 
     Supervisor.start_link(children, strategy: :one_for_all)
+  end
+
+  def subscribe(tcp_name) do
+    res = Futu.subscription(tcp_name, [])
+
+    Logger.info("subscribe: #{inspect(res)}")
+
+    # sub_name = String.to_atom("sub_#{tcp_name}")
+    # GenServer.cast(sub_name, {:subscribe, "MHImain"})
   end
 
   @spec get_conn_id(server()) :: integer()
