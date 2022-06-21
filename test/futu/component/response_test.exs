@@ -48,4 +48,34 @@ defmodule Futu.Component.ResponseTest do
                48, 67, 65, 66, 56, 1>> = s2c
     end
   end
+
+  describe "remove_heartbeat_msg/1" do
+    test "heartbeat removed, head + tail" do
+      msg =
+        <<5, 6, 70, 84, 236, 3, 0, 0, 0, 0, 180, 152, 155, 111, 14, 0, 0, 0, 73, 245, 19, 204,
+          107, 181, 154, 159, 194, 36, 94, 205, 78, 242, 120, 103, 103, 33, 124, 236, 0, 0, 0, 0,
+          0, 0, 0, 0, 8, 0, 18, 0, 24, 0, 34, 6, 8, 253, 220, 175, 149, 6, 7, 8>>
+
+      assert {:ok, <<5, 6, 7, 8>>} = Response.remove_heartbeat_msg(msg)
+    end
+
+    test "heartbeat removed, just head" do
+      msg =
+        <<5, 6, 70, 84, 236, 3, 0, 0, 0, 0, 180, 152, 155, 111, 14, 0, 0, 0, 73, 245, 19, 204,
+          107, 181, 154, 159, 194, 36, 94, 205, 78, 242, 120, 103, 103, 33, 124, 236, 0, 0, 0, 0,
+          0, 0, 0, 0, 8, 0, 18, 0, 24, 0, 34, 6, 8, 253, 220, 175, 149, 6>>
+
+      assert {:ok, <<5, 6>>} = Response.remove_heartbeat_msg(msg)
+    end
+
+    test "no heartbeat" do
+      msg =
+        <<5, 6, 0, 0, 0, 0, 180, 152, 155, 111, 14, 0, 0, 0, 73, 245, 19, 204, 107, 181, 154, 159,
+          194, 36, 94, 205, 78, 242, 120, 103, 103, 33, 124, 236, 0, 0, 0, 0, 0, 0, 0, 0, 8, 0,
+          18, 0, 24, 0, 34, 6, 8, 253, 220, 175, 149, 6, 7>>
+
+      assert {:ok, removed_msg} = Response.remove_heartbeat_msg(msg)
+      assert byte_size(removed_msg) == byte_size(msg)
+    end
+  end
 end

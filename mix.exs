@@ -27,6 +27,7 @@ defmodule Futu.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
+      {:binary, "~> 0.0.5"},
       {:jason, "~> 1.2"},
       {:protobuf, "~> 0.7.1"},
       {:google_protos, "~> 0.1", only: [:dev]},

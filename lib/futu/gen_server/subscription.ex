@@ -26,7 +26,7 @@ defmodule Futu.GenServer.Subscription do
         buffer: 1024 * 1024
       ])
 
-    {:ok, %{socket: socket, from: nil}}
+    {:ok, %{socket: socket, from: nil, handler: nil}}
   end
 
   def handle_call({:send, msg, _proto_id}, from, state) do
@@ -46,9 +46,11 @@ defmodule Futu.GenServer.Subscription do
     {:noreply, state}
   end
 
-  def handle_info({:tcp, socket, msg}, state) do
-    Logger.info("resposne: #{inspect(msg)}")
+  def handle_cast({:set_handler, handler}, state) do
+    {:noreply, %{state | handler: handler}}
+  end
 
+  def handle_info({:tcp, socket, msg}, state) do
     case Response.get_proto_id(msg) do
       {:ok, 1001} ->
         GenServer.reply(state.from, {:ok, msg})
@@ -70,10 +72,17 @@ defmodule Futu.GenServer.Subscription do
             handle_info({:tcp, socket, rest}, state)
         end
 
-      {:ok, 3011} ->
-        {:ok, response} = Response.parse(msg, 3011)
-        {:ok, ticker} = Futu.Quote.UpdateTicker.decode(response)
-        Logger.info(ticker)
+      {:ok, 2008} ->
+        {:ok, response} = Response.parse(msg, 2008)
+        {:ok, nil} = Futu.Trade.Subscription.decode(response)
+        GenServer.reply(state.from, {:ok, msg})
+        {:noreply, %{state | from: nil}}
+
+      {:ok, 2208} ->
+        {:ok, response} = Response.parse(msg, 2208)
+        {:ok, order} = Futu.Trade.UpdateOrder.decode(response)
+        %{handler: {mod, func}} = state
+        apply(mod, func, [2008, order])
         {:noreply, state}
     end
   end

@@ -58,6 +58,22 @@ defmodule Futu.Component.Response do
     unpack(body_length, :u32_t)
   end
 
+  @spec remove_heartbeat_msg(binary) :: {:ok, binary} | {:error, bitstring()}
+  def remove_heartbeat_msg(msg) do
+    case :binary.match(msg, <<70, 84, 236, 3, 0, 0, 0, 0>>) do
+      :nomatch ->
+        {:ok, msg}
+
+      {index, 8} ->
+        {head, rest} = Binary.split_at(msg, index)
+        {_heartbeat, tail} = Binary.split_at(rest, 58)
+        {:ok, head <> tail}
+
+      _ ->
+        {:error, "pattern not matched: #{inspect(msg)}"}
+    end
+  end
+
   defp check_proto_id(proto_id, req_proto_id) do
     unpacked_proto_id = unpack(proto_id, :u32_t)
 
