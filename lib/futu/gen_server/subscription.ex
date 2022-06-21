@@ -6,7 +6,7 @@ defmodule Futu.GenServer.Subscription do
 
   alias Futu.Component.Response
 
-  @default_opts %{host: "localhost", port: 11_111, name: __MODULE__}
+  @default_opts %{host: "localhost", port: 11_111}
 
   @spec start_link(map()) :: {:ok, pid()}
   def start_link(opts) do
@@ -15,7 +15,7 @@ defmodule Futu.GenServer.Subscription do
   end
 
   @spec init(map()) :: {:ok, map()}
-  def init(%{host: host, port: port}) do
+  def init(%{host: host, port: port, tcp_name: tcp_name}) do
     host_charlist = String.to_charlist(host)
 
     {:ok, socket} =
@@ -26,7 +26,7 @@ defmodule Futu.GenServer.Subscription do
         buffer: 1024 * 1024
       ])
 
-    {:ok, %{socket: socket, from: nil, handler: nil}}
+    {:ok, %{socket: socket, tcp_name: tcp_name, from: nil, handler: nil}}
   end
 
   def handle_call({:send, msg, _proto_id}, from, state) do
@@ -50,7 +50,7 @@ defmodule Futu.GenServer.Subscription do
     {:noreply, %{state | handler: handler}}
   end
 
-  def handle_info({:tcp, socket, msg}, state) do
+  def handle_info({:tcp, socket, msg}, %{tcp_name: tcp_name} = state) do
     case Response.get_proto_id(msg) do
       {:ok, 1001} ->
         GenServer.reply(state.from, {:ok, msg})
@@ -82,7 +82,7 @@ defmodule Futu.GenServer.Subscription do
         {:ok, response} = Response.parse(msg, 2208)
         {:ok, order} = Futu.Trade.UpdateOrder.decode(response)
         %{handler: {mod, func}} = state
-        apply(mod, func, [2008, order])
+        apply(mod, func, [tcp_name, 2008, order])
         {:noreply, state}
     end
   end

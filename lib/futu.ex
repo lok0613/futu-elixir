@@ -30,6 +30,11 @@ defmodule Futu do
   def start(opts) do
     sub_name = String.to_atom("sub_#{opts.name}")
 
+    sub_opts =
+      opts
+      |> Map.put(:name, sub_name)
+      |> Map.put(:tcp_name, opts.name)
+
     children = [
       %{
         id: Futu.GenServer.TCP,
@@ -41,11 +46,11 @@ defmodule Futu do
       },
       %{
         id: Futu.GenServer.Subscription,
-        start: {Futu.GenServer.Subscription, :start_link, [%{opts | name: sub_name}]}
+        start: {Futu.GenServer.Subscription, :start_link, [sub_opts]}
       },
       %{
         id: Futu.GenServer.SubHeartBeat,
-        start: {Futu.GenServer.TcpHeartBeat, :start_link, [%{opts | name: sub_name}]}
+        start: {Futu.GenServer.TcpHeartBeat, :start_link, [sub_opts]}
       }
     ]
 
