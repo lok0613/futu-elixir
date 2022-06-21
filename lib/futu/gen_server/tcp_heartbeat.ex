@@ -1,4 +1,4 @@
-defmodule Futu.GenServer.HeartBeat do
+defmodule Futu.GenServer.TcpHeartBeat do
   @moduledoc """
   Manage and send heartbeat to Futu.GenServer.TCP
   """
