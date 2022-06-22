@@ -82,7 +82,14 @@ defmodule Futu.GenServer.Subscription do
         {:ok, response} = Response.parse(msg, 2208)
         {:ok, order} = Futu.Trade.UpdateOrder.decode(response)
         %{handler: {mod, func}} = state
-        apply(mod, func, [tcp_name, 2008, order])
+        apply(mod, func, [tcp_name, 2208, order])
+        {:noreply, state}
+
+      {:ok, 2218} ->
+        {:ok, response} = Response.parse(msg, 2218)
+        {:ok, orderFill} = Futu.Trade.UpdateOrderFill.decode(response)
+        %{handler: {mod, func}} = state
+        apply(mod, func, [tcp_name, 2218, orderFill])
         {:noreply, state}
     end
   end
