@@ -104,6 +104,9 @@ defmodule Futu do
         {:error, "The request header SerialNo has not been incremented"} ->
           request(pid, module, opts)
 
+        {:error, "This packet is judged as a replay attack packet"} ->
+          request(pid, module, opts)
+
         {:error, msg} ->
           {:error, msg}
       end
