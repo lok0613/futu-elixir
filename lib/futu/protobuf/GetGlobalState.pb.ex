@@ -1,61 +1,15 @@
 defmodule GetGlobalState.C2S do
   @moduledoc false
-  use Protobuf, syntax: :proto2
 
-  @type t :: %__MODULE__{
-          userID: non_neg_integer
-        }
-
-  defstruct [:userID]
+  use Protobuf, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
 
   field :userID, 1, required: true, type: :uint64
 end
 
 defmodule GetGlobalState.S2C do
   @moduledoc false
-  use Protobuf, syntax: :proto2
 
-  @type t :: %__MODULE__{
-          marketHK: integer,
-          marketUS: integer,
-          marketSH: integer,
-          marketSZ: integer,
-          marketHKFuture: integer,
-          marketUSFuture: integer,
-          marketSGFuture: integer,
-          marketJPFuture: integer,
-          qotLogined: boolean,
-          trdLogined: boolean,
-          serverVer: integer,
-          serverBuildNo: integer,
-          time: integer,
-          localTime: float | :infinity | :negative_infinity | :nan,
-          programStatus: Common.ProgramStatus.t() | nil,
-          qotSvrIpAddr: String.t(),
-          trdSvrIpAddr: String.t(),
-          connID: non_neg_integer
-        }
-
-  defstruct [
-    :marketHK,
-    :marketUS,
-    :marketSH,
-    :marketSZ,
-    :marketHKFuture,
-    :marketUSFuture,
-    :marketSGFuture,
-    :marketJPFuture,
-    :qotLogined,
-    :trdLogined,
-    :serverVer,
-    :serverBuildNo,
-    :time,
-    :localTime,
-    :programStatus,
-    :qotSvrIpAddr,
-    :trdSvrIpAddr,
-    :connID
-  ]
+  use Protobuf, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
 
   field :marketHK, 1, required: true, type: :int32
   field :marketUS, 2, required: true, type: :int32
@@ -79,29 +33,16 @@ end
 
 defmodule GetGlobalState.Request do
   @moduledoc false
-  use Protobuf, syntax: :proto2
 
-  @type t :: %__MODULE__{
-          c2s: GetGlobalState.C2S.t() | nil
-        }
-
-  defstruct [:c2s]
+  use Protobuf, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
 
   field :c2s, 1, required: true, type: GetGlobalState.C2S
 end
 
 defmodule GetGlobalState.Response do
   @moduledoc false
-  use Protobuf, syntax: :proto2
 
-  @type t :: %__MODULE__{
-          retType: integer,
-          retMsg: String.t(),
-          errCode: integer,
-          s2c: GetGlobalState.S2C.t() | nil
-        }
-
-  defstruct [:retType, :retMsg, :errCode, :s2c]
+  use Protobuf, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
 
   field :retType, 1, required: true, type: :int32, default: -400
   field :retMsg, 2, optional: true, type: :string

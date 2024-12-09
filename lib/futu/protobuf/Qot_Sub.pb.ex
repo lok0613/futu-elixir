@@ -1,30 +1,7 @@
 defmodule Qot_Sub.C2S do
   @moduledoc false
-  use Protobuf, syntax: :proto2
 
-  @type t :: %__MODULE__{
-          securityList: [Qot_Common.Security.t()],
-          subTypeList: [integer],
-          isSubOrUnSub: boolean,
-          isRegOrUnRegPush: boolean,
-          regPushRehabTypeList: [integer],
-          isFirstPush: boolean,
-          isUnsubAll: boolean,
-          isSubOrderBookDetail: boolean,
-          extendedTime: boolean
-        }
-
-  defstruct [
-    :securityList,
-    :subTypeList,
-    :isSubOrUnSub,
-    :isRegOrUnRegPush,
-    :regPushRehabTypeList,
-    :isFirstPush,
-    :isUnsubAll,
-    :isSubOrderBookDetail,
-    :extendedTime
-  ]
+  use Protobuf, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
 
   field :securityList, 1, repeated: true, type: Qot_Common.Security
   field :subTypeList, 2, repeated: true, type: :int32
@@ -39,37 +16,22 @@ end
 
 defmodule Qot_Sub.S2C do
   @moduledoc false
-  use Protobuf, syntax: :proto2
-  @type t :: %__MODULE__{}
 
-  defstruct []
+  use Protobuf, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
 end
 
 defmodule Qot_Sub.Request do
   @moduledoc false
-  use Protobuf, syntax: :proto2
 
-  @type t :: %__MODULE__{
-          c2s: Qot_Sub.C2S.t() | nil
-        }
-
-  defstruct [:c2s]
+  use Protobuf, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
 
   field :c2s, 1, required: true, type: Qot_Sub.C2S
 end
 
 defmodule Qot_Sub.Response do
   @moduledoc false
-  use Protobuf, syntax: :proto2
 
-  @type t :: %__MODULE__{
-          retType: integer,
-          retMsg: String.t(),
-          errCode: integer,
-          s2c: Qot_Sub.S2C.t() | nil
-        }
-
-  defstruct [:retType, :retMsg, :errCode, :s2c]
+  use Protobuf, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
 
   field :retType, 1, required: true, type: :int32, default: -400
   field :retMsg, 2, optional: true, type: :string

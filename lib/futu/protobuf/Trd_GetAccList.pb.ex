@@ -1,14 +1,7 @@
 defmodule Trd_GetAccList.C2S do
   @moduledoc false
-  use Protobuf, syntax: :proto2
 
-  @type t :: %__MODULE__{
-          userID: non_neg_integer,
-          trdCategory: integer,
-          needGeneralSecAccount: boolean
-        }
-
-  defstruct [:userID, :trdCategory, :needGeneralSecAccount]
+  use Protobuf, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
 
   field :userID, 1, required: true, type: :uint64
   field :trdCategory, 2, optional: true, type: :int32
@@ -17,42 +10,24 @@ end
 
 defmodule Trd_GetAccList.S2C do
   @moduledoc false
-  use Protobuf, syntax: :proto2
 
-  @type t :: %__MODULE__{
-          accList: [Trd_Common.TrdAcc.t()]
-        }
-
-  defstruct [:accList]
+  use Protobuf, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
 
   field :accList, 1, repeated: true, type: Trd_Common.TrdAcc
 end
 
 defmodule Trd_GetAccList.Request do
   @moduledoc false
-  use Protobuf, syntax: :proto2
 
-  @type t :: %__MODULE__{
-          c2s: Trd_GetAccList.C2S.t() | nil
-        }
-
-  defstruct [:c2s]
+  use Protobuf, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
 
   field :c2s, 1, required: true, type: Trd_GetAccList.C2S
 end
 
 defmodule Trd_GetAccList.Response do
   @moduledoc false
-  use Protobuf, syntax: :proto2
 
-  @type t :: %__MODULE__{
-          retType: integer,
-          retMsg: String.t(),
-          errCode: integer,
-          s2c: Trd_GetAccList.S2C.t() | nil
-        }
-
-  defstruct [:retType, :retMsg, :errCode, :s2c]
+  use Protobuf, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
 
   field :retType, 1, required: true, type: :int32, default: -400
   field :retMsg, 2, optional: true, type: :string

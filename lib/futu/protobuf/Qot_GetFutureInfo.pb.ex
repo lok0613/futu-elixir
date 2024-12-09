@@ -1,13 +1,7 @@
 defmodule Qot_GetFutureInfo.TradeTime do
   @moduledoc false
-  use Protobuf, syntax: :proto2
 
-  @type t :: %__MODULE__{
-          begin: float | :infinity | :negative_infinity | :nan,
-          end: float | :infinity | :negative_infinity | :nan
-        }
-
-  defstruct [:begin, :end]
+  use Protobuf, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
 
   field :begin, 1, optional: true, type: :double
   field :end, 2, optional: true, type: :double
@@ -15,49 +9,8 @@ end
 
 defmodule Qot_GetFutureInfo.FutureInfo do
   @moduledoc false
-  use Protobuf, syntax: :proto2
 
-  @type t :: %__MODULE__{
-          name: String.t(),
-          security: Qot_Common.Security.t() | nil,
-          lastTradeTime: String.t(),
-          lastTradeTimestamp: float | :infinity | :negative_infinity | :nan,
-          owner: Qot_Common.Security.t() | nil,
-          ownerOther: String.t(),
-          exchange: String.t(),
-          contractType: String.t(),
-          contractSize: float | :infinity | :negative_infinity | :nan,
-          contractSizeUnit: String.t(),
-          quoteCurrency: String.t(),
-          minVar: float | :infinity | :negative_infinity | :nan,
-          minVarUnit: String.t(),
-          quoteUnit: String.t(),
-          tradeTime: [Qot_GetFutureInfo.TradeTime.t()],
-          timeZone: String.t(),
-          exchangeFormatUrl: String.t(),
-          origin: Qot_Common.Security.t() | nil
-        }
-
-  defstruct [
-    :name,
-    :security,
-    :lastTradeTime,
-    :lastTradeTimestamp,
-    :owner,
-    :ownerOther,
-    :exchange,
-    :contractType,
-    :contractSize,
-    :contractSizeUnit,
-    :quoteCurrency,
-    :minVar,
-    :minVarUnit,
-    :quoteUnit,
-    :tradeTime,
-    :timeZone,
-    :exchangeFormatUrl,
-    :origin
-  ]
+  use Protobuf, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
 
   field :name, 1, required: true, type: :string
   field :security, 2, required: true, type: Qot_Common.Security
@@ -81,55 +34,32 @@ end
 
 defmodule Qot_GetFutureInfo.C2S do
   @moduledoc false
-  use Protobuf, syntax: :proto2
 
-  @type t :: %__MODULE__{
-          securityList: [Qot_Common.Security.t()]
-        }
-
-  defstruct [:securityList]
+  use Protobuf, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
 
   field :securityList, 1, repeated: true, type: Qot_Common.Security
 end
 
 defmodule Qot_GetFutureInfo.S2C do
   @moduledoc false
-  use Protobuf, syntax: :proto2
 
-  @type t :: %__MODULE__{
-          futureInfoList: [Qot_GetFutureInfo.FutureInfo.t()]
-        }
-
-  defstruct [:futureInfoList]
+  use Protobuf, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
 
   field :futureInfoList, 1, repeated: true, type: Qot_GetFutureInfo.FutureInfo
 end
 
 defmodule Qot_GetFutureInfo.Request do
   @moduledoc false
-  use Protobuf, syntax: :proto2
 
-  @type t :: %__MODULE__{
-          c2s: Qot_GetFutureInfo.C2S.t() | nil
-        }
-
-  defstruct [:c2s]
+  use Protobuf, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
 
   field :c2s, 1, required: true, type: Qot_GetFutureInfo.C2S
 end
 
 defmodule Qot_GetFutureInfo.Response do
   @moduledoc false
-  use Protobuf, syntax: :proto2
 
-  @type t :: %__MODULE__{
-          retType: integer,
-          retMsg: String.t(),
-          errCode: integer,
-          s2c: Qot_GetFutureInfo.S2C.t() | nil
-        }
-
-  defstruct [:retType, :retMsg, :errCode, :s2c]
+  use Protobuf, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
 
   field :retType, 1, required: true, type: :int32, default: -400
   field :retMsg, 2, optional: true, type: :string

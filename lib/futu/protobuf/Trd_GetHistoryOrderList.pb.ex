@@ -1,14 +1,7 @@
 defmodule Trd_GetHistoryOrderList.C2S do
   @moduledoc false
-  use Protobuf, syntax: :proto2
 
-  @type t :: %__MODULE__{
-          header: Trd_Common.TrdHeader.t() | nil,
-          filterConditions: Trd_Common.TrdFilterConditions.t() | nil,
-          filterStatusList: [integer]
-        }
-
-  defstruct [:header, :filterConditions, :filterStatusList]
+  use Protobuf, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
 
   field :header, 1, required: true, type: Trd_Common.TrdHeader
   field :filterConditions, 2, required: true, type: Trd_Common.TrdFilterConditions
@@ -17,14 +10,8 @@ end
 
 defmodule Trd_GetHistoryOrderList.S2C do
   @moduledoc false
-  use Protobuf, syntax: :proto2
 
-  @type t :: %__MODULE__{
-          header: Trd_Common.TrdHeader.t() | nil,
-          orderList: [Trd_Common.Order.t()]
-        }
-
-  defstruct [:header, :orderList]
+  use Protobuf, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
 
   field :header, 1, required: true, type: Trd_Common.TrdHeader
   field :orderList, 2, repeated: true, type: Trd_Common.Order
@@ -32,29 +19,16 @@ end
 
 defmodule Trd_GetHistoryOrderList.Request do
   @moduledoc false
-  use Protobuf, syntax: :proto2
 
-  @type t :: %__MODULE__{
-          c2s: Trd_GetHistoryOrderList.C2S.t() | nil
-        }
-
-  defstruct [:c2s]
+  use Protobuf, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
 
   field :c2s, 1, required: true, type: Trd_GetHistoryOrderList.C2S
 end
 
 defmodule Trd_GetHistoryOrderList.Response do
   @moduledoc false
-  use Protobuf, syntax: :proto2
 
-  @type t :: %__MODULE__{
-          retType: integer,
-          retMsg: String.t(),
-          errCode: integer,
-          s2c: Trd_GetHistoryOrderList.S2C.t() | nil
-        }
-
-  defstruct [:retType, :retMsg, :errCode, :s2c]
+  use Protobuf, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
 
   field :retType, 1, required: true, type: :int32, default: -400
   field :retMsg, 2, optional: true, type: :string

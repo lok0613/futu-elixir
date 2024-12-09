@@ -1,40 +1,7 @@
 defmodule Trd_ModifyOrder.C2S do
   @moduledoc false
-  use Protobuf, syntax: :proto2
 
-  @type t :: %__MODULE__{
-          packetID: Common.PacketID.t() | nil,
-          header: Trd_Common.TrdHeader.t() | nil,
-          orderID: non_neg_integer,
-          modifyOrderOp: integer,
-          forAll: boolean,
-          trdMarket: integer,
-          qty: float | :infinity | :negative_infinity | :nan,
-          price: float | :infinity | :negative_infinity | :nan,
-          adjustPrice: boolean,
-          adjustSideAndLimit: float | :infinity | :negative_infinity | :nan,
-          auxPrice: float | :infinity | :negative_infinity | :nan,
-          trailType: integer,
-          trailValue: float | :infinity | :negative_infinity | :nan,
-          trailSpread: float | :infinity | :negative_infinity | :nan
-        }
-
-  defstruct [
-    :packetID,
-    :header,
-    :orderID,
-    :modifyOrderOp,
-    :forAll,
-    :trdMarket,
-    :qty,
-    :price,
-    :adjustPrice,
-    :adjustSideAndLimit,
-    :auxPrice,
-    :trailType,
-    :trailValue,
-    :trailSpread
-  ]
+  use Protobuf, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
 
   field :packetID, 1, required: true, type: Common.PacketID
   field :header, 2, required: true, type: Trd_Common.TrdHeader
@@ -50,48 +17,31 @@ defmodule Trd_ModifyOrder.C2S do
   field :trailType, 13, optional: true, type: :int32
   field :trailValue, 14, optional: true, type: :double
   field :trailSpread, 15, optional: true, type: :double
+  field :orderIDEx, 16, optional: true, type: :string
 end
 
 defmodule Trd_ModifyOrder.S2C do
   @moduledoc false
-  use Protobuf, syntax: :proto2
 
-  @type t :: %__MODULE__{
-          header: Trd_Common.TrdHeader.t() | nil,
-          orderID: non_neg_integer
-        }
-
-  defstruct [:header, :orderID]
+  use Protobuf, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
 
   field :header, 1, required: true, type: Trd_Common.TrdHeader
   field :orderID, 2, required: true, type: :uint64
+  field :orderIDEx, 3, optional: true, type: :string
 end
 
 defmodule Trd_ModifyOrder.Request do
   @moduledoc false
-  use Protobuf, syntax: :proto2
 
-  @type t :: %__MODULE__{
-          c2s: Trd_ModifyOrder.C2S.t() | nil
-        }
-
-  defstruct [:c2s]
+  use Protobuf, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
 
   field :c2s, 1, required: true, type: Trd_ModifyOrder.C2S
 end
 
 defmodule Trd_ModifyOrder.Response do
   @moduledoc false
-  use Protobuf, syntax: :proto2
 
-  @type t :: %__MODULE__{
-          retType: integer,
-          retMsg: String.t(),
-          errCode: integer,
-          s2c: Trd_ModifyOrder.S2C.t() | nil
-        }
-
-  defstruct [:retType, :retMsg, :errCode, :s2c]
+  use Protobuf, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
 
   field :retType, 1, required: true, type: :int32, default: -400
   field :retMsg, 2, optional: true, type: :string

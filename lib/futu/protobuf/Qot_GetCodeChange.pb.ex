@@ -1,85 +1,34 @@
 defmodule Qot_GetCodeChange.CodeChangeType do
   @moduledoc false
-  use Protobuf, enum: true, syntax: :proto2
 
-  @type t ::
-          integer
-          | :CodeChangeType_Unkown
-          | :CodeChangeType_GemToMain
-          | :CodeChangeType_Unpaid
-          | :CodeChangeType_ChangeLot
-          | :CodeChangeType_Split
-          | :CodeChangeType_Joint
-          | :CodeChangeType_JointSplit
-          | :CodeChangeType_SplitJoint
-          | :CodeChangeType_Other
+  use Protobuf, enum: true, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
 
   field :CodeChangeType_Unkown, 0
-
   field :CodeChangeType_GemToMain, 1
-
   field :CodeChangeType_Unpaid, 2
-
   field :CodeChangeType_ChangeLot, 3
-
   field :CodeChangeType_Split, 4
-
   field :CodeChangeType_Joint, 5
-
   field :CodeChangeType_JointSplit, 6
-
   field :CodeChangeType_SplitJoint, 7
-
   field :CodeChangeType_Other, 8
 end
 
 defmodule Qot_GetCodeChange.TimeFilterType do
   @moduledoc false
-  use Protobuf, enum: true, syntax: :proto2
 
-  @type t ::
-          integer
-          | :TimeFilterType_Unknow
-          | :TimeFilterType_Public
-          | :TimeFilterType_Effective
-          | :TimeFilterType_End
+  use Protobuf, enum: true, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
 
   field :TimeFilterType_Unknow, 0
-
   field :TimeFilterType_Public, 1
-
   field :TimeFilterType_Effective, 2
-
   field :TimeFilterType_End, 3
 end
 
 defmodule Qot_GetCodeChange.CodeChangeInfo do
   @moduledoc false
-  use Protobuf, syntax: :proto2
 
-  @type t :: %__MODULE__{
-          type: integer,
-          security: Qot_Common.Security.t() | nil,
-          relatedSecurity: Qot_Common.Security.t() | nil,
-          publicTime: String.t(),
-          publicTimestamp: float | :infinity | :negative_infinity | :nan,
-          effectiveTime: String.t(),
-          effectiveTimestamp: float | :infinity | :negative_infinity | :nan,
-          endTime: String.t(),
-          endTimestamp: float | :infinity | :negative_infinity | :nan
-        }
-
-  defstruct [
-    :type,
-    :security,
-    :relatedSecurity,
-    :publicTime,
-    :publicTimestamp,
-    :effectiveTime,
-    :effectiveTimestamp,
-    :endTime,
-    :endTimestamp
-  ]
+  use Protobuf, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
 
   field :type, 1, required: true, type: :int32
   field :security, 2, required: true, type: Qot_Common.Security
@@ -94,15 +43,8 @@ end
 
 defmodule Qot_GetCodeChange.TimeFilter do
   @moduledoc false
-  use Protobuf, syntax: :proto2
 
-  @type t :: %__MODULE__{
-          type: integer,
-          beginTime: String.t(),
-          endTime: String.t()
-        }
-
-  defstruct [:type, :beginTime, :endTime]
+  use Protobuf, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
 
   field :type, 1, required: true, type: :int32
   field :beginTime, 2, optional: true, type: :string
@@ -111,16 +53,8 @@ end
 
 defmodule Qot_GetCodeChange.C2S do
   @moduledoc false
-  use Protobuf, syntax: :proto2
 
-  @type t :: %__MODULE__{
-          placeHolder: integer,
-          securityList: [Qot_Common.Security.t()],
-          timeFilterList: [Qot_GetCodeChange.TimeFilter.t()],
-          typeList: [integer]
-        }
-
-  defstruct [:placeHolder, :securityList, :timeFilterList, :typeList]
+  use Protobuf, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
 
   field :placeHolder, 1, optional: true, type: :int32
   field :securityList, 2, repeated: true, type: Qot_Common.Security
@@ -130,42 +64,24 @@ end
 
 defmodule Qot_GetCodeChange.S2C do
   @moduledoc false
-  use Protobuf, syntax: :proto2
 
-  @type t :: %__MODULE__{
-          codeChangeList: [Qot_GetCodeChange.CodeChangeInfo.t()]
-        }
-
-  defstruct [:codeChangeList]
+  use Protobuf, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
 
   field :codeChangeList, 1, repeated: true, type: Qot_GetCodeChange.CodeChangeInfo
 end
 
 defmodule Qot_GetCodeChange.Request do
   @moduledoc false
-  use Protobuf, syntax: :proto2
 
-  @type t :: %__MODULE__{
-          c2s: Qot_GetCodeChange.C2S.t() | nil
-        }
-
-  defstruct [:c2s]
+  use Protobuf, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
 
   field :c2s, 1, required: true, type: Qot_GetCodeChange.C2S
 end
 
 defmodule Qot_GetCodeChange.Response do
   @moduledoc false
-  use Protobuf, syntax: :proto2
 
-  @type t :: %__MODULE__{
-          retType: integer,
-          retMsg: String.t(),
-          errCode: integer,
-          s2c: Qot_GetCodeChange.S2C.t() | nil
-        }
-
-  defstruct [:retType, :retMsg, :errCode, :s2c]
+  use Protobuf, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
 
   field :retType, 1, required: true, type: :int32, default: -400
   field :retMsg, 2, optional: true, type: :string

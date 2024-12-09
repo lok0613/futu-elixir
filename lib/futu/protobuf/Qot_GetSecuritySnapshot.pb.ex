@@ -1,57 +1,15 @@
 defmodule Qot_GetSecuritySnapshot.C2S do
   @moduledoc false
-  use Protobuf, syntax: :proto2
 
-  @type t :: %__MODULE__{
-          securityList: [Qot_Common.Security.t()]
-        }
-
-  defstruct [:securityList]
+  use Protobuf, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
 
   field :securityList, 1, repeated: true, type: Qot_Common.Security
 end
 
 defmodule Qot_GetSecuritySnapshot.EquitySnapshotExData do
   @moduledoc false
-  use Protobuf, syntax: :proto2
 
-  @type t :: %__MODULE__{
-          issuedShares: integer,
-          issuedMarketVal: float | :infinity | :negative_infinity | :nan,
-          netAsset: float | :infinity | :negative_infinity | :nan,
-          netProfit: float | :infinity | :negative_infinity | :nan,
-          earningsPershare: float | :infinity | :negative_infinity | :nan,
-          outstandingShares: integer,
-          outstandingMarketVal: float | :infinity | :negative_infinity | :nan,
-          netAssetPershare: float | :infinity | :negative_infinity | :nan,
-          eyRate: float | :infinity | :negative_infinity | :nan,
-          peRate: float | :infinity | :negative_infinity | :nan,
-          pbRate: float | :infinity | :negative_infinity | :nan,
-          peTTMRate: float | :infinity | :negative_infinity | :nan,
-          dividendTTM: float | :infinity | :negative_infinity | :nan,
-          dividendRatioTTM: float | :infinity | :negative_infinity | :nan,
-          dividendLFY: float | :infinity | :negative_infinity | :nan,
-          dividendLFYRatio: float | :infinity | :negative_infinity | :nan
-        }
-
-  defstruct [
-    :issuedShares,
-    :issuedMarketVal,
-    :netAsset,
-    :netProfit,
-    :earningsPershare,
-    :outstandingShares,
-    :outstandingMarketVal,
-    :netAssetPershare,
-    :eyRate,
-    :peRate,
-    :pbRate,
-    :peTTMRate,
-    :dividendTTM,
-    :dividendRatioTTM,
-    :dividendLFY,
-    :dividendLFYRatio
-  ]
+  use Protobuf, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
 
   field :issuedShares, 1, required: true, type: :int64
   field :issuedMarketVal, 2, required: true, type: :double
@@ -73,63 +31,8 @@ end
 
 defmodule Qot_GetSecuritySnapshot.WarrantSnapshotExData do
   @moduledoc false
-  use Protobuf, syntax: :proto2
 
-  @type t :: %__MODULE__{
-          conversionRate: float | :infinity | :negative_infinity | :nan,
-          warrantType: integer,
-          strikePrice: float | :infinity | :negative_infinity | :nan,
-          maturityTime: String.t(),
-          endTradeTime: String.t(),
-          owner: Qot_Common.Security.t() | nil,
-          recoveryPrice: float | :infinity | :negative_infinity | :nan,
-          streetVolumn: integer,
-          issueVolumn: integer,
-          streetRate: float | :infinity | :negative_infinity | :nan,
-          delta: float | :infinity | :negative_infinity | :nan,
-          impliedVolatility: float | :infinity | :negative_infinity | :nan,
-          premium: float | :infinity | :negative_infinity | :nan,
-          maturityTimestamp: float | :infinity | :negative_infinity | :nan,
-          endTradeTimestamp: float | :infinity | :negative_infinity | :nan,
-          leverage: float | :infinity | :negative_infinity | :nan,
-          ipop: float | :infinity | :negative_infinity | :nan,
-          breakEvenPoint: float | :infinity | :negative_infinity | :nan,
-          conversionPrice: float | :infinity | :negative_infinity | :nan,
-          priceRecoveryRatio: float | :infinity | :negative_infinity | :nan,
-          score: float | :infinity | :negative_infinity | :nan,
-          upperStrikePrice: float | :infinity | :negative_infinity | :nan,
-          lowerStrikePrice: float | :infinity | :negative_infinity | :nan,
-          inLinePriceStatus: integer,
-          issuerCode: String.t()
-        }
-
-  defstruct [
-    :conversionRate,
-    :warrantType,
-    :strikePrice,
-    :maturityTime,
-    :endTradeTime,
-    :owner,
-    :recoveryPrice,
-    :streetVolumn,
-    :issueVolumn,
-    :streetRate,
-    :delta,
-    :impliedVolatility,
-    :premium,
-    :maturityTimestamp,
-    :endTradeTimestamp,
-    :leverage,
-    :ipop,
-    :breakEvenPoint,
-    :conversionPrice,
-    :priceRecoveryRatio,
-    :score,
-    :upperStrikePrice,
-    :lowerStrikePrice,
-    :inLinePriceStatus,
-    :issuerCode
-  ]
+  use Protobuf, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
 
   field :conversionRate, 1, required: true, type: :double
   field :warrantType, 2, required: true, type: :int32
@@ -160,57 +63,8 @@ end
 
 defmodule Qot_GetSecuritySnapshot.OptionSnapshotExData do
   @moduledoc false
-  use Protobuf, syntax: :proto2
 
-  @type t :: %__MODULE__{
-          type: integer,
-          owner: Qot_Common.Security.t() | nil,
-          strikeTime: String.t(),
-          strikePrice: float | :infinity | :negative_infinity | :nan,
-          contractSize: integer,
-          contractSizeFloat: float | :infinity | :negative_infinity | :nan,
-          openInterest: integer,
-          impliedVolatility: float | :infinity | :negative_infinity | :nan,
-          premium: float | :infinity | :negative_infinity | :nan,
-          delta: float | :infinity | :negative_infinity | :nan,
-          gamma: float | :infinity | :negative_infinity | :nan,
-          vega: float | :infinity | :negative_infinity | :nan,
-          theta: float | :infinity | :negative_infinity | :nan,
-          rho: float | :infinity | :negative_infinity | :nan,
-          strikeTimestamp: float | :infinity | :negative_infinity | :nan,
-          indexOptionType: integer,
-          netOpenInterest: integer,
-          expiryDateDistance: integer,
-          contractNominalValue: float | :infinity | :negative_infinity | :nan,
-          ownerLotMultiplier: float | :infinity | :negative_infinity | :nan,
-          optionAreaType: integer,
-          contractMultiplier: float | :infinity | :negative_infinity | :nan
-        }
-
-  defstruct [
-    :type,
-    :owner,
-    :strikeTime,
-    :strikePrice,
-    :contractSize,
-    :contractSizeFloat,
-    :openInterest,
-    :impliedVolatility,
-    :premium,
-    :delta,
-    :gamma,
-    :vega,
-    :theta,
-    :rho,
-    :strikeTimestamp,
-    :indexOptionType,
-    :netOpenInterest,
-    :expiryDateDistance,
-    :contractNominalValue,
-    :ownerLotMultiplier,
-    :optionAreaType,
-    :contractMultiplier
-  ]
+  use Protobuf, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
 
   field :type, 1, required: true, type: :int32
   field :owner, 2, required: true, type: Qot_Common.Security
@@ -238,15 +92,8 @@ end
 
 defmodule Qot_GetSecuritySnapshot.IndexSnapshotExData do
   @moduledoc false
-  use Protobuf, syntax: :proto2
 
-  @type t :: %__MODULE__{
-          raiseCount: integer,
-          fallCount: integer,
-          equalCount: integer
-        }
-
-  defstruct [:raiseCount, :fallCount, :equalCount]
+  use Protobuf, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
 
   field :raiseCount, 1, required: true, type: :int32
   field :fallCount, 2, required: true, type: :int32
@@ -255,15 +102,8 @@ end
 
 defmodule Qot_GetSecuritySnapshot.PlateSnapshotExData do
   @moduledoc false
-  use Protobuf, syntax: :proto2
 
-  @type t :: %__MODULE__{
-          raiseCount: integer,
-          fallCount: integer,
-          equalCount: integer
-        }
-
-  defstruct [:raiseCount, :fallCount, :equalCount]
+  use Protobuf, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
 
   field :raiseCount, 1, required: true, type: :int32
   field :fallCount, 2, required: true, type: :int32
@@ -272,25 +112,8 @@ end
 
 defmodule Qot_GetSecuritySnapshot.FutureSnapshotExData do
   @moduledoc false
-  use Protobuf, syntax: :proto2
 
-  @type t :: %__MODULE__{
-          lastSettlePrice: float | :infinity | :negative_infinity | :nan,
-          position: integer,
-          positionChange: integer,
-          lastTradeTime: String.t(),
-          lastTradeTimestamp: float | :infinity | :negative_infinity | :nan,
-          isMainContract: boolean
-        }
-
-  defstruct [
-    :lastSettlePrice,
-    :position,
-    :positionChange,
-    :lastTradeTime,
-    :lastTradeTimestamp,
-    :isMainContract
-  ]
+  use Protobuf, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
 
   field :lastSettlePrice, 1, required: true, type: :double
   field :position, 2, required: true, type: :int32
@@ -302,18 +125,8 @@ end
 
 defmodule Qot_GetSecuritySnapshot.TrustSnapshotExData do
   @moduledoc false
-  use Protobuf, syntax: :proto2
 
-  @type t :: %__MODULE__{
-          dividendYield: float | :infinity | :negative_infinity | :nan,
-          aum: float | :infinity | :negative_infinity | :nan,
-          outstandingUnits: integer,
-          netAssetValue: float | :infinity | :negative_infinity | :nan,
-          premium: float | :infinity | :negative_infinity | :nan,
-          assetClass: integer
-        }
-
-  defstruct [:dividendYield, :aum, :outstandingUnits, :netAssetValue, :premium, :assetClass]
+  use Protobuf, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
 
   field :dividendYield, 1, required: true, type: :double
   field :aum, 2, required: true, type: :double
@@ -325,95 +138,11 @@ end
 
 defmodule Qot_GetSecuritySnapshot.SnapshotBasicData do
   @moduledoc false
-  use Protobuf, syntax: :proto2
 
-  @type t :: %__MODULE__{
-          security: Qot_Common.Security.t() | nil,
-          type: integer,
-          isSuspend: boolean,
-          listTime: String.t(),
-          lotSize: integer,
-          priceSpread: float | :infinity | :negative_infinity | :nan,
-          updateTime: String.t(),
-          highPrice: float | :infinity | :negative_infinity | :nan,
-          openPrice: float | :infinity | :negative_infinity | :nan,
-          lowPrice: float | :infinity | :negative_infinity | :nan,
-          lastClosePrice: float | :infinity | :negative_infinity | :nan,
-          curPrice: float | :infinity | :negative_infinity | :nan,
-          volume: integer,
-          turnover: float | :infinity | :negative_infinity | :nan,
-          turnoverRate: float | :infinity | :negative_infinity | :nan,
-          listTimestamp: float | :infinity | :negative_infinity | :nan,
-          updateTimestamp: float | :infinity | :negative_infinity | :nan,
-          askPrice: float | :infinity | :negative_infinity | :nan,
-          bidPrice: float | :infinity | :negative_infinity | :nan,
-          askVol: integer,
-          bidVol: integer,
-          enableMargin: boolean,
-          mortgageRatio: float | :infinity | :negative_infinity | :nan,
-          longMarginInitialRatio: float | :infinity | :negative_infinity | :nan,
-          enableShortSell: boolean,
-          shortSellRate: float | :infinity | :negative_infinity | :nan,
-          shortAvailableVolume: integer,
-          shortMarginInitialRatio: float | :infinity | :negative_infinity | :nan,
-          amplitude: float | :infinity | :negative_infinity | :nan,
-          avgPrice: float | :infinity | :negative_infinity | :nan,
-          bidAskRatio: float | :infinity | :negative_infinity | :nan,
-          volumeRatio: float | :infinity | :negative_infinity | :nan,
-          highest52WeeksPrice: float | :infinity | :negative_infinity | :nan,
-          lowest52WeeksPrice: float | :infinity | :negative_infinity | :nan,
-          highestHistoryPrice: float | :infinity | :negative_infinity | :nan,
-          lowestHistoryPrice: float | :infinity | :negative_infinity | :nan,
-          preMarket: Qot_Common.PreAfterMarketData.t() | nil,
-          afterMarket: Qot_Common.PreAfterMarketData.t() | nil,
-          secStatus: integer,
-          closePrice5Minute: float | :infinity | :negative_infinity | :nan
-        }
-
-  defstruct [
-    :security,
-    :type,
-    :isSuspend,
-    :listTime,
-    :lotSize,
-    :priceSpread,
-    :updateTime,
-    :highPrice,
-    :openPrice,
-    :lowPrice,
-    :lastClosePrice,
-    :curPrice,
-    :volume,
-    :turnover,
-    :turnoverRate,
-    :listTimestamp,
-    :updateTimestamp,
-    :askPrice,
-    :bidPrice,
-    :askVol,
-    :bidVol,
-    :enableMargin,
-    :mortgageRatio,
-    :longMarginInitialRatio,
-    :enableShortSell,
-    :shortSellRate,
-    :shortAvailableVolume,
-    :shortMarginInitialRatio,
-    :amplitude,
-    :avgPrice,
-    :bidAskRatio,
-    :volumeRatio,
-    :highest52WeeksPrice,
-    :lowest52WeeksPrice,
-    :highestHistoryPrice,
-    :lowestHistoryPrice,
-    :preMarket,
-    :afterMarket,
-    :secStatus,
-    :closePrice5Minute
-  ]
+  use Protobuf, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
 
   field :security, 1, required: true, type: Qot_Common.Security
+  field :name, 41, optional: true, type: :string
   field :type, 2, required: true, type: :int32
   field :isSuspend, 3, required: true, type: :bool
   field :listTime, 4, required: true, type: :string
@@ -457,29 +186,8 @@ end
 
 defmodule Qot_GetSecuritySnapshot.Snapshot do
   @moduledoc false
-  use Protobuf, syntax: :proto2
 
-  @type t :: %__MODULE__{
-          basic: Qot_GetSecuritySnapshot.SnapshotBasicData.t() | nil,
-          equityExData: Qot_GetSecuritySnapshot.EquitySnapshotExData.t() | nil,
-          warrantExData: Qot_GetSecuritySnapshot.WarrantSnapshotExData.t() | nil,
-          optionExData: Qot_GetSecuritySnapshot.OptionSnapshotExData.t() | nil,
-          indexExData: Qot_GetSecuritySnapshot.IndexSnapshotExData.t() | nil,
-          plateExData: Qot_GetSecuritySnapshot.PlateSnapshotExData.t() | nil,
-          futureExData: Qot_GetSecuritySnapshot.FutureSnapshotExData.t() | nil,
-          trustExData: Qot_GetSecuritySnapshot.TrustSnapshotExData.t() | nil
-        }
-
-  defstruct [
-    :basic,
-    :equityExData,
-    :warrantExData,
-    :optionExData,
-    :indexExData,
-    :plateExData,
-    :futureExData,
-    :trustExData
-  ]
+  use Protobuf, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
 
   field :basic, 1, required: true, type: Qot_GetSecuritySnapshot.SnapshotBasicData
   field :equityExData, 2, optional: true, type: Qot_GetSecuritySnapshot.EquitySnapshotExData
@@ -493,42 +201,24 @@ end
 
 defmodule Qot_GetSecuritySnapshot.S2C do
   @moduledoc false
-  use Protobuf, syntax: :proto2
 
-  @type t :: %__MODULE__{
-          snapshotList: [Qot_GetSecuritySnapshot.Snapshot.t()]
-        }
-
-  defstruct [:snapshotList]
+  use Protobuf, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
 
   field :snapshotList, 1, repeated: true, type: Qot_GetSecuritySnapshot.Snapshot
 end
 
 defmodule Qot_GetSecuritySnapshot.Request do
   @moduledoc false
-  use Protobuf, syntax: :proto2
 
-  @type t :: %__MODULE__{
-          c2s: Qot_GetSecuritySnapshot.C2S.t() | nil
-        }
-
-  defstruct [:c2s]
+  use Protobuf, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
 
   field :c2s, 1, required: true, type: Qot_GetSecuritySnapshot.C2S
 end
 
 defmodule Qot_GetSecuritySnapshot.Response do
   @moduledoc false
-  use Protobuf, syntax: :proto2
 
-  @type t :: %__MODULE__{
-          retType: integer,
-          retMsg: String.t(),
-          errCode: integer,
-          s2c: Qot_GetSecuritySnapshot.S2C.t() | nil
-        }
-
-  defstruct [:retType, :retMsg, :errCode, :s2c]
+  use Protobuf, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
 
   field :retType, 1, required: true, type: :int32, default: -400
   field :retMsg, 2, optional: true, type: :string

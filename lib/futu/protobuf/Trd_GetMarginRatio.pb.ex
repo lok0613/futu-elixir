@@ -1,38 +1,7 @@
 defmodule Trd_GetMarginRatio.MarginRatioInfo do
   @moduledoc false
-  use Protobuf, syntax: :proto2
 
-  @type t :: %__MODULE__{
-          security: Qot_Common.Security.t() | nil,
-          isLongPermit: boolean,
-          isShortPermit: boolean,
-          shortPoolRemain: float | :infinity | :negative_infinity | :nan,
-          shortFeeRate: float | :infinity | :negative_infinity | :nan,
-          alertLongRatio: float | :infinity | :negative_infinity | :nan,
-          alertShortRatio: float | :infinity | :negative_infinity | :nan,
-          imLongRatio: float | :infinity | :negative_infinity | :nan,
-          imShortRatio: float | :infinity | :negative_infinity | :nan,
-          mcmLongRatio: float | :infinity | :negative_infinity | :nan,
-          mcmShortRatio: float | :infinity | :negative_infinity | :nan,
-          mmLongRatio: float | :infinity | :negative_infinity | :nan,
-          mmShortRatio: float | :infinity | :negative_infinity | :nan
-        }
-
-  defstruct [
-    :security,
-    :isLongPermit,
-    :isShortPermit,
-    :shortPoolRemain,
-    :shortFeeRate,
-    :alertLongRatio,
-    :alertShortRatio,
-    :imLongRatio,
-    :imShortRatio,
-    :mcmLongRatio,
-    :mcmShortRatio,
-    :mmLongRatio,
-    :mmShortRatio
-  ]
+  use Protobuf, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
 
   field :security, 1, required: true, type: Qot_Common.Security
   field :isLongPermit, 2, optional: true, type: :bool
@@ -51,14 +20,8 @@ end
 
 defmodule Trd_GetMarginRatio.C2S do
   @moduledoc false
-  use Protobuf, syntax: :proto2
 
-  @type t :: %__MODULE__{
-          header: Trd_Common.TrdHeader.t() | nil,
-          securityList: [Qot_Common.Security.t()]
-        }
-
-  defstruct [:header, :securityList]
+  use Protobuf, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
 
   field :header, 1, required: true, type: Trd_Common.TrdHeader
   field :securityList, 2, repeated: true, type: Qot_Common.Security
@@ -66,14 +29,8 @@ end
 
 defmodule Trd_GetMarginRatio.S2C do
   @moduledoc false
-  use Protobuf, syntax: :proto2
 
-  @type t :: %__MODULE__{
-          header: Trd_Common.TrdHeader.t() | nil,
-          marginRatioInfoList: [Trd_GetMarginRatio.MarginRatioInfo.t()]
-        }
-
-  defstruct [:header, :marginRatioInfoList]
+  use Protobuf, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
 
   field :header, 1, required: true, type: Trd_Common.TrdHeader
   field :marginRatioInfoList, 2, repeated: true, type: Trd_GetMarginRatio.MarginRatioInfo
@@ -81,29 +38,16 @@ end
 
 defmodule Trd_GetMarginRatio.Request do
   @moduledoc false
-  use Protobuf, syntax: :proto2
 
-  @type t :: %__MODULE__{
-          c2s: Trd_GetMarginRatio.C2S.t() | nil
-        }
-
-  defstruct [:c2s]
+  use Protobuf, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
 
   field :c2s, 1, required: true, type: Trd_GetMarginRatio.C2S
 end
 
 defmodule Trd_GetMarginRatio.Response do
   @moduledoc false
-  use Protobuf, syntax: :proto2
 
-  @type t :: %__MODULE__{
-          retType: integer,
-          retMsg: String.t(),
-          errCode: integer,
-          s2c: Trd_GetMarginRatio.S2C.t() | nil
-        }
-
-  defstruct [:retType, :retMsg, :errCode, :s2c]
+  use Protobuf, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
 
   field :retType, 1, required: true, type: :int32, default: -400
   field :retMsg, 2, optional: true, type: :string

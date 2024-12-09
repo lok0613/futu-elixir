@@ -1,107 +1,38 @@
 defmodule GetUserInfo.UpdateType do
   @moduledoc false
-  use Protobuf, enum: true, syntax: :proto2
-  @type t :: integer | :UpdateType_None | :UpdateType_Advice | :UpdateType_Force
+
+  use Protobuf, enum: true, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
 
   field :UpdateType_None, 0
-
   field :UpdateType_Advice, 1
-
   field :UpdateType_Force, 2
 end
 
 defmodule GetUserInfo.UserInfoField do
   @moduledoc false
-  use Protobuf, enum: true, syntax: :proto2
 
-  @type t ::
-          integer
-          | :UserInfoField_Basic
-          | :UserInfoField_API
-          | :UserInfoField_QotRight
-          | :UserInfoField_Disclaimer
-          | :UserInfoField_Update
-          | :UserInfoField_WebKey
+  use Protobuf, enum: true, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
 
   field :UserInfoField_Basic, 1
-
   field :UserInfoField_API, 2
-
   field :UserInfoField_QotRight, 4
-
   field :UserInfoField_Disclaimer, 8
-
   field :UserInfoField_Update, 16
-
   field :UserInfoField_WebKey, 2048
 end
 
 defmodule GetUserInfo.C2S do
   @moduledoc false
-  use Protobuf, syntax: :proto2
 
-  @type t :: %__MODULE__{
-          flag: integer
-        }
-
-  defstruct [:flag]
+  use Protobuf, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
 
   field :flag, 2, optional: true, type: :int32
 end
 
 defmodule GetUserInfo.S2C do
   @moduledoc false
-  use Protobuf, syntax: :proto2
 
-  @type t :: %__MODULE__{
-          nickName: String.t(),
-          avatarUrl: String.t(),
-          apiLevel: String.t(),
-          hkQotRight: integer,
-          usQotRight: integer,
-          cnQotRight: integer,
-          isNeedAgreeDisclaimer: boolean,
-          userID: integer,
-          updateType: integer,
-          webKey: String.t(),
-          webJumpUrlHead: String.t(),
-          hkOptionQotRight: integer,
-          hasUSOptionQotRight: boolean,
-          hkFutureQotRight: integer,
-          subQuota: integer,
-          historyKLQuota: integer,
-          usFutureQotRight: integer,
-          usOptionQotRight: integer,
-          userAttribution: integer,
-          updateWhatsNew: String.t(),
-          usIndexQotRight: integer,
-          usOtcQotRight: integer
-        }
-
-  defstruct [
-    :nickName,
-    :avatarUrl,
-    :apiLevel,
-    :hkQotRight,
-    :usQotRight,
-    :cnQotRight,
-    :isNeedAgreeDisclaimer,
-    :userID,
-    :updateType,
-    :webKey,
-    :webJumpUrlHead,
-    :hkOptionQotRight,
-    :hasUSOptionQotRight,
-    :hkFutureQotRight,
-    :subQuota,
-    :historyKLQuota,
-    :usFutureQotRight,
-    :usOptionQotRight,
-    :userAttribution,
-    :updateWhatsNew,
-    :usIndexQotRight,
-    :usOtcQotRight
-  ]
+  use Protobuf, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
 
   field :nickName, 1, optional: true, type: :string
   field :avatarUrl, 2, optional: true, type: :string
@@ -125,33 +56,30 @@ defmodule GetUserInfo.S2C do
   field :updateWhatsNew, 20, optional: true, type: :string
   field :usIndexQotRight, 21, optional: true, type: :int32
   field :usOtcQotRight, 22, optional: true, type: :int32
+  field :usCMEFutureQotRight, 23, optional: true, type: :int32
+  field :usCBOTFutureQotRight, 24, optional: true, type: :int32
+  field :usNYMEXFutureQotRight, 25, optional: true, type: :int32
+  field :usCOMEXFutureQotRight, 26, optional: true, type: :int32
+  field :usCBOEFutureQotRight, 27, optional: true, type: :int32
+  field :sgFutureQotRight, 28, optional: true, type: :int32
+  field :jpFutureQotRight, 29, optional: true, type: :int32
+  field :isAppNNOrMM, 30, optional: true, type: :bool
+  field :shQotRight, 31, optional: true, type: :int32
+  field :szQotRight, 32, optional: true, type: :int32
 end
 
 defmodule GetUserInfo.Request do
   @moduledoc false
-  use Protobuf, syntax: :proto2
 
-  @type t :: %__MODULE__{
-          c2s: GetUserInfo.C2S.t() | nil
-        }
-
-  defstruct [:c2s]
+  use Protobuf, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
 
   field :c2s, 1, required: true, type: GetUserInfo.C2S
 end
 
 defmodule GetUserInfo.Response do
   @moduledoc false
-  use Protobuf, syntax: :proto2
 
-  @type t :: %__MODULE__{
-          retType: integer,
-          retMsg: String.t(),
-          errCode: integer,
-          s2c: GetUserInfo.S2C.t() | nil
-        }
-
-  defstruct [:retType, :retMsg, :errCode, :s2c]
+  use Protobuf, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
 
   field :retType, 1, required: true, type: :int32, default: -400
   field :retMsg, 2, optional: true, type: :string

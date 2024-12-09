@@ -1,60 +1,17 @@
 defmodule Qot_GetOptionChain.OptionCondType do
   @moduledoc false
-  use Protobuf, enum: true, syntax: :proto2
-  @type t :: integer | :OptionCondType_Unknow | :OptionCondType_WithIn | :OptionCondType_Outside
+
+  use Protobuf, enum: true, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
 
   field :OptionCondType_Unknow, 0
-
   field :OptionCondType_WithIn, 1
-
   field :OptionCondType_Outside, 2
 end
 
 defmodule Qot_GetOptionChain.DataFilter do
   @moduledoc false
-  use Protobuf, syntax: :proto2
 
-  @type t :: %__MODULE__{
-          impliedVolatilityMin: float | :infinity | :negative_infinity | :nan,
-          impliedVolatilityMax: float | :infinity | :negative_infinity | :nan,
-          deltaMin: float | :infinity | :negative_infinity | :nan,
-          deltaMax: float | :infinity | :negative_infinity | :nan,
-          gammaMin: float | :infinity | :negative_infinity | :nan,
-          gammaMax: float | :infinity | :negative_infinity | :nan,
-          vegaMin: float | :infinity | :negative_infinity | :nan,
-          vegaMax: float | :infinity | :negative_infinity | :nan,
-          thetaMin: float | :infinity | :negative_infinity | :nan,
-          thetaMax: float | :infinity | :negative_infinity | :nan,
-          rhoMin: float | :infinity | :negative_infinity | :nan,
-          rhoMax: float | :infinity | :negative_infinity | :nan,
-          netOpenInterestMin: float | :infinity | :negative_infinity | :nan,
-          netOpenInterestMax: float | :infinity | :negative_infinity | :nan,
-          openInterestMin: float | :infinity | :negative_infinity | :nan,
-          openInterestMax: float | :infinity | :negative_infinity | :nan,
-          volMin: float | :infinity | :negative_infinity | :nan,
-          volMax: float | :infinity | :negative_infinity | :nan
-        }
-
-  defstruct [
-    :impliedVolatilityMin,
-    :impliedVolatilityMax,
-    :deltaMin,
-    :deltaMax,
-    :gammaMin,
-    :gammaMax,
-    :vegaMin,
-    :vegaMax,
-    :thetaMin,
-    :thetaMax,
-    :rhoMin,
-    :rhoMax,
-    :netOpenInterestMin,
-    :netOpenInterestMax,
-    :openInterestMin,
-    :openInterestMax,
-    :volMin,
-    :volMax
-  ]
+  use Protobuf, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
 
   field :impliedVolatilityMin, 1, optional: true, type: :double
   field :impliedVolatilityMax, 2, optional: true, type: :double
@@ -78,19 +35,8 @@ end
 
 defmodule Qot_GetOptionChain.C2S do
   @moduledoc false
-  use Protobuf, syntax: :proto2
 
-  @type t :: %__MODULE__{
-          owner: Qot_Common.Security.t() | nil,
-          indexOptionType: integer,
-          type: integer,
-          condition: integer,
-          beginTime: String.t(),
-          endTime: String.t(),
-          dataFilter: Qot_GetOptionChain.DataFilter.t() | nil
-        }
-
-  defstruct [:owner, :indexOptionType, :type, :condition, :beginTime, :endTime, :dataFilter]
+  use Protobuf, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
 
   field :owner, 1, required: true, type: Qot_Common.Security
   field :indexOptionType, 6, optional: true, type: :int32
@@ -103,14 +49,8 @@ end
 
 defmodule Qot_GetOptionChain.OptionItem do
   @moduledoc false
-  use Protobuf, syntax: :proto2
 
-  @type t :: %__MODULE__{
-          call: Qot_Common.SecurityStaticInfo.t() | nil,
-          put: Qot_Common.SecurityStaticInfo.t() | nil
-        }
-
-  defstruct [:call, :put]
+  use Protobuf, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
 
   field :call, 1, optional: true, type: Qot_Common.SecurityStaticInfo
   field :put, 2, optional: true, type: Qot_Common.SecurityStaticInfo
@@ -118,15 +58,8 @@ end
 
 defmodule Qot_GetOptionChain.OptionChain do
   @moduledoc false
-  use Protobuf, syntax: :proto2
 
-  @type t :: %__MODULE__{
-          strikeTime: String.t(),
-          option: [Qot_GetOptionChain.OptionItem.t()],
-          strikeTimestamp: float | :infinity | :negative_infinity | :nan
-        }
-
-  defstruct [:strikeTime, :option, :strikeTimestamp]
+  use Protobuf, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
 
   field :strikeTime, 1, required: true, type: :string
   field :option, 2, repeated: true, type: Qot_GetOptionChain.OptionItem
@@ -135,42 +68,24 @@ end
 
 defmodule Qot_GetOptionChain.S2C do
   @moduledoc false
-  use Protobuf, syntax: :proto2
 
-  @type t :: %__MODULE__{
-          optionChain: [Qot_GetOptionChain.OptionChain.t()]
-        }
-
-  defstruct [:optionChain]
+  use Protobuf, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
 
   field :optionChain, 1, repeated: true, type: Qot_GetOptionChain.OptionChain
 end
 
 defmodule Qot_GetOptionChain.Request do
   @moduledoc false
-  use Protobuf, syntax: :proto2
 
-  @type t :: %__MODULE__{
-          c2s: Qot_GetOptionChain.C2S.t() | nil
-        }
-
-  defstruct [:c2s]
+  use Protobuf, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
 
   field :c2s, 1, required: true, type: Qot_GetOptionChain.C2S
 end
 
 defmodule Qot_GetOptionChain.Response do
   @moduledoc false
-  use Protobuf, syntax: :proto2
 
-  @type t :: %__MODULE__{
-          retType: integer,
-          retMsg: String.t(),
-          errCode: integer,
-          s2c: Qot_GetOptionChain.S2C.t() | nil
-        }
-
-  defstruct [:retType, :retMsg, :errCode, :s2c]
+  use Protobuf, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
 
   field :retType, 1, required: true, type: :int32, default: -400
   field :retMsg, 2, optional: true, type: :string

@@ -1,80 +1,7 @@
 defmodule Qot_GetWarrant.C2S do
   @moduledoc false
-  use Protobuf, syntax: :proto2
 
-  @type t :: %__MODULE__{
-          begin: integer,
-          num: integer,
-          sortField: integer,
-          ascend: boolean,
-          owner: Qot_Common.Security.t() | nil,
-          typeList: [integer],
-          issuerList: [integer],
-          maturityTimeMin: String.t(),
-          maturityTimeMax: String.t(),
-          ipoPeriod: integer,
-          priceType: integer,
-          status: integer,
-          curPriceMin: float | :infinity | :negative_infinity | :nan,
-          curPriceMax: float | :infinity | :negative_infinity | :nan,
-          strikePriceMin: float | :infinity | :negative_infinity | :nan,
-          strikePriceMax: float | :infinity | :negative_infinity | :nan,
-          streetMin: float | :infinity | :negative_infinity | :nan,
-          streetMax: float | :infinity | :negative_infinity | :nan,
-          conversionMin: float | :infinity | :negative_infinity | :nan,
-          conversionMax: float | :infinity | :negative_infinity | :nan,
-          volMin: non_neg_integer,
-          volMax: non_neg_integer,
-          premiumMin: float | :infinity | :negative_infinity | :nan,
-          premiumMax: float | :infinity | :negative_infinity | :nan,
-          leverageRatioMin: float | :infinity | :negative_infinity | :nan,
-          leverageRatioMax: float | :infinity | :negative_infinity | :nan,
-          deltaMin: float | :infinity | :negative_infinity | :nan,
-          deltaMax: float | :infinity | :negative_infinity | :nan,
-          impliedMin: float | :infinity | :negative_infinity | :nan,
-          impliedMax: float | :infinity | :negative_infinity | :nan,
-          recoveryPriceMin: float | :infinity | :negative_infinity | :nan,
-          recoveryPriceMax: float | :infinity | :negative_infinity | :nan,
-          priceRecoveryRatioMin: float | :infinity | :negative_infinity | :nan,
-          priceRecoveryRatioMax: float | :infinity | :negative_infinity | :nan
-        }
-
-  defstruct [
-    :begin,
-    :num,
-    :sortField,
-    :ascend,
-    :owner,
-    :typeList,
-    :issuerList,
-    :maturityTimeMin,
-    :maturityTimeMax,
-    :ipoPeriod,
-    :priceType,
-    :status,
-    :curPriceMin,
-    :curPriceMax,
-    :strikePriceMin,
-    :strikePriceMax,
-    :streetMin,
-    :streetMax,
-    :conversionMin,
-    :conversionMax,
-    :volMin,
-    :volMax,
-    :premiumMin,
-    :premiumMax,
-    :leverageRatioMin,
-    :leverageRatioMax,
-    :deltaMin,
-    :deltaMax,
-    :impliedMin,
-    :impliedMax,
-    :recoveryPriceMin,
-    :recoveryPriceMax,
-    :priceRecoveryRatioMin,
-    :priceRecoveryRatioMax
-  ]
+  use Protobuf, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
 
   field :begin, 1, required: true, type: :int32
   field :num, 2, required: true, type: :int32
@@ -114,103 +41,8 @@ end
 
 defmodule Qot_GetWarrant.WarrantData do
   @moduledoc false
-  use Protobuf, syntax: :proto2
 
-  @type t :: %__MODULE__{
-          stock: Qot_Common.Security.t() | nil,
-          owner: Qot_Common.Security.t() | nil,
-          type: integer,
-          issuer: integer,
-          maturityTime: String.t(),
-          maturityTimestamp: float | :infinity | :negative_infinity | :nan,
-          listTime: String.t(),
-          listTimestamp: float | :infinity | :negative_infinity | :nan,
-          lastTradeTime: String.t(),
-          lastTradeTimestamp: float | :infinity | :negative_infinity | :nan,
-          recoveryPrice: float | :infinity | :negative_infinity | :nan,
-          conversionRatio: float | :infinity | :negative_infinity | :nan,
-          lotSize: integer,
-          strikePrice: float | :infinity | :negative_infinity | :nan,
-          lastClosePrice: float | :infinity | :negative_infinity | :nan,
-          name: String.t(),
-          curPrice: float | :infinity | :negative_infinity | :nan,
-          priceChangeVal: float | :infinity | :negative_infinity | :nan,
-          changeRate: float | :infinity | :negative_infinity | :nan,
-          status: integer,
-          bidPrice: float | :infinity | :negative_infinity | :nan,
-          askPrice: float | :infinity | :negative_infinity | :nan,
-          bidVol: integer,
-          askVol: integer,
-          volume: integer,
-          turnover: float | :infinity | :negative_infinity | :nan,
-          score: float | :infinity | :negative_infinity | :nan,
-          premium: float | :infinity | :negative_infinity | :nan,
-          breakEvenPoint: float | :infinity | :negative_infinity | :nan,
-          leverage: float | :infinity | :negative_infinity | :nan,
-          ipop: float | :infinity | :negative_infinity | :nan,
-          priceRecoveryRatio: float | :infinity | :negative_infinity | :nan,
-          conversionPrice: float | :infinity | :negative_infinity | :nan,
-          streetRate: float | :infinity | :negative_infinity | :nan,
-          streetVol: integer,
-          amplitude: float | :infinity | :negative_infinity | :nan,
-          issueSize: integer,
-          highPrice: float | :infinity | :negative_infinity | :nan,
-          lowPrice: float | :infinity | :negative_infinity | :nan,
-          impliedVolatility: float | :infinity | :negative_infinity | :nan,
-          delta: float | :infinity | :negative_infinity | :nan,
-          effectiveLeverage: float | :infinity | :negative_infinity | :nan,
-          upperStrikePrice: float | :infinity | :negative_infinity | :nan,
-          lowerStrikePrice: float | :infinity | :negative_infinity | :nan,
-          inLinePriceStatus: integer
-        }
-
-  defstruct [
-    :stock,
-    :owner,
-    :type,
-    :issuer,
-    :maturityTime,
-    :maturityTimestamp,
-    :listTime,
-    :listTimestamp,
-    :lastTradeTime,
-    :lastTradeTimestamp,
-    :recoveryPrice,
-    :conversionRatio,
-    :lotSize,
-    :strikePrice,
-    :lastClosePrice,
-    :name,
-    :curPrice,
-    :priceChangeVal,
-    :changeRate,
-    :status,
-    :bidPrice,
-    :askPrice,
-    :bidVol,
-    :askVol,
-    :volume,
-    :turnover,
-    :score,
-    :premium,
-    :breakEvenPoint,
-    :leverage,
-    :ipop,
-    :priceRecoveryRatio,
-    :conversionPrice,
-    :streetRate,
-    :streetVol,
-    :amplitude,
-    :issueSize,
-    :highPrice,
-    :lowPrice,
-    :impliedVolatility,
-    :delta,
-    :effectiveLeverage,
-    :upperStrikePrice,
-    :lowerStrikePrice,
-    :inLinePriceStatus
-  ]
+  use Protobuf, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
 
   field :stock, 1, required: true, type: Qot_Common.Security
   field :owner, 2, required: true, type: Qot_Common.Security
@@ -261,15 +93,8 @@ end
 
 defmodule Qot_GetWarrant.S2C do
   @moduledoc false
-  use Protobuf, syntax: :proto2
 
-  @type t :: %__MODULE__{
-          lastPage: boolean,
-          allCount: integer,
-          warrantDataList: [Qot_GetWarrant.WarrantData.t()]
-        }
-
-  defstruct [:lastPage, :allCount, :warrantDataList]
+  use Protobuf, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
 
   field :lastPage, 1, required: true, type: :bool
   field :allCount, 2, required: true, type: :int32
@@ -278,29 +103,16 @@ end
 
 defmodule Qot_GetWarrant.Request do
   @moduledoc false
-  use Protobuf, syntax: :proto2
 
-  @type t :: %__MODULE__{
-          c2s: Qot_GetWarrant.C2S.t() | nil
-        }
-
-  defstruct [:c2s]
+  use Protobuf, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
 
   field :c2s, 1, required: true, type: Qot_GetWarrant.C2S
 end
 
 defmodule Qot_GetWarrant.Response do
   @moduledoc false
-  use Protobuf, syntax: :proto2
 
-  @type t :: %__MODULE__{
-          retType: integer,
-          retMsg: String.t(),
-          errCode: integer,
-          s2c: Qot_GetWarrant.S2C.t() | nil
-        }
-
-  defstruct [:retType, :retMsg, :errCode, :s2c]
+  use Protobuf, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
 
   field :retType, 1, required: true, type: :int32, default: -400
   field :retMsg, 2, optional: true, type: :string

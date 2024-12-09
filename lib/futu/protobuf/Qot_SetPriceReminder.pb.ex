@@ -1,47 +1,21 @@
 defmodule Qot_SetPriceReminder.SetPriceReminderOp do
   @moduledoc false
-  use Protobuf, enum: true, syntax: :proto2
 
-  @type t ::
-          integer
-          | :SetPriceReminderOp_Unknown
-          | :SetPriceReminderOp_Add
-          | :SetPriceReminderOp_Del
-          | :SetPriceReminderOp_Enable
-          | :SetPriceReminderOp_Disable
-          | :SetPriceReminderOp_Modify
-          | :SetPriceReminderOp_DelAll
+  use Protobuf, enum: true, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
 
   field :SetPriceReminderOp_Unknown, 0
-
   field :SetPriceReminderOp_Add, 1
-
   field :SetPriceReminderOp_Del, 2
-
   field :SetPriceReminderOp_Enable, 3
-
   field :SetPriceReminderOp_Disable, 4
-
   field :SetPriceReminderOp_Modify, 5
-
   field :SetPriceReminderOp_DelAll, 6
 end
 
 defmodule Qot_SetPriceReminder.C2S do
   @moduledoc false
-  use Protobuf, syntax: :proto2
 
-  @type t :: %__MODULE__{
-          security: Qot_Common.Security.t() | nil,
-          op: integer,
-          key: integer,
-          type: integer,
-          freq: integer,
-          value: float | :infinity | :negative_infinity | :nan,
-          note: String.t()
-        }
-
-  defstruct [:security, :op, :key, :type, :freq, :value, :note]
+  use Protobuf, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
 
   field :security, 1, required: true, type: Qot_Common.Security
   field :op, 2, required: true, type: :int32
@@ -54,42 +28,24 @@ end
 
 defmodule Qot_SetPriceReminder.S2C do
   @moduledoc false
-  use Protobuf, syntax: :proto2
 
-  @type t :: %__MODULE__{
-          key: integer
-        }
-
-  defstruct [:key]
+  use Protobuf, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
 
   field :key, 1, required: true, type: :int64
 end
 
 defmodule Qot_SetPriceReminder.Request do
   @moduledoc false
-  use Protobuf, syntax: :proto2
 
-  @type t :: %__MODULE__{
-          c2s: Qot_SetPriceReminder.C2S.t() | nil
-        }
-
-  defstruct [:c2s]
+  use Protobuf, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
 
   field :c2s, 1, required: true, type: Qot_SetPriceReminder.C2S
 end
 
 defmodule Qot_SetPriceReminder.Response do
   @moduledoc false
-  use Protobuf, syntax: :proto2
 
-  @type t :: %__MODULE__{
-          retType: integer,
-          retMsg: String.t(),
-          errCode: integer,
-          s2c: Qot_SetPriceReminder.S2C.t() | nil
-        }
-
-  defstruct [:retType, :retMsg, :errCode, :s2c]
+  use Protobuf, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
 
   field :retType, 1, required: true, type: :int32, default: -400
   field :retMsg, 2, optional: true, type: :string

@@ -1,24 +1,7 @@
 defmodule InitConnect.C2S do
   @moduledoc false
-  use Protobuf, syntax: :proto2
 
-  @type t :: %__MODULE__{
-          clientVer: integer,
-          clientID: String.t(),
-          recvNotify: boolean,
-          packetEncAlgo: integer,
-          pushProtoFmt: integer,
-          programmingLanguage: String.t()
-        }
-
-  defstruct [
-    :clientVer,
-    :clientID,
-    :recvNotify,
-    :packetEncAlgo,
-    :pushProtoFmt,
-    :programmingLanguage
-  ]
+  use Protobuf, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
 
   field :clientVer, 1, required: true, type: :int32
   field :clientID, 2, required: true, type: :string
@@ -30,27 +13,8 @@ end
 
 defmodule InitConnect.S2C do
   @moduledoc false
-  use Protobuf, syntax: :proto2
 
-  @type t :: %__MODULE__{
-          serverVer: integer,
-          loginUserID: non_neg_integer,
-          connID: non_neg_integer,
-          connAESKey: String.t(),
-          keepAliveInterval: integer,
-          aesCBCiv: String.t(),
-          userAttribution: integer
-        }
-
-  defstruct [
-    :serverVer,
-    :loginUserID,
-    :connID,
-    :connAESKey,
-    :keepAliveInterval,
-    :aesCBCiv,
-    :userAttribution
-  ]
+  use Protobuf, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
 
   field :serverVer, 1, required: true, type: :int32
   field :loginUserID, 2, required: true, type: :uint64
@@ -63,29 +27,16 @@ end
 
 defmodule InitConnect.Request do
   @moduledoc false
-  use Protobuf, syntax: :proto2
 
-  @type t :: %__MODULE__{
-          c2s: InitConnect.C2S.t() | nil
-        }
-
-  defstruct [:c2s]
+  use Protobuf, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
 
   field :c2s, 1, required: true, type: InitConnect.C2S
 end
 
 defmodule InitConnect.Response do
   @moduledoc false
-  use Protobuf, syntax: :proto2
 
-  @type t :: %__MODULE__{
-          retType: integer,
-          retMsg: String.t(),
-          errCode: integer,
-          s2c: InitConnect.S2C.t() | nil
-        }
-
-  defstruct [:retType, :retMsg, :errCode, :s2c]
+  use Protobuf, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
 
   field :retType, 1, required: true, type: :int32, default: -400
   field :retMsg, 2, optional: true, type: :string

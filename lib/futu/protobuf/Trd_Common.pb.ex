@@ -1,465 +1,281 @@
 defmodule Trd_Common.TrdEnv do
   @moduledoc false
-  use Protobuf, enum: true, syntax: :proto2
-  @type t :: integer | :TrdEnv_Simulate | :TrdEnv_Real
+
+  use Protobuf, enum: true, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
 
   field :TrdEnv_Simulate, 0
-
   field :TrdEnv_Real, 1
 end
 
 defmodule Trd_Common.TrdCategory do
   @moduledoc false
-  use Protobuf, enum: true, syntax: :proto2
-  @type t :: integer | :TrdCategory_Unknown | :TrdCategory_Security | :TrdCategory_Future
+
+  use Protobuf, enum: true, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
 
   field :TrdCategory_Unknown, 0
-
   field :TrdCategory_Security, 1
-
   field :TrdCategory_Future, 2
 end
 
 defmodule Trd_Common.TrdMarket do
   @moduledoc false
-  use Protobuf, enum: true, syntax: :proto2
 
-  @type t ::
-          integer
-          | :TrdMarket_Unknown
-          | :TrdMarket_HK
-          | :TrdMarket_US
-          | :TrdMarket_CN
-          | :TrdMarket_HKCC
-          | :TrdMarket_Futures
-          | :TrdMarket_SG
+  use Protobuf, enum: true, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
 
   field :TrdMarket_Unknown, 0
-
   field :TrdMarket_HK, 1
-
   field :TrdMarket_US, 2
-
   field :TrdMarket_CN, 3
-
   field :TrdMarket_HKCC, 4
-
   field :TrdMarket_Futures, 5
-
   field :TrdMarket_SG, 6
+  field :TrdMarket_Futures_Simulate_HK, 10
+  field :TrdMarket_Futures_Simulate_US, 11
+  field :TrdMarket_Futures_Simulate_SG, 12
+  field :TrdMarket_Futures_Simulate_JP, 13
+  field :TrdMarket_HK_Fund, 113
+  field :TrdMarket_US_Fund, 123
 end
 
 defmodule Trd_Common.TrdSecMarket do
   @moduledoc false
-  use Protobuf, enum: true, syntax: :proto2
 
-  @type t ::
-          integer
-          | :TrdSecMarket_Unknown
-          | :TrdSecMarket_HK
-          | :TrdSecMarket_US
-          | :TrdSecMarket_CN_SH
-          | :TrdSecMarket_CN_SZ
-          | :TrdSecMarket_SG
-          | :TrdSecMarket_JP
+  use Protobuf, enum: true, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
 
   field :TrdSecMarket_Unknown, 0
-
   field :TrdSecMarket_HK, 1
-
   field :TrdSecMarket_US, 2
-
   field :TrdSecMarket_CN_SH, 31
-
   field :TrdSecMarket_CN_SZ, 32
-
   field :TrdSecMarket_SG, 41
-
   field :TrdSecMarket_JP, 51
 end
 
 defmodule Trd_Common.TrdSide do
   @moduledoc false
-  use Protobuf, enum: true, syntax: :proto2
 
-  @type t ::
-          integer
-          | :TrdSide_Unknown
-          | :TrdSide_Buy
-          | :TrdSide_Sell
-          | :TrdSide_SellShort
-          | :TrdSide_BuyBack
+  use Protobuf, enum: true, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
 
   field :TrdSide_Unknown, 0
-
   field :TrdSide_Buy, 1
-
   field :TrdSide_Sell, 2
-
   field :TrdSide_SellShort, 3
-
   field :TrdSide_BuyBack, 4
 end
 
 defmodule Trd_Common.OrderType do
   @moduledoc false
-  use Protobuf, enum: true, syntax: :proto2
 
-  @type t ::
-          integer
-          | :OrderType_Unknown
-          | :OrderType_Normal
-          | :OrderType_Market
-          | :OrderType_AbsoluteLimit
-          | :OrderType_Auction
-          | :OrderType_AuctionLimit
-          | :OrderType_SpecialLimit
-          | :OrderType_SpecialLimit_All
-          | :OrderType_Stop
-          | :OrderType_StopLimit
-          | :OrderType_MarketifTouched
-          | :OrderType_LimitifTouched
-          | :OrderType_TrailingStop
-          | :OrderType_TrailingStopLimit
+  use Protobuf, enum: true, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
 
   field :OrderType_Unknown, 0
-
   field :OrderType_Normal, 1
-
   field :OrderType_Market, 2
-
   field :OrderType_AbsoluteLimit, 5
-
   field :OrderType_Auction, 6
-
   field :OrderType_AuctionLimit, 7
-
   field :OrderType_SpecialLimit, 8
-
   field :OrderType_SpecialLimit_All, 9
-
   field :OrderType_Stop, 10
-
   field :OrderType_StopLimit, 11
-
   field :OrderType_MarketifTouched, 12
-
   field :OrderType_LimitifTouched, 13
-
   field :OrderType_TrailingStop, 14
-
   field :OrderType_TrailingStopLimit, 15
+  field :OrderType_TWAP_MARKET, 16
+  field :OrderType_TWAP_LIMIT, 17
+  field :OrderType_VWAP_MARKET, 18
+  field :OrderType_VWAP_LIMIT, 19
 end
 
 defmodule Trd_Common.TrailType do
   @moduledoc false
-  use Protobuf, enum: true, syntax: :proto2
-  @type t :: integer | :TrailType_Unknown | :TrailType_Ratio | :TrailType_Amount
+
+  use Protobuf, enum: true, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
 
   field :TrailType_Unknown, 0
-
   field :TrailType_Ratio, 1
-
   field :TrailType_Amount, 2
 end
 
 defmodule Trd_Common.OrderStatus do
   @moduledoc false
-  use Protobuf, enum: true, syntax: :proto2
 
-  @type t ::
-          integer
-          | :OrderStatus_Unsubmitted
-          | :OrderStatus_Unknown
-          | :OrderStatus_WaitingSubmit
-          | :OrderStatus_Submitting
-          | :OrderStatus_SubmitFailed
-          | :OrderStatus_TimeOut
-          | :OrderStatus_Submitted
-          | :OrderStatus_Filled_Part
-          | :OrderStatus_Filled_All
-          | :OrderStatus_Cancelling_Part
-          | :OrderStatus_Cancelling_All
-          | :OrderStatus_Cancelled_Part
-          | :OrderStatus_Cancelled_All
-          | :OrderStatus_Failed
-          | :OrderStatus_Disabled
-          | :OrderStatus_Deleted
-          | :OrderStatus_FillCancelled
+  use Protobuf, enum: true, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
 
   field :OrderStatus_Unsubmitted, 0
-
   field :OrderStatus_Unknown, -1
-
   field :OrderStatus_WaitingSubmit, 1
-
   field :OrderStatus_Submitting, 2
-
   field :OrderStatus_SubmitFailed, 3
-
   field :OrderStatus_TimeOut, 4
-
   field :OrderStatus_Submitted, 5
-
   field :OrderStatus_Filled_Part, 10
-
   field :OrderStatus_Filled_All, 11
-
   field :OrderStatus_Cancelling_Part, 12
-
   field :OrderStatus_Cancelling_All, 13
-
   field :OrderStatus_Cancelled_Part, 14
-
   field :OrderStatus_Cancelled_All, 15
-
   field :OrderStatus_Failed, 21
-
   field :OrderStatus_Disabled, 22
-
   field :OrderStatus_Deleted, 23
-
   field :OrderStatus_FillCancelled, 24
 end
 
 defmodule Trd_Common.OrderFillStatus do
   @moduledoc false
-  use Protobuf, enum: true, syntax: :proto2
-  @type t :: integer | :OrderFillStatus_OK | :OrderFillStatus_Cancelled | :OrderFillStatus_Changed
+
+  use Protobuf, enum: true, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
 
   field :OrderFillStatus_OK, 0
-
   field :OrderFillStatus_Cancelled, 1
-
   field :OrderFillStatus_Changed, 2
 end
 
 defmodule Trd_Common.PositionSide do
   @moduledoc false
-  use Protobuf, enum: true, syntax: :proto2
-  @type t :: integer | :PositionSide_Long | :PositionSide_Unknown | :PositionSide_Short
+
+  use Protobuf, enum: true, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
 
   field :PositionSide_Long, 0
-
   field :PositionSide_Unknown, -1
-
   field :PositionSide_Short, 1
 end
 
 defmodule Trd_Common.ModifyOrderOp do
   @moduledoc false
-  use Protobuf, enum: true, syntax: :proto2
 
-  @type t ::
-          integer
-          | :ModifyOrderOp_Unknown
-          | :ModifyOrderOp_Normal
-          | :ModifyOrderOp_Cancel
-          | :ModifyOrderOp_Disable
-          | :ModifyOrderOp_Enable
-          | :ModifyOrderOp_Delete
+  use Protobuf, enum: true, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
 
   field :ModifyOrderOp_Unknown, 0
-
   field :ModifyOrderOp_Normal, 1
-
   field :ModifyOrderOp_Cancel, 2
-
   field :ModifyOrderOp_Disable, 3
-
   field :ModifyOrderOp_Enable, 4
-
   field :ModifyOrderOp_Delete, 5
 end
 
 defmodule Trd_Common.TrdAccType do
   @moduledoc false
-  use Protobuf, enum: true, syntax: :proto2
-  @type t :: integer | :TrdAccType_Unknown | :TrdAccType_Cash | :TrdAccType_Margin
+
+  use Protobuf, enum: true, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
 
   field :TrdAccType_Unknown, 0
-
   field :TrdAccType_Cash, 1
-
   field :TrdAccType_Margin, 2
+end
+
+defmodule Trd_Common.TrdAccStatus do
+  @moduledoc false
+
+  use Protobuf, enum: true, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
+
+  field :TrdAccStatus_Active, 0
+  field :TrdAccStatus_Disabled, 1
 end
 
 defmodule Trd_Common.Currency do
   @moduledoc false
-  use Protobuf, enum: true, syntax: :proto2
 
-  @type t ::
-          integer
-          | :Currency_Unknown
-          | :Currency_HKD
-          | :Currency_USD
-          | :Currency_CNH
-          | :Currency_JPY
-          | :Currency_SGD
+  use Protobuf, enum: true, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
 
   field :Currency_Unknown, 0
-
   field :Currency_HKD, 1
-
   field :Currency_USD, 2
-
   field :Currency_CNH, 3
-
   field :Currency_JPY, 4
-
   field :Currency_SGD, 5
+  field :Currency_AUD, 6
 end
 
 defmodule Trd_Common.CltRiskLevel do
   @moduledoc false
-  use Protobuf, enum: true, syntax: :proto2
 
-  @type t ::
-          integer
-          | :CltRiskLevel_Unknown
-          | :CltRiskLevel_Safe
-          | :CltRiskLevel_Warning
-          | :CltRiskLevel_Danger
-          | :CltRiskLevel_AbsoluteSafe
-          | :CltRiskLevel_OptDanger
+  use Protobuf, enum: true, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
 
   field :CltRiskLevel_Unknown, -1
-
   field :CltRiskLevel_Safe, 0
-
   field :CltRiskLevel_Warning, 1
-
   field :CltRiskLevel_Danger, 2
-
   field :CltRiskLevel_AbsoluteSafe, 3
-
   field :CltRiskLevel_OptDanger, 4
 end
 
 defmodule Trd_Common.TimeInForce do
   @moduledoc false
-  use Protobuf, enum: true, syntax: :proto2
-  @type t :: integer | :TimeInForce_DAY | :TimeInForce_GTC
+
+  use Protobuf, enum: true, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
 
   field :TimeInForce_DAY, 0
-
   field :TimeInForce_GTC, 1
 end
 
 defmodule Trd_Common.SecurityFirm do
   @moduledoc false
-  use Protobuf, enum: true, syntax: :proto2
 
-  @type t ::
-          integer
-          | :SecurityFirm_Unknown
-          | :SecurityFirm_FutuSecurities
-          | :SecurityFirm_FutuInc
-          | :SecurityFirm_FutuSG
+  use Protobuf, enum: true, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
 
   field :SecurityFirm_Unknown, 0
-
   field :SecurityFirm_FutuSecurities, 1
-
   field :SecurityFirm_FutuInc, 2
-
   field :SecurityFirm_FutuSG, 3
+  field :SecurityFirm_FutuAU, 4
 end
 
 defmodule Trd_Common.SimAccType do
   @moduledoc false
-  use Protobuf, enum: true, syntax: :proto2
-  @type t :: integer | :SimAccType_Unknown | :SimAccType_Stock | :SimAccType_Option
+
+  use Protobuf, enum: true, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
 
   field :SimAccType_Unknown, 0
-
   field :SimAccType_Stock, 1
-
   field :SimAccType_Option, 2
+  field :SimAccType_Futures, 3
 end
 
 defmodule Trd_Common.CltRiskStatus do
   @moduledoc false
-  use Protobuf, enum: true, syntax: :proto2
 
-  @type t ::
-          integer
-          | :CltRiskStatus_Unknown
-          | :CltRiskStatus_Level1
-          | :CltRiskStatus_Level2
-          | :CltRiskStatus_Level3
-          | :CltRiskStatus_Level4
-          | :CltRiskStatus_Level5
-          | :CltRiskStatus_Level6
-          | :CltRiskStatus_Level7
-          | :CltRiskStatus_Level8
-          | :CltRiskStatus_Level9
+  use Protobuf, enum: true, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
 
   field :CltRiskStatus_Unknown, 0
-
   field :CltRiskStatus_Level1, 1
-
   field :CltRiskStatus_Level2, 2
-
   field :CltRiskStatus_Level3, 3
-
   field :CltRiskStatus_Level4, 4
-
   field :CltRiskStatus_Level5, 5
-
   field :CltRiskStatus_Level6, 6
-
   field :CltRiskStatus_Level7, 7
-
   field :CltRiskStatus_Level8, 8
-
   field :CltRiskStatus_Level9, 9
 end
 
 defmodule Trd_Common.DTStatus do
   @moduledoc false
-  use Protobuf, enum: true, syntax: :proto2
 
-  @type t ::
-          integer | :DTStatus_Unknown | :DTStatus_Unlimited | :DTStatus_EMCall | :DTStatus_DTCall
+  use Protobuf, enum: true, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
 
   field :DTStatus_Unknown, 0
-
   field :DTStatus_Unlimited, 1
-
   field :DTStatus_EMCall, 2
-
   field :DTStatus_DTCall, 3
 end
 
 defmodule Trd_Common.AccCashInfo do
   @moduledoc false
-  use Protobuf, syntax: :proto2
 
-  @type t :: %__MODULE__{
-          currency: integer,
-          cash: float | :infinity | :negative_infinity | :nan,
-          availableBalance: float | :infinity | :negative_infinity | :nan
-        }
-
-  defstruct [:currency, :cash, :availableBalance]
+  use Protobuf, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
 
   field :currency, 1, optional: true, type: :int32
   field :cash, 2, optional: true, type: :double
   field :availableBalance, 3, optional: true, type: :double
+  field :netCashPower, 4, optional: true, type: :double
 end
 
 defmodule Trd_Common.TrdHeader do
   @moduledoc false
-  use Protobuf, syntax: :proto2
 
-  @type t :: %__MODULE__{
-          trdEnv: integer,
-          accID: non_neg_integer,
-          trdMarket: integer
-        }
-
-  defstruct [:trdEnv, :accID, :trdMarket]
+  use Protobuf, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
 
   field :trdEnv, 1, required: true, type: :int32
   field :accID, 2, required: true, type: :uint64
@@ -468,19 +284,8 @@ end
 
 defmodule Trd_Common.TrdAcc do
   @moduledoc false
-  use Protobuf, syntax: :proto2
 
-  @type t :: %__MODULE__{
-          trdEnv: integer,
-          accID: non_neg_integer,
-          trdMarketAuthList: [integer],
-          accType: integer,
-          cardNum: String.t(),
-          securityFirm: integer,
-          simAccType: integer
-        }
-
-  defstruct [:trdEnv, :accID, :trdMarketAuthList, :accType, :cardNum, :securityFirm, :simAccType]
+  use Protobuf, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
 
   field :trdEnv, 1, required: true, type: :int32
   field :accID, 2, required: true, type: :uint64
@@ -489,75 +294,14 @@ defmodule Trd_Common.TrdAcc do
   field :cardNum, 5, optional: true, type: :string
   field :securityFirm, 6, optional: true, type: :int32
   field :simAccType, 7, optional: true, type: :int32
+  field :uniCardNum, 8, optional: true, type: :string
+  field :accStatus, 9, optional: true, type: :int32
 end
 
 defmodule Trd_Common.Funds do
   @moduledoc false
-  use Protobuf, syntax: :proto2
 
-  @type t :: %__MODULE__{
-          power: float | :infinity | :negative_infinity | :nan,
-          totalAssets: float | :infinity | :negative_infinity | :nan,
-          cash: float | :infinity | :negative_infinity | :nan,
-          marketVal: float | :infinity | :negative_infinity | :nan,
-          frozenCash: float | :infinity | :negative_infinity | :nan,
-          debtCash: float | :infinity | :negative_infinity | :nan,
-          avlWithdrawalCash: float | :infinity | :negative_infinity | :nan,
-          currency: integer,
-          availableFunds: float | :infinity | :negative_infinity | :nan,
-          unrealizedPL: float | :infinity | :negative_infinity | :nan,
-          realizedPL: float | :infinity | :negative_infinity | :nan,
-          riskLevel: integer,
-          initialMargin: float | :infinity | :negative_infinity | :nan,
-          maintenanceMargin: float | :infinity | :negative_infinity | :nan,
-          cashInfoList: [Trd_Common.AccCashInfo.t()],
-          maxPowerShort: float | :infinity | :negative_infinity | :nan,
-          netCashPower: float | :infinity | :negative_infinity | :nan,
-          longMv: float | :infinity | :negative_infinity | :nan,
-          shortMv: float | :infinity | :negative_infinity | :nan,
-          pendingAsset: float | :infinity | :negative_infinity | :nan,
-          maxWithdrawal: float | :infinity | :negative_infinity | :nan,
-          riskStatus: integer,
-          marginCallMargin: float | :infinity | :negative_infinity | :nan,
-          isPdt: boolean,
-          pdtSeq: String.t(),
-          beginningDTBP: float | :infinity | :negative_infinity | :nan,
-          remainingDTBP: float | :infinity | :negative_infinity | :nan,
-          dtCallAmount: float | :infinity | :negative_infinity | :nan,
-          dtStatus: integer
-        }
-
-  defstruct [
-    :power,
-    :totalAssets,
-    :cash,
-    :marketVal,
-    :frozenCash,
-    :debtCash,
-    :avlWithdrawalCash,
-    :currency,
-    :availableFunds,
-    :unrealizedPL,
-    :realizedPL,
-    :riskLevel,
-    :initialMargin,
-    :maintenanceMargin,
-    :cashInfoList,
-    :maxPowerShort,
-    :netCashPower,
-    :longMv,
-    :shortMv,
-    :pendingAsset,
-    :maxWithdrawal,
-    :riskStatus,
-    :marginCallMargin,
-    :isPdt,
-    :pdtSeq,
-    :beginningDTBP,
-    :remainingDTBP,
-    :dtCallAmount,
-    :dtStatus
-  ]
+  use Protobuf, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
 
   field :power, 1, required: true, type: :double
   field :totalAssets, 2, required: true, type: :double
@@ -588,61 +332,15 @@ defmodule Trd_Common.Funds do
   field :remainingDTBP, 27, optional: true, type: :double
   field :dtCallAmount, 28, optional: true, type: :double
   field :dtStatus, 29, optional: true, type: :int32
+  field :securitiesAssets, 30, optional: true, type: :double
+  field :fundAssets, 31, optional: true, type: :double
+  field :bondAssets, 32, optional: true, type: :double
 end
 
 defmodule Trd_Common.Position do
   @moduledoc false
-  use Protobuf, syntax: :proto2
 
-  @type t :: %__MODULE__{
-          positionID: non_neg_integer,
-          positionSide: integer,
-          code: String.t(),
-          name: String.t(),
-          qty: float | :infinity | :negative_infinity | :nan,
-          canSellQty: float | :infinity | :negative_infinity | :nan,
-          price: float | :infinity | :negative_infinity | :nan,
-          costPrice: float | :infinity | :negative_infinity | :nan,
-          val: float | :infinity | :negative_infinity | :nan,
-          plVal: float | :infinity | :negative_infinity | :nan,
-          plRatio: float | :infinity | :negative_infinity | :nan,
-          secMarket: integer,
-          td_plVal: float | :infinity | :negative_infinity | :nan,
-          td_trdVal: float | :infinity | :negative_infinity | :nan,
-          td_buyVal: float | :infinity | :negative_infinity | :nan,
-          td_buyQty: float | :infinity | :negative_infinity | :nan,
-          td_sellVal: float | :infinity | :negative_infinity | :nan,
-          td_sellQty: float | :infinity | :negative_infinity | :nan,
-          unrealizedPL: float | :infinity | :negative_infinity | :nan,
-          realizedPL: float | :infinity | :negative_infinity | :nan,
-          currency: integer,
-          trdMarket: integer
-        }
-
-  defstruct [
-    :positionID,
-    :positionSide,
-    :code,
-    :name,
-    :qty,
-    :canSellQty,
-    :price,
-    :costPrice,
-    :val,
-    :plVal,
-    :plRatio,
-    :secMarket,
-    :td_plVal,
-    :td_trdVal,
-    :td_buyVal,
-    :td_buyQty,
-    :td_sellVal,
-    :td_sellQty,
-    :unrealizedPL,
-    :realizedPL,
-    :currency,
-    :trdMarket
-  ]
+  use Protobuf, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
 
   field :positionID, 1, required: true, type: :uint64
   field :positionSide, 2, required: true, type: :int32
@@ -670,65 +368,8 @@ end
 
 defmodule Trd_Common.Order do
   @moduledoc false
-  use Protobuf, syntax: :proto2
 
-  @type t :: %__MODULE__{
-          trdSide: integer,
-          orderType: integer,
-          orderStatus: integer,
-          orderID: non_neg_integer,
-          orderIDEx: String.t(),
-          code: String.t(),
-          name: String.t(),
-          qty: float | :infinity | :negative_infinity | :nan,
-          price: float | :infinity | :negative_infinity | :nan,
-          createTime: String.t(),
-          updateTime: String.t(),
-          fillQty: float | :infinity | :negative_infinity | :nan,
-          fillAvgPrice: float | :infinity | :negative_infinity | :nan,
-          lastErrMsg: String.t(),
-          secMarket: integer,
-          createTimestamp: float | :infinity | :negative_infinity | :nan,
-          updateTimestamp: float | :infinity | :negative_infinity | :nan,
-          remark: String.t(),
-          timeInForce: integer,
-          fillOutsideRTH: boolean,
-          auxPrice: float | :infinity | :negative_infinity | :nan,
-          trailType: integer,
-          trailValue: float | :infinity | :negative_infinity | :nan,
-          trailSpread: float | :infinity | :negative_infinity | :nan,
-          currency: integer,
-          trdMarket: integer
-        }
-
-  defstruct [
-    :trdSide,
-    :orderType,
-    :orderStatus,
-    :orderID,
-    :orderIDEx,
-    :code,
-    :name,
-    :qty,
-    :price,
-    :createTime,
-    :updateTime,
-    :fillQty,
-    :fillAvgPrice,
-    :lastErrMsg,
-    :secMarket,
-    :createTimestamp,
-    :updateTimestamp,
-    :remark,
-    :timeInForce,
-    :fillOutsideRTH,
-    :auxPrice,
-    :trailType,
-    :trailValue,
-    :trailSpread,
-    :currency,
-    :trdMarket
-  ]
+  use Protobuf, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
 
   field :trdSide, 1, required: true, type: :int32
   field :orderType, 2, required: true, type: :int32
@@ -758,47 +399,29 @@ defmodule Trd_Common.Order do
   field :trdMarket, 26, optional: true, type: :int32
 end
 
+defmodule Trd_Common.OrderFeeItem do
+  @moduledoc false
+
+  use Protobuf, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
+
+  field :title, 1, optional: true, type: :string
+  field :value, 2, optional: true, type: :double
+end
+
+defmodule Trd_Common.OrderFee do
+  @moduledoc false
+
+  use Protobuf, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
+
+  field :orderIDEx, 1, required: true, type: :string
+  field :feeAmount, 2, optional: true, type: :double
+  field :feeList, 3, repeated: true, type: Trd_Common.OrderFeeItem
+end
+
 defmodule Trd_Common.OrderFill do
   @moduledoc false
-  use Protobuf, syntax: :proto2
 
-  @type t :: %__MODULE__{
-          trdSide: integer,
-          fillID: non_neg_integer,
-          fillIDEx: String.t(),
-          orderID: non_neg_integer,
-          orderIDEx: String.t(),
-          code: String.t(),
-          name: String.t(),
-          qty: float | :infinity | :negative_infinity | :nan,
-          price: float | :infinity | :negative_infinity | :nan,
-          createTime: String.t(),
-          counterBrokerID: integer,
-          counterBrokerName: String.t(),
-          secMarket: integer,
-          createTimestamp: float | :infinity | :negative_infinity | :nan,
-          updateTimestamp: float | :infinity | :negative_infinity | :nan,
-          status: integer
-        }
-
-  defstruct [
-    :trdSide,
-    :fillID,
-    :fillIDEx,
-    :orderID,
-    :orderIDEx,
-    :code,
-    :name,
-    :qty,
-    :price,
-    :createTime,
-    :counterBrokerID,
-    :counterBrokerName,
-    :secMarket,
-    :createTimestamp,
-    :updateTimestamp,
-    :status
-  ]
+  use Protobuf, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
 
   field :trdSide, 1, required: true, type: :int32
   field :fillID, 2, required: true, type: :uint64
@@ -820,27 +443,8 @@ end
 
 defmodule Trd_Common.MaxTrdQtys do
   @moduledoc false
-  use Protobuf, syntax: :proto2
 
-  @type t :: %__MODULE__{
-          maxCashBuy: float | :infinity | :negative_infinity | :nan,
-          maxCashAndMarginBuy: float | :infinity | :negative_infinity | :nan,
-          maxPositionSell: float | :infinity | :negative_infinity | :nan,
-          maxSellShort: float | :infinity | :negative_infinity | :nan,
-          maxBuyBack: float | :infinity | :negative_infinity | :nan,
-          longRequiredIM: float | :infinity | :negative_infinity | :nan,
-          shortRequiredIM: float | :infinity | :negative_infinity | :nan
-        }
-
-  defstruct [
-    :maxCashBuy,
-    :maxCashAndMarginBuy,
-    :maxPositionSell,
-    :maxSellShort,
-    :maxBuyBack,
-    :longRequiredIM,
-    :shortRequiredIM
-  ]
+  use Protobuf, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
 
   field :maxCashBuy, 1, required: true, type: :double
   field :maxCashAndMarginBuy, 2, optional: true, type: :double
@@ -853,19 +457,12 @@ end
 
 defmodule Trd_Common.TrdFilterConditions do
   @moduledoc false
-  use Protobuf, syntax: :proto2
 
-  @type t :: %__MODULE__{
-          codeList: [String.t()],
-          idList: [non_neg_integer],
-          beginTime: String.t(),
-          endTime: String.t()
-        }
-
-  defstruct [:codeList, :idList, :beginTime, :endTime]
+  use Protobuf, syntax: :proto2, protoc_gen_elixir_version: "0.13.0"
 
   field :codeList, 1, repeated: true, type: :string
   field :idList, 2, repeated: true, type: :uint64
   field :beginTime, 3, optional: true, type: :string
   field :endTime, 4, optional: true, type: :string
+  field :orderIDExList, 5, repeated: true, type: :string
 end
